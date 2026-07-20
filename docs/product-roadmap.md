@@ -73,7 +73,7 @@ _Phased build plan. Read `docs/product-vision.md` and `docs/prd.md` first. The c
 - [x] **TASK-014** — UI: Dashboard/History (list + empty state) & New Project form (idea textarea + optional context).
       Files: `src/app/(app)/projects/page.tsx`, `src/features/projects/presentation/*`
       Notes: Empty-state CTA "Create your first project". Use shared/ui primitives.
-- [ ] **TASK-015** — UI: Project detail shell (tabs/stages: Validation, Structure, PRD, Tasks — still empty).
+- [x] **TASK-015** — UI: Project detail shell (tabs/stages: Validation, Structure, PRD, Tasks — still empty).
       Files: `src/app/(app)/projects/[id]/page.tsx`
       Notes: Stage navigation ready to be filled in later phases.
 - [ ] **TASK-016** — Test: create/list/delete project use-cases + RLS smoke test.
