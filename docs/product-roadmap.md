@@ -129,7 +129,7 @@ _Phased build plan. Read `docs/product-vision.md` and `docs/prd.md` first. The c
 - [x] **TASK-027** — UI Tree View: collapsible, editable nodes (rename/add/delete), phase badges, autosave via `PATCH /api/documents/:id`.
       Files: `src/features/structure/presentation/*`, `src/app/api/documents/[id]/route.ts`
       Notes: Keyboard accessible. Neo-brutalist node cards.
-- [ ] **TASK-028** — Test: tree schema, edit ops, persistence.
+- [x] **TASK-028** — Test: tree schema, edit ops, persistence.
       Files: `src/features/structure/**/__tests__/*`
 
 ---
