@@ -42,7 +42,7 @@ _Phased build plan. Read `docs/product-vision.md` and `docs/prd.md` first. The c
 - [x] **TASK-007** — Set up the Supabase client (SSR) + Drizzle in shared/infrastructure.
       Files: `src/shared/infrastructure/supabase/{server,client}.ts`, `src/shared/infrastructure/db/index.ts`, `drizzle.config.ts`
       Notes: `@supabase/ssr`. Drizzle pointing at Supabase Postgres.
-- [ ] **TASK-008** — Deploy the skeleton to Vercel; empty landing page + health route.
+- [x] **TASK-008** — Deploy the skeleton to Vercel; empty landing page + health route.
       Files: `src/app/page.tsx`, `src/app/api/health/route.ts`
       Notes: Ensure env is set in Vercel. Commit + verify the deploy is green.
 
