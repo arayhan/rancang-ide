@@ -92,7 +92,7 @@ _Phased build plan. Read `docs/product-vision.md` and `docs/prd.md` first. The c
 - [x] **TASK-017** — AI client factory in shared/infrastructure: provider switch Gemini(default)/Claude(deep) via the Vercel AI SDK.
       Files: `src/shared/infrastructure/ai/index.ts`
       Notes: `@ai-sdk/google`, `@ai-sdk/anthropic`. Keys server-only.
-- [ ] **TASK-018** — Zod schema for the validation result (core_assumption, fatal_flaws[], competition, scorecard, verdict enum) in the feature domain.
+- [x] **TASK-018** — Zod schema for the validation result (core_assumption, fatal_flaws[], competition, scorecard, verdict enum) in the feature domain.
       Files: `src/features/validation/domain/schema.ts`
       Notes: verdict ∈ strong|weak|pivot. This is the AI output contract.
 - [ ] **TASK-019** — Prompt + validation use-case (application) + infra call (streamObject).
