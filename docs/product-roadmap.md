@@ -36,7 +36,7 @@ _Phased build plan. Read `docs/product-vision.md` and `docs/prd.md` first. The c
 - [x] **TASK-005** — GitHub Actions: lint + typecheck + test on PR.
       Files: `.github/workflows/ci.yml`
       Notes: Node LTS, pnpm cache.
-- [ ] **TASK-006** — Complete `.env.example` (Supabase URL/anon/service, Gemini, Anthropic, Resend, Sentry DSN, PostHog key).
+- [x] **TASK-006** — Complete `.env.example` (Supabase URL/anon/service, Gemini, Anthropic, Resend, Sentry DSN, PostHog key).
       Files: `.env.example`
       Notes: NEVER commit `.env`. Document each var briefly.
 - [ ] **TASK-007** — Set up the Supabase client (SSR) + Drizzle in shared/infrastructure.
