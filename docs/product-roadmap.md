@@ -30,8 +30,8 @@ _Phased build plan. Read `docs/product-vision.md` and `docs/prd.md` first. The c
 - [x] **TASK-003** — Set up ESLint + Prettier + import boundary rule (forbid domain importing framework/infra).
       Files: `.eslintrc`, `.prettierrc`
       Notes: Use eslint-plugin-boundaries or similar to enforce layers.
-- [ ] **TASK-004** — Set up vitest for domain + shared unit tests.
-      Files: `vitest.config.ts`, `src/shared/domain/__tests__/sample.test.ts`
+- [x] **TASK-004** — Set up vitest for domain + shared unit tests.
+      Files: `vitest.config.mts`, `src/shared/domain/__tests__/sample.test.ts`
       Notes: One dummy test to confirm the test pipeline runs.
 - [ ] **TASK-005** — GitHub Actions: lint + typecheck + test on PR.
       Files: `.github/workflows/ci.yml`
