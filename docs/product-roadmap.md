@@ -55,7 +55,7 @@ _Phased build plan. Read `docs/product-vision.md` and `docs/prd.md` first. The c
 
 **Agent session prompt:** "Do TASK-009 through TASK-016. Auth uses Supabase (@supabase/ssr) per PRD §9. All tables have RLS enabled. Test use-cases in domain/application."
 
-- [ ] **TASK-009** — Drizzle schema: `profiles`, `projects` + migration; enable RLS + policy `auth.uid()=user_id`.
+- [x] **TASK-009** — Drizzle schema: `profiles`, `projects` + migration; enable RLS + policy `auth.uid()=user_id`.
       Files: `drizzle/schema.ts`, `drizzle/migrations/*`
       Notes: `profiles.plan` enum('free','pro') default free. `projects.status` enum.
 - [ ] **TASK-010** — Supabase Auth: login page (email magic link + Google OAuth) + callback + logout.
