@@ -58,7 +58,7 @@ _Phased build plan. Read `docs/product-vision.md` and `docs/prd.md` first. The c
 - [x] **TASK-009** — Drizzle schema: `profiles`, `projects` + migration; enable RLS + policy `auth.uid()=user_id`.
       Files: `drizzle/schema.ts`, `drizzle/migrations/*`
       Notes: `profiles.plan` enum('free','pro') default free. `projects.status` enum.
-- [ ] **TASK-010** — Supabase Auth: login page (email magic link + Google OAuth) + callback + logout.
+- [x] **TASK-010** — Supabase Auth: login page (email magic link + Google OAuth) + callback + logout.
       Files: `src/app/(auth)/login/page.tsx`, `src/app/(auth)/callback/route.ts`, `src/features/auth/**`
       Notes: On first login upsert a `profiles` row.
 - [ ] **TASK-011** — Route protection: `(app)` group redirects to /login if unauth.
