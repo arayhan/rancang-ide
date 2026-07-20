@@ -147,7 +147,7 @@ _Phased build plan. Read `docs/product-vision.md` and `docs/prd.md` first. The c
       Files: `src/features/prd/application/*`, `src/features/prd/infrastructure/*`, `src/app/api/prd/route.ts`
 - [x] **TASK-031** — Use-case + infra Tasks generator from the PRD + `POST /api/tasks` streaming + quota + generations.
       Files: `src/features/tasks/**`, `src/app/api/tasks/route.ts`
-- [ ] **TASK-032** — Persist PRD & tasks to `documents` (type=prd|tasks).
+- [x] **TASK-032** — Persist PRD & tasks to `documents` (type=prd|tasks).
       Files: `src/features/{prd,tasks}/infrastructure/*`
 - [ ] **TASK-033** — UI PRD View (markdown viewer + light edit + regenerate) & Tasks View (checklist).
       Files: `src/features/prd/presentation/*`, `src/features/tasks/presentation/*`
