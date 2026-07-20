@@ -95,7 +95,7 @@ _Phased build plan. Read `docs/product-vision.md` and `docs/prd.md` first. The c
 - [x] **TASK-018** — Zod schema for the validation result (core_assumption, fatal_flaws[], competition, scorecard, verdict enum) in the feature domain.
       Files: `src/features/validation/domain/schema.ts`
       Notes: verdict ∈ strong|weak|pivot. This is the AI output contract.
-- [ ] **TASK-019** — Prompt + validation use-case (application) + infra call (streamObject).
+- [x] **TASK-019** — Prompt + validation use-case (application) + infra call (streamObject).
       Files: `src/features/validation/application/*`, `src/features/validation/infrastructure/*`
       Notes: The prompt adopts the idea-validator framework (assumption, flaws, competition, scorecard, verdict) + local context.
 - [ ] **TASK-020** — Drizzle schema `validations` + `generations` + migration + RLS.
