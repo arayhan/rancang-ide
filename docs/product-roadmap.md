@@ -145,7 +145,7 @@ _Phased build plan. Read `docs/product-vision.md` and `docs/prd.md` first. The c
       Files: `src/features/prd/domain/schema.ts`, `src/features/tasks/domain/schema.ts`
 - [x] **TASK-030** — Use-case + infra PRD generator from the tree + `POST /api/prd` streaming + quota + generations.
       Files: `src/features/prd/application/*`, `src/features/prd/infrastructure/*`, `src/app/api/prd/route.ts`
-- [ ] **TASK-031** — Use-case + infra Tasks generator from the PRD + `POST /api/tasks` streaming + quota + generations.
+- [x] **TASK-031** — Use-case + infra Tasks generator from the PRD + `POST /api/tasks` streaming + quota + generations.
       Files: `src/features/tasks/**`, `src/app/api/tasks/route.ts`
 - [ ] **TASK-032** — Persist PRD & tasks to `documents` (type=prd|tasks).
       Files: `src/features/{prd,tasks}/infrastructure/*`
