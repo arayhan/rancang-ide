@@ -4,9 +4,13 @@ import { notFound, redirect } from "next/navigation";
 import { getSessionUserId } from "@/features/auth/infrastructure/session";
 import { getProject } from "@/features/projects/application/project-use-cases";
 import { DrizzleProjectRepository } from "@/features/projects/infrastructure/drizzle-project-repository";
+import { getPrd } from "@/features/prd/infrastructure/prd-repository";
+import { PrdView } from "@/features/prd/presentation/prd-view";
 import { ProjectStages } from "@/features/projects/presentation/project-stages";
 import type { FeatureTree } from "@/features/structure/domain/schema";
 import { TreeView } from "@/features/structure/presentation/tree-view";
+import { getTasks } from "@/features/tasks/infrastructure/tasks-repository";
+import { TasksView } from "@/features/tasks/presentation/tasks-view";
 import { getLatestValidation } from "@/features/validation/infrastructure/validation-repository";
 import { ValidationView } from "@/features/validation/presentation/validation-view";
 import { getDocument } from "@/shared/infrastructure/documents";
@@ -28,6 +32,8 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
   const treeDocument = treeDoc
     ? { id: treeDoc.id, tree: treeDoc.content as FeatureTree }
     : null;
+  const prdDocument = await getPrd(project.id);
+  const tasksDocument = await getTasks(project.id);
 
   return (
     <main className="mx-auto flex max-w-3xl flex-col gap-6 p-6">
@@ -47,6 +53,20 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
             <ValidationView projectId={project.id} initialResult={latestValidation} />
           ),
           structure: <TreeView projectId={project.id} document={treeDocument} />,
+          prd: (
+            <PrdView
+              projectId={project.id}
+              document={prdDocument}
+              hasTree={treeDocument !== null}
+            />
+          ),
+          tasks: (
+            <TasksView
+              projectId={project.id}
+              document={tasksDocument}
+              hasPrd={prdDocument !== null}
+            />
+          ),
         }}
       />
     </main>

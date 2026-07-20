@@ -149,7 +149,7 @@ _Phased build plan. Read `docs/product-vision.md` and `docs/prd.md` first. The c
       Files: `src/features/tasks/**`, `src/app/api/tasks/route.ts`
 - [x] **TASK-032** — Persist PRD & tasks to `documents` (type=prd|tasks).
       Files: `src/features/{prd,tasks}/infrastructure/*`
-- [ ] **TASK-033** — UI PRD View (markdown viewer + light edit + regenerate) & Tasks View (checklist).
+- [x] **TASK-033** — UI PRD View (markdown viewer + light edit + regenerate) & Tasks View (checklist).
       Files: `src/features/prd/presentation/*`, `src/features/tasks/presentation/*`
       Notes: Sanitize markdown on render (XSS). JetBrains Mono for output blocks.
 - [ ] **TASK-034** — Export: download `.md` + copy-to-clipboard ("prompt for Claude Code") with "Copied" feedback.
