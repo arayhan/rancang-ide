@@ -120,7 +120,7 @@ _Phased build plan. Read `docs/product-vision.md` and `docs/prd.md` first. The c
 
 **Agent session prompt:** "Do TASK-024 through TASK-028. The tree = vertical collapsible (NOT a free react-flow canvas — that's a later phase). AI output zod-validated."
 
-- [ ] **TASK-024** — Zod schema for the tree (nodes: module→sub-features, phase field MVP/v2/later) in domain.
+- [x] **TASK-024** — Zod schema for the tree (nodes: module→sub-features, phase field MVP/v2/later) in domain.
       Files: `src/features/structure/domain/schema.ts`
 - [ ] **TASK-025** — Use-case + infra to generate the tree (Gemini default) + `POST /api/structure` streaming + quota + generations.
       Files: `src/features/structure/application/*`, `src/features/structure/infrastructure/*`, `src/app/api/structure/route.ts`
