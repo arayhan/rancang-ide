@@ -4,11 +4,13 @@ import { getUserPlan } from "@/features/auth/infrastructure/profile";
 import { getSessionUserId } from "@/features/auth/infrastructure/session";
 import { getProject } from "@/features/projects/application/project-use-cases";
 import { DrizzleProjectRepository } from "@/features/projects/infrastructure/drizzle-project-repository";
+import { assignTreeIds } from "@/features/structure/domain/tree";
 import { streamStructure } from "@/features/structure/infrastructure/structure-ai";
 import { getLatestValidation } from "@/features/validation/infrastructure/validation-repository";
 import { parseModelTier } from "@/shared/domain/model";
 import { isOverProjectQuota } from "@/shared/domain/quota";
 import { modelIdFor } from "@/shared/infrastructure/ai";
+import { upsertDocument } from "@/shared/infrastructure/documents";
 import { logGeneration } from "@/shared/infrastructure/generations";
 
 const projectRepo = new DrizzleProjectRepository();
@@ -52,7 +54,7 @@ export async function POST(request: NextRequest) {
 
   const result = streamStructure(
     { idea: project.ideaInput, context: project.context, validationSummary, tier },
-    async ({ usage }) => {
+    async ({ object, usage, error }) => {
       await logGeneration({
         userId,
         projectId,
@@ -61,7 +63,10 @@ export async function POST(request: NextRequest) {
         inputTokens: usage.inputTokens,
         outputTokens: usage.outputTokens,
       });
-      // Tree persistence to `documents` is wired in TASK-026.
+      if (error || !object) return;
+      const tree = assignTreeIds(object, () => crypto.randomUUID());
+      await upsertDocument({ projectId, type: "tree", content: tree, modelUsed: model });
+      await projectRepo.updateStatus(projectId, userId, "structured");
     },
   );
 

@@ -124,7 +124,7 @@ _Phased build plan. Read `docs/product-vision.md` and `docs/prd.md` first. The c
       Files: `src/features/structure/domain/schema.ts`
 - [x] **TASK-025** — Use-case + infra to generate the tree (Gemini default) + `POST /api/structure` streaming + quota + generations.
       Files: `src/features/structure/application/*`, `src/features/structure/infrastructure/*`, `src/app/api/structure/route.ts`
-- [ ] **TASK-026** — Persist the tree to `documents(type=tree)` (documents schema + migration + RLS if not present).
+- [x] **TASK-026** — Persist the tree to `documents(type=tree)` (documents schema + migration + RLS if not present).
       Files: `drizzle/schema.ts`, `drizzle/migrations/*`
 - [ ] **TASK-027** — UI Tree View: collapsible, editable nodes (rename/add/delete), phase badges, autosave via `PATCH /api/documents/:id`.
       Files: `src/features/structure/presentation/*`, `src/app/api/documents/[id]/route.ts`

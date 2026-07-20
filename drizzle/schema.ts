@@ -12,6 +12,7 @@ import {
   pgTable,
   text,
   timestamp,
+  uniqueIndex,
   uuid,
 } from "drizzle-orm/pg-core";
 import { authenticatedRole, authUid, authUsers } from "drizzle-orm/supabase";
@@ -165,6 +166,50 @@ export const generations = pgTable(
   ],
 );
 
+export const documentTypeEnum = pgEnum("document_type", ["tree", "prd", "tasks"]);
+
+/**
+ * documents — generated artifacts (feature tree, PRD, tasks). One current row
+ * per (project, type). RLS: owner via project join.
+ */
+export const documents = pgTable(
+  "documents",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    projectId: uuid("project_id")
+      .notNull()
+      .references(() => projects.id, { onDelete: "cascade" }),
+    type: documentTypeEnum("type").notNull(),
+    content: jsonb("content").notNull(),
+    version: integer("version").notNull().default(1),
+    modelUsed: text("model_used"),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+    updatedAt: timestamp("updated_at", { withTimezone: true })
+      .notNull()
+      .defaultNow()
+      .$onUpdate(() => new Date()),
+  },
+  (table) => [
+    uniqueIndex("documents_project_type_idx").on(table.projectId, table.type),
+    pgPolicy("documents_select_own", {
+      for: "select",
+      to: authenticatedRole,
+      using: sql`exists (select 1 from ${projects} where ${projects.id} = ${table.projectId} and ${projects.userId} = ${authUid})`,
+    }),
+    pgPolicy("documents_insert_own", {
+      for: "insert",
+      to: authenticatedRole,
+      withCheck: sql`exists (select 1 from ${projects} where ${projects.id} = ${table.projectId} and ${projects.userId} = ${authUid})`,
+    }),
+    pgPolicy("documents_update_own", {
+      for: "update",
+      to: authenticatedRole,
+      using: sql`exists (select 1 from ${projects} where ${projects.id} = ${table.projectId} and ${projects.userId} = ${authUid})`,
+      withCheck: sql`exists (select 1 from ${projects} where ${projects.id} = ${table.projectId} and ${projects.userId} = ${authUid})`,
+    }),
+  ],
+);
+
 export type ProfileRow = typeof profiles.$inferSelect;
 export type NewProfileRow = typeof profiles.$inferInsert;
 export type ProjectRow = typeof projects.$inferSelect;
@@ -173,3 +218,5 @@ export type ValidationRow = typeof validations.$inferSelect;
 export type NewValidationRow = typeof validations.$inferInsert;
 export type GenerationRow = typeof generations.$inferSelect;
 export type NewGenerationRow = typeof generations.$inferInsert;
+export type DocumentRow = typeof documents.$inferSelect;
+export type NewDocumentRow = typeof documents.$inferInsert;
