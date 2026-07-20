@@ -210,7 +210,7 @@ One color family: **cobalt `#1B44F0`** and its derivatives, over a dark-blue mon
 
 ## Typography
 
-Three voices, three roles. **Clash Display** (500–600) for display/h1–h3 — a firm geometric display; the `display` level is always uppercase with tight tracking, carrying "Clash Display caps" from Prima UI. **Inter** for body — neutral and highly readable for long-form documents (the PRD is core content; readability is non-negotiable). **JetBrains Mono** has two jobs: `code` for spec/markdown output, and `label-mono` — small uppercase labels with wide tracking (`0.08em`) that become the system's *futuristic signature*: stage names ("VALIDATION"), status ("GENERATING…"), technical annotations ("— 24PX"), verdict badges. When unsure which font a small element uses: a label = mono, a sentence = Inter.
+Three voices, three roles. **Clash Display** (500–600) for display/h1–h3 — a firm geometric display; the `display` level is always uppercase with tight tracking, carrying "Clash Display caps" from Prima UI. **Inter** for body — neutral and highly readable for long-form documents (the PRD is core content; readability is non-negotiable). **JetBrains Mono** has two jobs: `code` for spec/markdown output, and `label-mono` — small uppercase labels with wide tracking (`0.08em`) that become the system's _futuristic signature_: stage names ("VALIDATION"), status ("GENERATING…"), technical annotations ("— 24PX"), verdict badges. When unsure which font a small element uses: a label = mono, a sentence = Inter.
 
 ## Layout
 
@@ -230,15 +230,16 @@ Small, firm radii: `sm 4px` for controls (button, input, badge, node), `md 8px` 
 
 ## Motion & Interaction
 
-*(An extension beyond the standard design.md schema — motion tokens live as CSS variables.)* Three durations: `--motion-fast 120ms` (press, toggle), `--motion-base 200ms` (hover, expand/collapse, fade), `--motion-slow 320ms` (panel, stamp, reveal). Default easing `cubic-bezier(0.2, 0.8, 0.2, 1)` — leaves fast, lands firm ("snap"); `linear` reserved for technical effects (scan-line, blink). Canonical micro-interactions: (1) **button press** — lift on hover, drop + shadow collapse on active; (2) **generating** — a thin `accent` scan-line moving over the output area + a blinking mono caret at the end of streaming text; (3) **verdict stamp** — the badge enters scale 1.15→1 with rotate -2°→0, slow duration, once only; (4) **tree expand** — height + fade `base`, chevron rotate; (5) **copy feedback** — the label changes to "COPIED ✓" for 1.2 seconds. Hard rules: animate only `transform`/`opacity` (GPU-friendly, no layout thrash); all non-essential motion off under `prefers-reduced-motion`; no looping animation in document-reading areas.
+_(An extension beyond the standard design.md schema — motion tokens live as CSS variables.)_ Three durations: `--motion-fast 120ms` (press, toggle), `--motion-base 200ms` (hover, expand/collapse, fade), `--motion-slow 320ms` (panel, stamp, reveal). Default easing `cubic-bezier(0.2, 0.8, 0.2, 1)` — leaves fast, lands firm ("snap"); `linear` reserved for technical effects (scan-line, blink). Canonical micro-interactions: (1) **button press** — lift on hover, drop + shadow collapse on active; (2) **generating** — a thin `accent` scan-line moving over the output area + a blinking mono caret at the end of streaming text; (3) **verdict stamp** — the badge enters scale 1.15→1 with rotate -2°→0, slow duration, once only; (4) **tree expand** — height + fade `base`, chevron rotate; (5) **copy feedback** — the label changes to "COPIED ✓" for 1.2 seconds. Hard rules: animate only `transform`/`opacity` (GPU-friendly, no layout thrash); all non-essential motion off under `prefers-reduced-motion`; no looping animation in document-reading areas.
 
 ## Illustration & 3D
 
-*(Extension.)* Isometric 3D is an **illustration layer**, not a global UI style — its place is the landing hero, empty states, and onboarding. The style: **isometric blueprint wireframe** — extruded blocks/structures drawn as 2px `accent`/`primary` lines over a grid, like an engineering drawing being "built"; may carry a thin glow and a line-drawing animation (stroke-dashoffset). Medium: SVG or CSS 3D transforms (`rotateX(54.7deg) rotateZ(45deg)` for the iso projection) — **not three.js/WebGL in the MVP**; it's heavy and adds no value for a document-based product. Illustration never replaces content or slows time-to-interaction; if forced to choose, content wins.
+_(Extension.)_ Isometric 3D is an **illustration layer**, not a global UI style — its place is the landing hero, empty states, and onboarding. The style: **isometric blueprint wireframe** — extruded blocks/structures drawn as 2px `accent`/`primary` lines over a grid, like an engineering drawing being "built"; may carry a thin glow and a line-drawing animation (stroke-dashoffset). Medium: SVG or CSS 3D transforms (`rotateX(54.7deg) rotateZ(45deg)` for the iso projection) — **not three.js/WebGL in the MVP**; it's heavy and adds no value for a document-based product. Illustration never replaces content or slows time-to-interaction; if forced to choose, content wins.
 
 ## Do's and Don'ts
 
 **Do:**
+
 - Build depth from border + surface step + hard shadow; light the glow only when the AI is working.
 - Use uppercase `label-mono` for all small labels, statuses, and technical annotations — this is the system's signature.
 - Keep the hover-lift → press-down tactile cycle on all clickable elements.
@@ -247,6 +248,7 @@ Small, firm radii: `sm 4px` for controls (button, input, badge, node), `md 8px` 
 - Respect `prefers-reduced-motion` on every micro-animation.
 
 **Don't:**
+
 - Don't add a second color outside the cobalt family; semantics only for verdict/status.
 - Don't use soft/blur gray drop-shadows — that's generic SaaS language, not this system.
 - Don't use pill buttons, radius > `lg`, or "friendly" corners.

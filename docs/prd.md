@@ -37,22 +37,23 @@ flowchart TD
 
 **Stack table**
 
-| Layer | Choice | Notes |
-|---|---|---|
-| Framework | Next.js (App Router), TypeScript strict | Server Components + Route Handlers; deploy Vercel |
-| Styling | Tailwind CSS + design tokens from `docs/design.md` | Neo-brutalism-lite; tokens as CSS vars |
-| Backend | Next.js Route Handlers (serverless) | All AI calls server-side |
-| ORM | Drizzle | Migrations in the repo, not the dashboard |
-| Database | Supabase Postgres | RLS enabled |
-| Auth | Supabase Auth | Email + Google OAuth |
-| AI | Vercel AI SDK | `streamObject` for structured output via zod; provider switch Gemini/Claude |
-| Validation | zod | Shared schemas; single source of truth |
-| Analytics | PostHog | Activation & retention funnel |
-| Email | Resend | Verification, notifications |
-| Error tracking | Sentry | Client + server |
-| Payments | None (phase 1) | Paywall stub; gateway in phase 2 |
+| Layer          | Choice                                             | Notes                                                                       |
+| -------------- | -------------------------------------------------- | --------------------------------------------------------------------------- |
+| Framework      | Next.js (App Router), TypeScript strict            | Server Components + Route Handlers; deploy Vercel                           |
+| Styling        | Tailwind CSS + design tokens from `docs/design.md` | Neo-brutalism-lite; tokens as CSS vars                                      |
+| Backend        | Next.js Route Handlers (serverless)                | All AI calls server-side                                                    |
+| ORM            | Drizzle                                            | Migrations in the repo, not the dashboard                                   |
+| Database       | Supabase Postgres                                  | RLS enabled                                                                 |
+| Auth           | Supabase Auth                                      | Email + Google OAuth                                                        |
+| AI             | Vercel AI SDK                                      | `streamObject` for structured output via zod; provider switch Gemini/Claude |
+| Validation     | zod                                                | Shared schemas; single source of truth                                      |
+| Analytics      | PostHog                                            | Activation & retention funnel                                               |
+| Email          | Resend                                             | Verification, notifications                                                 |
+| Error tracking | Sentry                                             | Client + server                                                             |
+| Payments       | None (phase 1)                                     | Paywall stub; gateway in phase 2                                            |
 
 **Integration guide**
+
 - **AI:** calls only from Route Handlers. Use the Vercel AI SDK with a provider abstraction; default `google('gemini-2.x-flash')` for drafts/tree, `anthropic('claude-...')` option for "deep" validation. All generation output validated via a zod schema from `packages`/`src/shared`. Stream to the client via AI SDK streaming.
 - **Supabase:** SSR client for the auth session in Server Components; service layer in infrastructure. Enable RLS; users access only their own rows.
 - **Secrets:** all keys (Supabase service role, Gemini, Anthropic, Resend, Sentry DSN, PostHog key) in Vercel env. Complete `.env.example`. Never expose the service role / AI keys to the client.
@@ -114,6 +115,7 @@ Vercel Hobby/Pro + Supabase Free/Pro ≈ $0–45/mo. AI variable: one full pipel
 **Entities**
 
 `profiles` (extends Supabase `auth.users`)
+
 - `id` uuid PK = auth user id
 - `email` text
 - `display_name` text null
@@ -121,32 +123,36 @@ Vercel Hobby/Pro + Supabase Free/Pro ≈ $0–45/mo. AI variable: one full pipel
 - `created_at` timestamptz default now()
 
 `projects`
+
 - `id` uuid PK default gen_random_uuid()
 - `user_id` uuid FK → profiles.id (cascade)
 - `title` text
-- `idea_input` text                      # the user's raw idea
-- `context` jsonb null                    # target user, optional notes
+- `idea_input` text # the user's raw idea
+- `context` jsonb null # target user, optional notes
 - `status` text enum('draft','validated','structured','spec_ready') default 'draft'
 - `created_at`, `updated_at` timestamptz
 
 `validations`
+
 - `id` uuid PK
 - `project_id` uuid FK → projects.id (cascade)
 - `verdict` text enum('strong','weak','pivot')
-- `report` jsonb                          # {core_assumption, fatal_flaws[], competition, scorecard{}}
+- `report` jsonb # {core_assumption, fatal_flaws[], competition, scorecard{}}
 - `model_used` text
 - `created_at` timestamptz
 
 `documents`
+
 - `id` uuid PK
 - `project_id` uuid FK → projects.id (cascade)
 - `type` text enum('tree','prd','tasks')
-- `content` jsonb                         # tree: nodes[]; prd: markdown+meta; tasks: task[]
+- `content` jsonb # tree: nodes[]; prd: markdown+meta; tasks: task[]
 - `version` int default 1
 - `model_used` text
 - `created_at`, `updated_at` timestamptz
 
 `generations` (usage tracking / cost & quota)
+
 - `id` uuid PK
 - `user_id` uuid FK → profiles.id
 - `project_id` uuid FK → projects.id null
@@ -167,17 +173,17 @@ profiles 1—N projects; projects 1—N validations; projects 1—N documents; p
 
 All endpoints = Next.js Route Handlers, auth required (Supabase session), streaming where relevant.
 
-| Method | Path | Body | Response | Auth |
-|---|---|---|---|---|
-| POST | `/api/projects` | `{title, idea_input, context?}` | `{project}` | yes |
-| GET | `/api/projects` | — | `{projects[]}` | yes |
-| GET | `/api/projects/:id` | — | `{project, validation?, documents[]}` | yes |
-| DELETE | `/api/projects/:id` | — | `{ok}` | yes |
-| POST | `/api/validate` | `{project_id, model?}` | stream → `{validation}` | yes, quota-checked |
-| POST | `/api/structure` | `{project_id, model?}` | stream → `{tree}` | yes, quota-checked |
-| POST | `/api/prd` | `{project_id, tree}` | stream → `{document:prd}` | yes, quota-checked |
-| POST | `/api/tasks` | `{project_id}` | stream → `{document:tasks}` | yes, quota-checked |
-| PATCH | `/api/documents/:id` | `{content}` | `{document}` | yes |
+| Method | Path                 | Body                            | Response                              | Auth               |
+| ------ | -------------------- | ------------------------------- | ------------------------------------- | ------------------ |
+| POST   | `/api/projects`      | `{title, idea_input, context?}` | `{project}`                           | yes                |
+| GET    | `/api/projects`      | —                               | `{projects[]}`                        | yes                |
+| GET    | `/api/projects/:id`  | —                               | `{project, validation?, documents[]}` | yes                |
+| DELETE | `/api/projects/:id`  | —                               | `{ok}`                                | yes                |
+| POST   | `/api/validate`      | `{project_id, model?}`          | stream → `{validation}`               | yes, quota-checked |
+| POST   | `/api/structure`     | `{project_id, model?}`          | stream → `{tree}`                     | yes, quota-checked |
+| POST   | `/api/prd`           | `{project_id, tree}`            | stream → `{document:prd}`             | yes, quota-checked |
+| POST   | `/api/tasks`         | `{project_id}`                  | stream → `{document:tasks}`           | yes, quota-checked |
+| PATCH  | `/api/documents/:id` | `{content}`                     | `{document}`                          | yes                |
 
 **Contract rules:** every generation endpoint validates the AI output with a zod schema before persisting. The quota check happens before calling the AI; if `plan=free` and active projects ≥ limit → a 402-style `{error:'quota_exceeded'}`. Every generation writes one `generations` row.
 
@@ -234,6 +240,7 @@ All endpoints = Next.js Route Handlers, auth required (Supabase session), stream
 Design tokens (cobalt `#1B44F0` monochrome, fonts Clash Display/Inter/JetBrains Mono, neo-brutalism-lite) live in `docs/design.md` — don't duplicate them here; if it doesn't exist yet, run the Design System skill first.
 
 **Screens & states** (each screen: empty / loading / error / populated)
+
 1. **Auth** — login (email + Google). States: idle, submitting, error.
 2. **Dashboard / History** — project list. Empty: CTA "Create your first project".
 3. **New Project / Idea Input** — idea textarea + optional context field + model selection.
