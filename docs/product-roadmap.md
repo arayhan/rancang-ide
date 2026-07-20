@@ -89,7 +89,7 @@ _Phased build plan. Read `docs/product-vision.md` and `docs/prd.md` first. The c
 
 **Agent session prompt:** "Do TASK-017 through TASK-023. AI via the Vercel AI SDK, server-side only, output zod-validated (streamObject). Default Gemini Flash. Log to `generations`."
 
-- [ ] **TASK-017** — AI client factory in shared/infrastructure: provider switch Gemini(default)/Claude(deep) via the Vercel AI SDK.
+- [x] **TASK-017** — AI client factory in shared/infrastructure: provider switch Gemini(default)/Claude(deep) via the Vercel AI SDK.
       Files: `src/shared/infrastructure/ai/index.ts`
       Notes: `@ai-sdk/google`, `@ai-sdk/anthropic`. Keys server-only.
 - [ ] **TASK-018** — Zod schema for the validation result (core_assumption, fatal_flaws[], competition, scorecard, verdict enum) in the feature domain.
