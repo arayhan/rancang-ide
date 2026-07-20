@@ -141,7 +141,7 @@ _Phased build plan. Read `docs/product-vision.md` and `docs/prd.md` first. The c
 
 **Agent session prompt:** "Do TASK-029 through TASK-035. PRD & tasks streaming, zod-validated, persisted to documents. Export = valid markdown + copy-to-clipboard."
 
-- [ ] **TASK-029** — Zod schema for PRD (markdown+meta) & Tasks (task[] checkbox) in their respective domains.
+- [x] **TASK-029** — Zod schema for PRD (markdown+meta) & Tasks (task[] checkbox) in their respective domains.
       Files: `src/features/prd/domain/schema.ts`, `src/features/tasks/domain/schema.ts`
 - [ ] **TASK-030** — Use-case + infra PRD generator from the tree + `POST /api/prd` streaming + quota + generations.
       Files: `src/features/prd/application/*`, `src/features/prd/infrastructure/*`, `src/app/api/prd/route.ts`
