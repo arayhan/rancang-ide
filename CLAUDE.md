@@ -15,6 +15,9 @@ Source of truth (read before coding, in this order):
 
 If anything is ambiguous or conflicts: **STOP and ask the founder. Don't invent scope.**
 
+Also read `AGENTS.md`: this repo uses a Next.js version newer than most training data —
+check `node_modules/next/dist/docs/` before assuming an API.
+
 ## Stack (decided — do not substitute)
 
 - Next.js (App Router) + TypeScript strict, Tailwind CSS

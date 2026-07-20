@@ -20,7 +20,7 @@ _Phased build plan. Read `docs/product-vision.md` and `docs/prd.md` first. The c
 
 **Agent session prompt:** "Read docs/prd.md §2 (Architecture) and docs/product-vision.md. Do TASK-001 through TASK-008 in order. After each task: typecheck + test + commit. Don't start features before scaffolding & CI are green."
 
-- [ ] **TASK-001** — Init Next.js (App Router, TypeScript strict) + pnpm; set up Tailwind CSS.
+- [x] **TASK-001** — Init Next.js (App Router, TypeScript strict) + pnpm; set up Tailwind CSS.
   Files: `package.json`, `tsconfig.json`, `next.config.ts`, `tailwind.config.ts`, `src/styles/globals.css`
   Notes: TS strict true. Tailwind ready to receive design tokens from `docs/design.md`.
 - [ ] **TASK-002** — Create the layered + feature-driven folder structure per PRD §2 (features/{validation,structure,prd,tasks,projects,auth}/{presentation,application,domain,infrastructure}, shared/).
