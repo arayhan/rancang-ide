@@ -122,7 +122,7 @@ _Phased build plan. Read `docs/product-vision.md` and `docs/prd.md` first. The c
 
 - [x] **TASK-024** — Zod schema for the tree (nodes: module→sub-features, phase field MVP/v2/later) in domain.
       Files: `src/features/structure/domain/schema.ts`
-- [ ] **TASK-025** — Use-case + infra to generate the tree (Gemini default) + `POST /api/structure` streaming + quota + generations.
+- [x] **TASK-025** — Use-case + infra to generate the tree (Gemini default) + `POST /api/structure` streaming + quota + generations.
       Files: `src/features/structure/application/*`, `src/features/structure/infrastructure/*`, `src/app/api/structure/route.ts`
 - [ ] **TASK-026** — Persist the tree to `documents(type=tree)` (documents schema + migration + RLS if not present).
       Files: `drizzle/schema.ts`, `drizzle/migrations/*`
