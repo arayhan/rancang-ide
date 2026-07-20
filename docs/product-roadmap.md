@@ -152,7 +152,7 @@ _Phased build plan. Read `docs/product-vision.md` and `docs/prd.md` first. The c
 - [x] **TASK-033** — UI PRD View (markdown viewer + light edit + regenerate) & Tasks View (checklist).
       Files: `src/features/prd/presentation/*`, `src/features/tasks/presentation/*`
       Notes: Sanitize markdown on render (XSS). JetBrains Mono for output blocks.
-- [ ] **TASK-034** — Export: download `.md` + copy-to-clipboard ("prompt for Claude Code") with "Copied" feedback.
+- [x] **TASK-034** — Export: download `.md` + copy-to-clipboard ("prompt for Claude Code") with "Copied" feedback.
       Files: `src/features/prd/presentation/export.tsx`, `src/shared/lib/markdown.ts`
 - [ ] **TASK-035** — Test: PRD/tasks schema, valid export markdown, regenerate doesn't delete other documents.
       Files: `src/features/{prd,tasks}/**/__tests__/*`
