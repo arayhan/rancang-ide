@@ -1,7 +1,8 @@
 import { redirect } from "next/navigation";
 
-import { signOut } from "@/features/auth/infrastructure/auth-actions";
 import { getSessionUserId } from "@/features/auth/infrastructure/session";
+
+import { signOut } from "../auth-actions";
 
 /**
  * Layout for the authenticated area. Any route under (app) requires a session;

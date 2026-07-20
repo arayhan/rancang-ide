@@ -70,7 +70,7 @@ _Phased build plan. Read `docs/product-vision.md` and `docs/prd.md` first. The c
 - [x] **TASK-013** — Route Handlers for projects: POST/GET list/GET one/DELETE.
       Files: `src/app/api/projects/route.ts`, `src/app/api/projects/[id]/route.ts`
       Notes: Auth required; filter by user.
-- [ ] **TASK-014** — UI: Dashboard/History (list + empty state) & New Project form (idea textarea + optional context).
+- [x] **TASK-014** — UI: Dashboard/History (list + empty state) & New Project form (idea textarea + optional context).
       Files: `src/app/(app)/projects/page.tsx`, `src/features/projects/presentation/*`
       Notes: Empty-state CTA "Create your first project". Use shared/ui primitives.
 - [ ] **TASK-015** — UI: Project detail shell (tabs/stages: Validation, Structure, PRD, Tasks — still empty).

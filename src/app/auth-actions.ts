@@ -7,9 +7,10 @@ import type { MagicLinkState } from "@/features/auth/domain/types";
 import { createSupabaseServerClient } from "@/shared/infrastructure/supabase/server";
 
 /**
- * Resolve the public origin for auth redirects, honoring proxy headers
- * (Vercel) and falling back to an env var, then localhost for dev.
+ * Auth server actions. These live in the composition root (src/app) because
+ * they wire concrete infrastructure (the Supabase client) to the request.
  */
+
 async function getRedirectOrigin(): Promise<string> {
   const h = await headers();
   const host = h.get("x-forwarded-host") ?? h.get("host");

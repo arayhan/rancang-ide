@@ -1,8 +1,6 @@
-import {
-  signInWithGoogle,
-  signInWithMagicLink,
-} from "@/features/auth/infrastructure/auth-actions";
 import { LoginForm } from "@/features/auth/presentation/login-form";
+
+import { signInWithGoogle, signInWithMagicLink } from "../../auth-actions";
 
 export default function LoginPage() {
   return (
