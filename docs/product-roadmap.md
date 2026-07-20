@@ -107,7 +107,7 @@ _Phased build plan. Read `docs/product-vision.md` and `docs/prd.md` first. The c
 - [x] **TASK-022** — UI Validation View: streaming report, verdict badge, flaws list, competition, scorecard; empty/loading/error+retry states.
       Files: `src/features/validation/presentation/*`
       Notes: Semantic colors used sparingly (red/green) over the cobalt base. Skeleton while streaming.
-- [ ] **TASK-023** — Test: schema parse (valid/invalid AI output), quota guard, use-case.
+- [x] **TASK-023** — Test: schema parse (valid/invalid AI output), quota guard, use-case.
       Files: `src/features/validation/**/__tests__/*`
       Notes: Invalid output → reject, don't persist.
 
