@@ -8,6 +8,13 @@
       "when": 1784542075121,
       "tag": "0000_init_profiles_projects",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1784563098553,
+      "tag": "0001_add_validations_generations",
+      "breakpoints": true
     }
   ]
 }

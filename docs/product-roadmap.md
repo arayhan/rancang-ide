@@ -98,7 +98,7 @@ _Phased build plan. Read `docs/product-vision.md` and `docs/prd.md` first. The c
 - [x] **TASK-019** — Prompt + validation use-case (application) + infra call (streamObject).
       Files: `src/features/validation/application/*`, `src/features/validation/infrastructure/*`
       Notes: The prompt adopts the idea-validator framework (assumption, flaws, competition, scorecard, verdict) + local context.
-- [ ] **TASK-020** — Drizzle schema `validations` + `generations` + migration + RLS.
+- [x] **TASK-020** — Drizzle schema `validations` + `generations` + migration + RLS.
       Files: `drizzle/schema.ts`, `drizzle/migrations/*`
       Notes: Persist the report jsonb + model_used + token counts.
 - [ ] **TASK-021** — Route Handler `POST /api/validate` (streaming) + quota check before calling AI.
