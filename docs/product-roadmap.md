@@ -39,7 +39,7 @@ _Phased build plan. Read `docs/product-vision.md` and `docs/prd.md` first. The c
 - [x] **TASK-006** — Complete `.env.example` (Supabase URL/anon/service, Gemini, Anthropic, Resend, Sentry DSN, PostHog key).
       Files: `.env.example`
       Notes: NEVER commit `.env`. Document each var briefly.
-- [ ] **TASK-007** — Set up the Supabase client (SSR) + Drizzle in shared/infrastructure.
+- [x] **TASK-007** — Set up the Supabase client (SSR) + Drizzle in shared/infrastructure.
       Files: `src/shared/infrastructure/supabase/{server,client}.ts`, `src/shared/infrastructure/db/index.ts`, `drizzle.config.ts`
       Notes: `@supabase/ssr`. Drizzle pointing at Supabase Postgres.
 - [ ] **TASK-008** — Deploy the skeleton to Vercel; empty landing page + health route.
