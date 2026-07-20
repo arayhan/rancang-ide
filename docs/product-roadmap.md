@@ -23,7 +23,7 @@ _Phased build plan. Read `docs/product-vision.md` and `docs/prd.md` first. The c
 - [x] **TASK-001** — Init Next.js (App Router, TypeScript strict) + pnpm; set up Tailwind CSS.
   Files: `package.json`, `tsconfig.json`, `next.config.ts`, `tailwind.config.ts`, `src/styles/globals.css`
   Notes: TS strict true. Tailwind ready to receive design tokens from `docs/design.md`.
-- [ ] **TASK-002** — Create the layered + feature-driven folder structure per PRD §2 (features/{validation,structure,prd,tasks,projects,auth}/{presentation,application,domain,infrastructure}, shared/).
+- [x] **TASK-002** — Create the layered + feature-driven folder structure per PRD §2 (features/{validation,structure,prd,tasks,projects,auth}/{presentation,application,domain,infrastructure}, shared/).
   Files: `src/features/.gitkeep`, `src/shared/.gitkeep`
   Notes: Add a short README under features/ explaining the dependency rule.
 - [ ] **TASK-003** — Set up ESLint + Prettier + import boundary rule (forbid domain importing framework/infra).
