@@ -33,7 +33,7 @@ _Phased build plan. Read `docs/product-vision.md` and `docs/prd.md` first. The c
 - [x] **TASK-004** — Set up vitest for domain + shared unit tests.
       Files: `vitest.config.mts`, `src/shared/domain/__tests__/sample.test.ts`
       Notes: One dummy test to confirm the test pipeline runs.
-- [ ] **TASK-005** — GitHub Actions: lint + typecheck + test on PR.
+- [x] **TASK-005** — GitHub Actions: lint + typecheck + test on PR.
       Files: `.github/workflows/ci.yml`
       Notes: Node LTS, pnpm cache.
 - [ ] **TASK-006** — Complete `.env.example` (Supabase URL/anon/service, Gemini, Anthropic, Resend, Sentry DSN, PostHog key).
