@@ -76,7 +76,7 @@ _Phased build plan. Read `docs/product-vision.md` and `docs/prd.md` first. The c
 - [x] **TASK-015** — UI: Project detail shell (tabs/stages: Validation, Structure, PRD, Tasks — still empty).
       Files: `src/app/(app)/projects/[id]/page.tsx`
       Notes: Stage navigation ready to be filled in later phases.
-- [ ] **TASK-016** — Test: create/list/delete project use-cases + RLS smoke test.
+- [x] **TASK-016** — Test: create/list/delete project use-cases + RLS smoke test.
       Files: `src/features/projects/application/__tests__/*`
       Notes: Ensure a user can't access another user's project.
 
