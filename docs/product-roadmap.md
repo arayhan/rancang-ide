@@ -67,7 +67,7 @@ _Phased build plan. Read `docs/product-vision.md` and `docs/prd.md` first. The c
 - [x] **TASK-012** — Domain + zod schema for Project; repository interface in domain, Drizzle impl in infrastructure.
       Files: `src/features/projects/domain/*`, `src/features/projects/infrastructure/*`
       Notes: Pure-TS domain. Repo interface in domain, impl in infra (dependency inversion).
-- [ ] **TASK-013** — Route Handlers for projects: POST/GET list/GET one/DELETE.
+- [x] **TASK-013** — Route Handlers for projects: POST/GET list/GET one/DELETE.
       Files: `src/app/api/projects/route.ts`, `src/app/api/projects/[id]/route.ts`
       Notes: Auth required; filter by user.
 - [ ] **TASK-014** — UI: Dashboard/History (list + empty state) & New Project form (idea textarea + optional context).

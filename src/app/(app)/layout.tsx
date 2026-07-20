@@ -1,17 +1,15 @@
 import { redirect } from "next/navigation";
 
 import { signOut } from "@/features/auth/infrastructure/auth-actions";
-import { createSupabaseServerClient } from "@/shared/infrastructure/supabase/server";
+import { getSessionUserId } from "@/features/auth/infrastructure/session";
 
 /**
  * Layout for the authenticated area. Any route under (app) requires a session;
  * unauthenticated visitors are redirected to /login.
  */
 export default async function AppLayout({ children }: { children: React.ReactNode }) {
-  const supabase = await createSupabaseServerClient();
-  const { data } = await supabase.auth.getClaims();
-
-  if (!data?.claims) {
+  const userId = await getSessionUserId();
+  if (!userId) {
     redirect("/login");
   }
 
