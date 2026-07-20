@@ -9,6 +9,10 @@
   --primary: #1b44f0;
   --accent: #6e8dff;
   --border: #26304a;
+  --surface: #101624;
+  --success: #12b76a;
+  --warning: #f79009;
+  --error: #f04438;
 }
 
 @theme inline {
@@ -18,6 +22,10 @@
   --color-primary: var(--primary);
   --color-accent: var(--accent);
   --color-border: var(--border);
+  --color-surface: var(--surface);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-error: var(--error);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }

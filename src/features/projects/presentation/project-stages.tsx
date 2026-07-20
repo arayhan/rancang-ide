@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 
 const STAGES = [
   { key: "validation", label: "Validation", hint: "The honest verdict on your idea." },
@@ -11,13 +11,19 @@ const STAGES = [
 
 type StageKey = (typeof STAGES)[number]["key"];
 
+type ProjectStagesProps = {
+  /** Optional rendered content per stage; stages without a slot show a placeholder. */
+  slots?: Partial<Record<StageKey, ReactNode>>;
+};
+
 /**
- * Stage navigation shell for a project. The panels are placeholders until each
- * phase fills them in (validation → structure → prd → tasks).
+ * Stage navigation shell for a project. Filled stages render their slot; the
+ * rest show a placeholder until later phases fill them in.
  */
-export function ProjectStages() {
+export function ProjectStages({ slots }: ProjectStagesProps) {
   const [active, setActive] = useState<StageKey>("validation");
   const current = STAGES.find((stage) => stage.key === active) ?? STAGES[0];
+  const activeSlot = slots?.[active];
 
   return (
     <div>
@@ -41,12 +47,16 @@ export function ProjectStages() {
           );
         })}
       </nav>
-      <div role="tabpanel" className="flex flex-col items-center gap-2 py-16 text-center">
-        <p className="font-medium">{current.label}</p>
-        <p className="max-w-sm text-sm text-muted">{current.hint}</p>
-        <p className="mt-2 font-mono text-xs uppercase tracking-[0.08em] text-accent">
-          Coming soon
-        </p>
+      <div role="tabpanel" className="py-8">
+        {activeSlot ?? (
+          <div className="flex flex-col items-center gap-2 py-16 text-center">
+            <p className="font-medium">{current.label}</p>
+            <p className="max-w-sm text-sm text-muted">{current.hint}</p>
+            <p className="mt-2 font-mono text-xs uppercase tracking-[0.08em] text-accent">
+              Coming soon
+            </p>
+          </div>
+        )}
       </div>
     </div>
   );

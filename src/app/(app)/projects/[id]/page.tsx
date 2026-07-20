@@ -5,6 +5,8 @@ import { getSessionUserId } from "@/features/auth/infrastructure/session";
 import { getProject } from "@/features/projects/application/project-use-cases";
 import { DrizzleProjectRepository } from "@/features/projects/infrastructure/drizzle-project-repository";
 import { ProjectStages } from "@/features/projects/presentation/project-stages";
+import { getLatestValidation } from "@/features/validation/infrastructure/validation-repository";
+import { ValidationView } from "@/features/validation/presentation/validation-view";
 
 const repo = new DrizzleProjectRepository();
 
@@ -18,6 +20,8 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
   const project = await getProject(repo, userId, id);
   if (!project) notFound();
 
+  const latestValidation = await getLatestValidation(project.id);
+
   return (
     <main className="mx-auto flex max-w-3xl flex-col gap-6 p-6">
       <Link
@@ -30,7 +34,13 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
         <h1 className="text-2xl font-semibold">{project.title}</h1>
         <p className="mt-2 text-muted">{project.ideaInput}</p>
       </header>
-      <ProjectStages />
+      <ProjectStages
+        slots={{
+          validation: (
+            <ValidationView projectId={project.id} initialResult={latestValidation} />
+          ),
+        }}
+      />
     </main>
   );
 }

@@ -1,3 +1,5 @@
+import { desc, eq } from "drizzle-orm";
+
 import { getDb } from "@/shared/infrastructure/db";
 
 import { validations } from "../../../../drizzle/schema";
@@ -18,4 +20,17 @@ export async function saveValidation(input: SaveValidationInput): Promise<void> 
     report: input.report,
     modelUsed: input.modelUsed,
   });
+}
+
+/** The most recent validation report for a project, or null. */
+export async function getLatestValidation(
+  projectId: string,
+): Promise<ValidationResult | null> {
+  const [row] = await getDb()
+    .select({ report: validations.report })
+    .from(validations)
+    .where(eq(validations.projectId, projectId))
+    .orderBy(desc(validations.createdAt))
+    .limit(1);
+  return row ? (row.report as ValidationResult) : null;
 }
