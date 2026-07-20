@@ -61,7 +61,7 @@ _Phased build plan. Read `docs/product-vision.md` and `docs/prd.md` first. The c
 - [x] **TASK-010** — Supabase Auth: login page (email magic link + Google OAuth) + callback + logout.
       Files: `src/app/(auth)/login/page.tsx`, `src/app/(auth)/callback/route.ts`, `src/features/auth/**`
       Notes: On first login upsert a `profiles` row.
-- [ ] **TASK-011** — Route protection: `(app)` group redirects to /login if unauth.
+- [x] **TASK-011** — Route protection: `(app)` group redirects to /login if unauth.
       Files: `src/app/(app)/layout.tsx`, `src/shared/infrastructure/supabase/server.ts`
       Notes: Read the session in a Server Component.
 - [ ] **TASK-012** — Domain + zod schema for Project; repository interface in domain, Drizzle impl in infrastructure.
