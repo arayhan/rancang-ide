@@ -1,4 +1,4 @@
-import type { Project } from "./project";
+import type { Project, ProjectStatus } from "./project";
 
 /** Data needed to persist a new project (userId comes from the session). */
 export type CreateProjectData = {
@@ -22,4 +22,5 @@ export interface ProjectRepository {
   findById(id: string, userId: string): Promise<Project | null>;
   delete(id: string, userId: string): Promise<boolean>;
   countByUser(userId: string): Promise<number>;
+  updateStatus(id: string, userId: string, status: ProjectStatus): Promise<void>;
 }

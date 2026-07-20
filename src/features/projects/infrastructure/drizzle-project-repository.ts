@@ -3,7 +3,7 @@ import { and, desc, eq, sql } from "drizzle-orm";
 import { getDb } from "@/shared/infrastructure/db";
 
 import { projects, type ProjectRow } from "../../../../drizzle/schema";
-import type { Project } from "../domain/project";
+import type { Project, ProjectStatus } from "../domain/project";
 import type {
   CreateProjectData,
   ProjectRepository,
@@ -69,5 +69,16 @@ export class DrizzleProjectRepository implements ProjectRepository {
       .from(projects)
       .where(eq(projects.userId, userId));
     return row?.count ?? 0;
+  }
+
+  async updateStatus(
+    id: string,
+    userId: string,
+    status: ProjectStatus,
+  ): Promise<void> {
+    await getDb()
+      .update(projects)
+      .set({ status })
+      .where(and(eq(projects.id, id), eq(projects.userId, userId)));
   }
 }

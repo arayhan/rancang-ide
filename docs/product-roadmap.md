@@ -101,7 +101,7 @@ _Phased build plan. Read `docs/product-vision.md` and `docs/prd.md` first. The c
 - [x] **TASK-020** — Drizzle schema `validations` + `generations` + migration + RLS.
       Files: `drizzle/schema.ts`, `drizzle/migrations/*`
       Notes: Persist the report jsonb + model_used + token counts.
-- [ ] **TASK-021** — Route Handler `POST /api/validate` (streaming) + quota check before calling AI.
+- [x] **TASK-021** — Route Handler `POST /api/validate` (streaming) + quota check before calling AI.
       Files: `src/app/api/validate/route.ts`
       Notes: Free & active projects ≥3 → `{error:'quota_exceeded'}`. Write a generations row.
 - [ ] **TASK-022** — UI Validation View: streaming report, verdict badge, flaws list, competition, scorecard; empty/loading/error+retry states.

@@ -61,6 +61,15 @@ class FakeProjectRepository implements ProjectRepository {
   async countByUser(userId: string): Promise<number> {
     return this.rows.filter((row) => row.userId === userId).length;
   }
+
+  async updateStatus(
+    id: string,
+    userId: string,
+    status: Project["status"],
+  ): Promise<void> {
+    const row = this.rows.find((r) => r.id === id && r.userId === userId);
+    if (row) row.status = status;
+  }
 }
 
 const validInput = {
