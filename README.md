@@ -1,36 +1,57 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Rancang Ide
 
-## Getting Started
+Turn raw ideas into **validated product blueprints** — ready for an AI coding agent.
 
-First, run the development server:
+Most PRD generators write specs immediately. Rancang Ide is **validation-first**: you type a
+2-sentence idea, it gives an honest verdict (strong / weak / pivot) with fatal flaws and a
+competition map — and only then builds an editable feature tree, a PRD, and a task breakdown
+you can hand straight to Claude Code. It dares to say *"don't build this."*
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+**Pipeline:** idea → validation report → feature tree → PRD → task breakdown → export markdown / copy prompt.
+
+## Stack
+
+- [Next.js](https://nextjs.org) (App Router) + TypeScript strict + Tailwind CSS
+- [Supabase](https://supabase.com) (Postgres + Auth) with [Drizzle ORM](https://orm.drizzle.team) (migrations in-repo)
+- [Vercel AI SDK](https://ai-sdk.dev) — Google Gemini Flash (default/economy), Anthropic Claude (deep); all AI calls server-side, output validated with zod
+- Deploy: Vercel · Observability: PostHog, Sentry, Resend
+
+## Architecture
+
+Layered + feature-driven — see [src/features/README.md](src/features/README.md):
+
+```
+presentation → application → domain ← infrastructure
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The domain layer is pure TypeScript (zero framework/IO imports); AI/DB/Supabase live only in
+infrastructure. The rule is enforced by ESLint (`eslint-plugin-boundaries`).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Getting started
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+pnpm install
+cp .env.example .env.local   # fill in your keys (see comments in .env.example)
+pnpm dev                     # http://localhost:3000
+```
 
-## Learn More
+## Scripts
 
-To learn more about Next.js, take a look at the following resources:
+| Command          | What it does                     |
+| ---------------- | -------------------------------- |
+| `pnpm dev`       | dev server                       |
+| `pnpm build`     | production build                 |
+| `pnpm lint`      | ESLint (incl. boundary rules)    |
+| `pnpm typecheck` | `tsc --noEmit`                   |
+| `pnpm test`      | vitest                           |
+| `pnpm format`    | Prettier                         |
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Docs
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Product source of truth lives in [docs/](docs/): [product-vision.md](docs/product-vision.md) ·
+[prd.md](docs/prd.md) · [product-roadmap.md](docs/product-roadmap.md) (task checkboxes) ·
+[design.md](docs/design.md) (design tokens). Coding agents: read [CLAUDE.md](CLAUDE.md) first.
 
-## Deploy on Vercel
+## Status
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+🚧 Phase 0 (foundation & scaffolding) — see the [roadmap](docs/product-roadmap.md).
