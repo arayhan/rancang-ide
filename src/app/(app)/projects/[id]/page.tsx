@@ -1,3 +1,4 @@
+import { getTranslations } from "next-intl/server";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 
@@ -45,6 +46,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
     getDoc(project.id, "system_design"),
   ]);
   const hasPrd = prdDocument !== null;
+  const ts = await getTranslations("stages");
 
   return (
     <main className="mx-auto flex max-w-3xl flex-col gap-6 px-6 py-8">
@@ -52,7 +54,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
         href="/projects"
         className="font-mono text-xs uppercase tracking-[0.12em] text-muted transition-colors hover:text-foreground"
       >
-        ← All projects
+        {ts("allProjects")}
       </Link>
       <header className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <div className="min-w-0">

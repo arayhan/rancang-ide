@@ -1,7 +1,9 @@
+import { getTranslations } from "next-intl/server";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
 import { getSessionUserId } from "@/features/auth/infrastructure/session";
+import { LocaleSwitcher } from "@/shared/ui/locale-switcher";
 
 import { signOut } from "../auth-actions";
 
@@ -14,6 +16,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
   if (!userId) {
     redirect("/login");
   }
+  const tn = await getTranslations("nav");
 
   return (
     <div className="flex min-h-screen flex-col">
@@ -24,14 +27,17 @@ export default async function AppLayout({ children }: { children: React.ReactNod
         >
           Rancang<span className="text-accent"> Ide</span>
         </Link>
-        <form action={signOut}>
-          <button
-            type="submit"
-            className="glow-ring rounded-sm border-2 border-transparent px-3 py-1.5 font-mono text-[11px] uppercase tracking-[0.12em] text-muted transition-colors hover:border-border hover:text-foreground"
-          >
-            Sign out
-          </button>
-        </form>
+        <div className="flex items-center gap-3">
+          <LocaleSwitcher />
+          <form action={signOut}>
+            <button
+              type="submit"
+              className="glow-ring rounded-sm border-2 border-transparent px-3 py-1.5 font-mono text-[11px] uppercase tracking-[0.12em] text-muted transition-colors hover:border-border hover:text-foreground"
+            >
+              {tn("signOut")}
+            </button>
+          </form>
+        </div>
       </header>
       <div className="flex-1">{children}</div>
     </div>

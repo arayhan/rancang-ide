@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { useState, type ReactNode } from "react";
 
 const STAGES = [
@@ -24,6 +25,7 @@ type ProjectStagesProps = {
  * rest show a placeholder until later phases fill them in.
  */
 export function ProjectStages({ slots }: ProjectStagesProps) {
+  const t = useTranslations("stages");
   const [active, setActive] = useState<StageKey>("validation");
   const current = STAGES.find((stage) => stage.key === active) ?? STAGES[0];
   const activeSlot = slots?.[active];
@@ -49,7 +51,7 @@ export function ProjectStages({ slots }: ProjectStagesProps) {
                   : "border-transparent text-muted hover:text-foreground"
               }`}
             >
-              {stage.label}
+              {t(stage.key)}
             </button>
           );
         })}
@@ -68,7 +70,7 @@ export function ProjectStages({ slots }: ProjectStagesProps) {
         })}
         {!activeSlot ? (
           <div className="flex flex-col items-center gap-2 py-16 text-center">
-            <p className="font-medium">{current.label}</p>
+            <p className="font-medium">{t(current.key)}</p>
             <p className="max-w-sm text-sm text-muted">{current.hint}</p>
             <p className="mt-2 font-mono text-xs uppercase tracking-[0.08em] text-accent">
               Coming soon

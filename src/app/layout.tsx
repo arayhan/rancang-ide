@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { NextIntlClientProvider } from "next-intl";
+import { getLocale, getMessages } from "next-intl/server";
 import { Inter, JetBrains_Mono, Space_Grotesk } from "next/font/google";
 import "@/styles/globals.css";
 
@@ -29,19 +31,24 @@ export const metadata: Metadata = {
     "Turn a raw idea into a validated product blueprint — honest verdict, feature tree, PRD, and task list ready for an AI coding agent.",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const locale = await getLocale();
+  const messages = await getMessages();
+
   return (
     <html
-      lang="en"
+      lang={locale}
       className={`${display.variable} ${sans.variable} ${mono.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col">
-        <AnalyticsProvider />
-        {children}
+        <NextIntlClientProvider messages={messages}>
+          <AnalyticsProvider />
+          {children}
+        </NextIntlClientProvider>
       </body>
     </html>
   );

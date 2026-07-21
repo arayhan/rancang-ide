@@ -1,0 +1,39 @@
+{
+  "common": { "brand": "Rancang Ide" },
+  "nav": { "signIn": "Sign in", "signOut": "Sign out" },
+  "landing": {
+    "eyebrow": "Validation-first · not generation-first",
+    "titleA": "Validate first,",
+    "titleB": "then build.",
+    "subtitle": "Rancang Ide turns a two-sentence idea into an honest verdict, a feature tree, a PRD, and a task list — ready for your AI coding agent.",
+    "dares": "It dares to say don't build this.",
+    "startFree": "Start free",
+    "howItWorks": "How it works",
+    "freeNote": "3 projects free · no credit card",
+    "pipeline": "The pipeline",
+    "footer": "Rancang Ide — stop building what nobody needs."
+  },
+  "login": {
+    "title": "Sign in to continue",
+    "subtitle": "Validate first, then build. Sign in to start turning ideas into blueprints."
+  },
+  "dashboard": {
+    "newProject": "New project",
+    "newHeading": "Start with a raw idea",
+    "newSub": "We validate it first — then build the tree, PRD, and tasks.",
+    "yourProjects": "Your projects",
+    "total": "{count} total",
+    "emptyTitle": "No projects yet",
+    "emptyBody": "Create your first project above — it takes about a minute to a verdict."
+  },
+  "stages": {
+    "allProjects": "← All projects",
+    "validation": "Validation",
+    "structure": "Structure",
+    "prd": "PRD",
+    "tasks": "Tasks",
+    "brd": "BRD",
+    "database_design": "Database",
+    "system_design": "System"
+  }
+}

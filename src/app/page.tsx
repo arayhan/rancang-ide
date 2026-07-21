@@ -1,7 +1,9 @@
+import { getTranslations } from "next-intl/server";
 import Link from "next/link";
 
 import { Button } from "@/shared/ui/button";
 import { IsometricBlueprint } from "@/shared/ui/isometric-blueprint";
+import { LocaleSwitcher } from "@/shared/ui/locale-switcher";
 
 const STAGES = [
   { n: "01", label: "Idea", note: "Two sentences" },
@@ -11,7 +13,9 @@ const STAGES = [
   { n: "05", label: "Tasks", note: "For your agent" },
 ];
 
-export default function Home() {
+export default async function Home() {
+  const t = await getTranslations("landing");
+  const tn = await getTranslations("nav");
   return (
     <div className="relative flex min-h-screen flex-col overflow-hidden">
       {/* nav */}
@@ -19,12 +23,15 @@ export default function Home() {
         <span className="font-mono text-xs font-medium uppercase tracking-[0.18em] text-foreground">
           Rancang<span className="text-accent"> Ide</span>
         </span>
-        <Link
-          href="/login"
-          className="font-mono text-xs uppercase tracking-[0.12em] text-muted transition-colors hover:text-foreground"
-        >
-          Sign in
-        </Link>
+        <div className="flex items-center gap-4">
+          <LocaleSwitcher />
+          <Link
+            href="/login"
+            className="font-mono text-xs uppercase tracking-[0.12em] text-muted transition-colors hover:text-foreground"
+          >
+            {tn("signIn")}
+          </Link>
+        </div>
       </header>
 
       {/* hero */}
@@ -36,34 +43,33 @@ export default function Home() {
               className="reveal ticks inline-flex items-center gap-2 rounded-sm border border-border bg-surface/60 px-3 py-1.5 font-mono text-[11px] uppercase tracking-[0.16em] text-accent"
               style={{ animationDelay: "40ms" }}
             >
-              Validation-first · not generation-first
+              {t("eyebrow")}
             </span>
             <h1
               className="reveal font-display text-5xl font-semibold uppercase leading-[0.95] tracking-tight sm:text-6xl md:text-7xl"
               style={{ animationDelay: "120ms" }}
             >
-              Validate first,
+              {t("titleA")}
               <br />
-              <span className="text-accent">then build.</span>
+              <span className="text-accent">{t("titleB")}</span>
             </h1>
             <p
               className="reveal max-w-md text-lg leading-relaxed text-muted"
               style={{ animationDelay: "220ms" }}
             >
-              Rancang Ide turns a two-sentence idea into an honest verdict, a feature
-              tree, a PRD, and a task list — ready for your AI coding agent. It dares to
-              say <span className="text-foreground">don&apos;t build this.</span>
+              {t("subtitle")}{" "}
+              <span className="text-foreground">{t("dares")}</span>
             </p>
             <div
               className="reveal flex flex-wrap items-center gap-3"
               style={{ animationDelay: "320ms" }}
             >
               <Link href="/login">
-                <Button className="h-12 px-7">Start free</Button>
+                <Button className="h-12 px-7">{t("startFree")}</Button>
               </Link>
               <Link href="#pipeline">
                 <Button variant="secondary" className="h-12 px-7">
-                  How it works
+                  {t("howItWorks")}
                 </Button>
               </Link>
             </div>
@@ -71,7 +77,7 @@ export default function Home() {
               className="reveal font-mono text-[11px] uppercase tracking-[0.12em] text-muted"
               style={{ animationDelay: "420ms" }}
             >
-              3 projects free · no credit card
+              {t("freeNote")}
             </p>
           </div>
 
@@ -86,7 +92,7 @@ export default function Home() {
           className="relative z-10 mx-auto max-w-6xl px-6 pb-24 md:px-10"
         >
           <p className="mb-6 font-mono text-xs uppercase tracking-[0.16em] text-muted">
-            The pipeline
+            {t("pipeline")}
           </p>
           <ol className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
             {STAGES.map((s, i) => (
@@ -113,7 +119,7 @@ export default function Home() {
 
       <footer className="relative z-10 border-t-2 border-border px-6 py-6 md:px-10">
         <p className="font-mono text-[11px] uppercase tracking-[0.12em] text-muted">
-          Rancang Ide — stop building what nobody needs.
+          {t("footer")}
         </p>
       </footer>
     </div>

@@ -1,3 +1,4 @@
+import { getTranslations } from "next-intl/server";
 import { redirect } from "next/navigation";
 
 import { getUserPlan } from "@/features/auth/infrastructure/profile";
@@ -23,6 +24,7 @@ export default async function ProjectsPage() {
     getUserPlan(userId),
   ]);
   const atLimit = isAtProjectLimit(plan, projects.length);
+  const t = await getTranslations("dashboard");
 
   return (
     <main className="relative">
@@ -34,14 +36,12 @@ export default async function ProjectsPage() {
         <section className="reveal flex flex-col gap-5">
           <div>
             <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-accent">
-              New project
+              {t("newProject")}
             </span>
             <h1 className="mt-2 font-display text-3xl font-semibold">
-              Start with a raw idea
+              {t("newHeading")}
             </h1>
-            <p className="mt-2 text-sm text-muted">
-              We validate it first — then build the tree, PRD, and tasks.
-            </p>
+            <p className="mt-2 text-sm text-muted">{t("newSub")}</p>
           </div>
           {atLimit ? (
             <Paywall />
@@ -54,17 +54,15 @@ export default async function ProjectsPage() {
 
         <section className="reveal" style={{ animationDelay: "120ms" }}>
           <div className="mb-4 flex items-baseline justify-between">
-            <h2 className="font-display text-lg font-semibold">Your projects</h2>
+            <h2 className="font-display text-lg font-semibold">{t("yourProjects")}</h2>
             <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-muted">
-              {projects.length} total
+              {t("total", { count: projects.length })}
             </span>
           </div>
           {projects.length === 0 ? (
             <div className="ticks flex flex-col items-center gap-2 rounded-md border-2 border-dashed border-border bg-surface/40 py-14 text-center">
-              <p className="font-medium">No projects yet</p>
-              <p className="max-w-xs text-sm text-muted">
-                Create your first project above — it takes about a minute to a verdict.
-              </p>
+              <p className="font-medium">{t("emptyTitle")}</p>
+              <p className="max-w-xs text-sm text-muted">{t("emptyBody")}</p>
             </div>
           ) : (
             <ul className="flex flex-col gap-3">

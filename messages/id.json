@@ -1,0 +1,39 @@
+{
+  "common": { "brand": "Rancang Ide" },
+  "nav": { "signIn": "Masuk", "signOut": "Keluar" },
+  "landing": {
+    "eyebrow": "Validasi dulu · bukan langsung bikin",
+    "titleA": "Validasi dulu,",
+    "titleB": "baru bangun.",
+    "subtitle": "Rancang Ide mengubah ide dua kalimat menjadi verdikt jujur, feature tree, PRD, dan daftar task — siap untuk AI coding agent kamu.",
+    "dares": "Berani bilang jangan bikin ini.",
+    "startFree": "Mulai gratis",
+    "howItWorks": "Cara kerjanya",
+    "freeNote": "3 proyek gratis · tanpa kartu kredit",
+    "pipeline": "Alur prosesnya",
+    "footer": "Rancang Ide — berhenti membangun yang tak dibutuhkan siapa pun."
+  },
+  "login": {
+    "title": "Masuk untuk lanjut",
+    "subtitle": "Validasi dulu, baru bangun. Masuk untuk mulai mengubah ide jadi blueprint."
+  },
+  "dashboard": {
+    "newProject": "Proyek baru",
+    "newHeading": "Mulai dari ide mentah",
+    "newSub": "Kami validasi dulu — lalu bangun tree, PRD, dan task.",
+    "yourProjects": "Proyek kamu",
+    "total": "{count} total",
+    "emptyTitle": "Belum ada proyek",
+    "emptyBody": "Buat proyek pertamamu di atas — sekitar satu menit sampai dapat verdikt."
+  },
+  "stages": {
+    "allProjects": "← Semua proyek",
+    "validation": "Validasi",
+    "structure": "Struktur",
+    "prd": "PRD",
+    "tasks": "Task",
+    "brd": "BRD",
+    "database_design": "Database",
+    "system_design": "Sistem"
+  }
+}
