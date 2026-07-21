@@ -26,12 +26,19 @@ export async function createProjectAction(
 
   const ideaInput = String(formData.get("ideaInput") ?? "").trim();
   const titleInput = String(formData.get("title") ?? "").trim();
+  const targetUser = String(formData.get("targetUser") ?? "").trim();
+  const constraints = String(formData.get("constraints") ?? "").trim();
   const notes = String(formData.get("context") ?? "").trim();
+
+  const context: Record<string, unknown> = {};
+  if (targetUser) context.target_user = targetUser;
+  if (constraints) context.constraints = constraints;
+  if (notes) context.notes = notes;
 
   const rawInput = {
     title: titleInput.length > 0 ? titleInput : deriveTitleFromIdea(ideaInput),
     ideaInput,
-    context: notes.length > 0 ? { notes } : null,
+    context: Object.keys(context).length > 0 ? context : null,
   };
 
   let project: Project;
