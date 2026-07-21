@@ -5,13 +5,7 @@ import { Button } from "@/shared/ui/button";
 import { IsometricBlueprint } from "@/shared/ui/isometric-blueprint";
 import { LocaleSwitcher } from "@/shared/ui/locale-switcher";
 
-const STAGES = [
-  { n: "01", label: "Idea", note: "Two sentences" },
-  { n: "02", label: "Validation", note: "Honest verdict" },
-  { n: "03", label: "Feature tree", note: "Editable scope" },
-  { n: "04", label: "PRD", note: "Ready spec" },
-  { n: "05", label: "Tasks", note: "For your agent" },
-];
+const STAGES = ["idea", "validation", "tree", "prd", "tasks"] as const;
 
 export default async function Home() {
   const t = await getTranslations("landing");
@@ -95,15 +89,19 @@ export default async function Home() {
             {t("pipeline")}
           </p>
           <ol className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
-            {STAGES.map((s, i) => (
+            {STAGES.map((key, i) => (
               <li
-                key={s.n}
+                key={key}
                 className="ticks group relative rounded-md border-2 border-border bg-surface p-4 transition-colors hover:border-border-strong"
               >
-                <span className="font-mono text-xs text-accent">{s.n}</span>
-                <p className="mt-3 font-display text-lg font-medium">{s.label}</p>
+                <span className="font-mono text-xs text-accent">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <p className="mt-3 font-display text-lg font-medium">
+                  {t(`stages.${key}.label`)}
+                </p>
                 <p className="mt-1 font-mono text-[11px] uppercase tracking-[0.1em] text-muted">
-                  {s.note}
+                  {t(`stages.${key}.note`)}
                 </p>
                 {i < STAGES.length - 1 ? (
                   <span

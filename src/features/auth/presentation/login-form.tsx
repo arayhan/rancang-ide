@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { useActionState } from "react";
 
 import type { MagicLinkState } from "@/features/auth/domain/types";
@@ -14,6 +15,7 @@ type LoginFormProps = {
 };
 
 export function LoginForm({ signInWithMagicLink, signInWithGoogle }: LoginFormProps) {
+  const t = useTranslations("login");
   const [state, formAction, pending] = useActionState<MagicLinkState, FormData>(
     signInWithMagicLink,
     {},
@@ -24,11 +26,7 @@ export function LoginForm({ signInWithMagicLink, signInWithGoogle }: LoginFormPr
       {state.sent ? (
         <div className="ticks glow rounded-md border-2 border-border-strong bg-surface-raised p-4">
           <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-accent">
-            Link sent
-          </p>
-          <p className="mt-2 text-sm text-muted">
-            Check your email for the magic link. It may take a minute — peek in spam if
-            it&apos;s shy.
+            {t("sentTitle")}
           </p>
         </div>
       ) : (
@@ -37,7 +35,7 @@ export function LoginForm({ signInWithMagicLink, signInWithGoogle }: LoginFormPr
             htmlFor="email"
             className="font-mono text-[11px] uppercase tracking-[0.12em] text-muted"
           >
-            Email
+            {t("email")}
           </label>
           <input
             id="email"
@@ -45,7 +43,7 @@ export function LoginForm({ signInWithMagicLink, signInWithGoogle }: LoginFormPr
             type="email"
             required
             autoComplete="email"
-            placeholder="you@example.com"
+            placeholder={t("emailPlaceholder")}
             className="glow-ring h-12 rounded-sm border-2 border-border bg-background-2 px-4 text-foreground transition-colors"
           />
           {state.error ? (
@@ -54,20 +52,20 @@ export function LoginForm({ signInWithMagicLink, signInWithGoogle }: LoginFormPr
             </p>
           ) : null}
           <Button type="submit" disabled={pending} className="h-12 w-full">
-            {pending ? "Sending…" : "Send magic link"}
+            {pending ? t("sending") : t("sendMagicLink")}
           </Button>
         </form>
       )}
 
       <div className="flex items-center gap-3 font-mono text-[11px] uppercase tracking-[0.14em] text-muted">
         <span className="h-px flex-1 bg-border" />
-        or
+        {t("or")}
         <span className="h-px flex-1 bg-border" />
       </div>
 
       <form action={signInWithGoogle}>
         <Button type="submit" variant="secondary" className="h-12 w-full">
-          Continue with Google
+          {t("continueWithGoogle")}
         </Button>
       </form>
     </div>

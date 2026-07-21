@@ -11,11 +11,25 @@
     "howItWorks": "Cara kerjanya",
     "freeNote": "3 proyek gratis · tanpa kartu kredit",
     "pipeline": "Alur prosesnya",
-    "footer": "Rancang Ide — berhenti membangun yang tak dibutuhkan siapa pun."
+    "footer": "Rancang Ide — berhenti membangun yang tak dibutuhkan siapa pun.",
+    "stages": {
+      "idea": { "label": "Ide", "note": "Dua kalimat" },
+      "validation": { "label": "Validasi", "note": "Verdikt jujur" },
+      "tree": { "label": "Feature tree", "note": "Bisa diedit" },
+      "prd": { "label": "PRD", "note": "Spek siap pakai" },
+      "tasks": { "label": "Task", "note": "Untuk AI agent-mu" }
+    }
   },
   "login": {
     "title": "Masuk untuk lanjut",
-    "subtitle": "Validasi dulu, baru bangun. Masuk untuk mulai mengubah ide jadi blueprint."
+    "subtitle": "Validasi dulu, baru bangun. Masuk untuk mulai mengubah ide jadi blueprint.",
+    "email": "Email",
+    "emailPlaceholder": "kamu@contoh.com",
+    "sending": "Mengirim…",
+    "sendMagicLink": "Kirim magic link",
+    "sentTitle": "Cek email kamu — kami sudah kirim magic link untuk masuk.",
+    "or": "ATAU",
+    "continueWithGoogle": "Lanjut dengan Google"
   },
   "dashboard": {
     "newProject": "Proyek baru",

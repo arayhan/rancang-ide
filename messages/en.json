@@ -11,11 +11,25 @@
     "howItWorks": "How it works",
     "freeNote": "3 projects free · no credit card",
     "pipeline": "The pipeline",
-    "footer": "Rancang Ide — stop building what nobody needs."
+    "footer": "Rancang Ide — stop building what nobody needs.",
+    "stages": {
+      "idea": { "label": "Idea", "note": "Two sentences" },
+      "validation": { "label": "Validation", "note": "Honest verdict" },
+      "tree": { "label": "Feature tree", "note": "Editable scope" },
+      "prd": { "label": "PRD", "note": "Ready spec" },
+      "tasks": { "label": "Tasks", "note": "For your agent" }
+    }
   },
   "login": {
     "title": "Sign in to continue",
-    "subtitle": "Validate first, then build. Sign in to start turning ideas into blueprints."
+    "subtitle": "Validate first, then build. Sign in to start turning ideas into blueprints.",
+    "email": "Email",
+    "emailPlaceholder": "you@example.com",
+    "sending": "Sending…",
+    "sendMagicLink": "Send magic link",
+    "sentTitle": "Check your email — we sent you a magic link to sign in.",
+    "or": "OR",
+    "continueWithGoogle": "Continue with Google"
   },
   "dashboard": {
     "newProject": "New project",
