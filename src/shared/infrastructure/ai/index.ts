@@ -9,7 +9,9 @@ import type { ModelTier } from "@/shared/domain/model";
  * environment (GOOGLE_GENERATIVE_AI_API_KEY / ANTHROPIC_API_KEY) — server-only.
  */
 
-const ECONOMY_MODEL = process.env.GEMINI_MODEL ?? "gemini-2.5-flash";
+// "-latest" alias: tracks the current flash generation, avoiding pinned-id rot
+// (gemini-2.5-flash 404s for new API keys).
+const ECONOMY_MODEL = process.env.GEMINI_MODEL ?? "gemini-flash-latest";
 const DEEP_MODEL = process.env.ANTHROPIC_MODEL ?? "claude-sonnet-5";
 
 /** Resolve a language model for the given tier. */
