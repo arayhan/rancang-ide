@@ -105,6 +105,24 @@ Full BRD, team collaboration, free-form canvas à la react-flow (tree view first
 - **Could:** Per-section regenerate, light-mode toggle, example/idea templates.
 - **Won't (MVP):** Payment gateway, react-flow canvas, collaboration, external integrations, BRD, mobile.
 
+**Scope expansion — Phase 6 (2026-07-21)**
+
+The MVP shipped; the founder chose to expand scope past what was originally
+locked. Now in-product (previously "Won't (MVP)" or "out of scope"):
+
+- **BRD** generator, plus **Database design** and **System design** generators
+  (both grounded in the PRD). Each is a stage tab and downloads as `.md`.
+- **react-flow canvas** view for the feature tree, toggleable with the list
+  editor; both are controlled and share autosave.
+- **Multi-language toggle** — the interface localizes between English and
+  Indonesian via next-intl (cookie-based), and AI-generated content itself
+  can be produced in either language via a per-stage picker (independent of
+  the interface).
+
+Guardrails still hold: economy tier stays default, generations are logged,
+the free quota is unchanged, and each new generator obeys the same
+quota/rate-limit/RLS/language rules as the four original stages.
+
 **Core user flows**
 
 1. **Idea → Validation:** input idea → streaming validation report → verdict + (optional) clarification.

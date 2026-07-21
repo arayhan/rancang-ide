@@ -199,3 +199,23 @@ _Phased build plan. Read `docs/product-vision.md` and `docs/prd.md` first. The c
 - **Definition of done MVP (end of Phase 4):** login → write idea → validation report → tree edit → PRD → tasks → export, all working; projects saved & reopenable.
 - **Final UI prerequisite:** `docs/design.md` (Design System skill) must exist before TASK-041.
 - **Phase order = risk order.** The magic moment (Phase 2) deliberately comes before completeness (Phases 3–4) so it can be validated quickly.
+
+---
+
+## Phase 6 — Scope expansion (2026-07-21)
+
+**Goal:** Ship the extras the founder chose to add after MVP: extra doc generators, a canvas view for the tree, and full en/id UI + content i18n.
+**Demoable outcome:** BRD/Database/System design tabs generate + save; the tree has a react-flow canvas toggle; the UI can be switched between EN/ID; AI-generated content can be produced in either language.
+
+- [x] **TASK-044** — Language type + LanguagePicker; thread `language` through all generation stream fns + routes.
+      Files: `src/shared/domain/language.ts`, `src/shared/ui/language-picker.tsx`, generation routes/infra
+- [x] **TASK-045** — Extend document_type + generation_stage enums (migrations 0003/0004, applied to Supabase).
+      Files: `drizzle/schema.ts`, `drizzle/migrations/0003_*.sql`, `drizzle/migrations/0004_*.sql`
+- [x] **TASK-046** — Generic markdown-doc feature: schema, per-type config/prompts, streamDoc, saveDoc/getDoc, `POST /api/docs/[type]`, `MarkdownDocView` wired into three new stage tabs (BRD; DB & System require a PRD).
+      Files: `src/features/docs/**`, `src/app/api/docs/[type]/route.ts`
+- [x] **TASK-047** — `@xyflow/react` canvas view for the feature tree; List | Canvas toggle in `TreeWorkspace`; both editors controlled and share autosave.
+      Files: `src/features/structure/presentation/{tree-canvas,tree-editor,tree-workspace}.tsx`
+- [x] **TASK-048** — UI i18n via next-intl (cookie-based, no URL routing); en/id catalogs; LocaleSwitcher; strings on landing, login, dashboard, app header, project stages, detail page.
+      Files: `next.config.ts`, `src/i18n/request.ts`, `messages/{en,id}.json`, `src/shared/ui/locale-switcher.tsx`, `src/shared/lib/locale.ts`
+- [x] **TASK-049** — Update docs: MoSCoW scope-expansion note in `product-vision.md`; this Phase 6 in the roadmap.
+      Files: `docs/product-vision.md`, `docs/product-roadmap.md`
