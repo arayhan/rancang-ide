@@ -166,23 +166,24 @@ _Phased build plan. Read `docs/product-vision.md` and `docs/prd.md` first. The c
 
 **Agent session prompt:** "Do TASK-036 through TASK-043. Focus on polish, not new features. Ensure the magic moment is smooth and cost is measured."
 
-- [ ] **TASK-036** — Paywall stub on the 4th active project (free) + upgrade CTA UI (no payment).
+- [x] **TASK-036** — Paywall stub on the 4th active project (free) + upgrade CTA UI (no payment).
       Files: `src/features/projects/presentation/paywall.tsx`
-- [ ] **TASK-037** — Per-stage model picker (default economy / deep option); save the preference; record `model_used`.
+- [x] **TASK-037** — Per-stage model picker (default economy / deep option); save the preference; record `model_used`.
       Files: `src/shared/ui/model-picker.tsx`, integrated into each generation view
-- [ ] **TASK-038** — Rate limiting on the generation endpoints per user.
+- [x] **TASK-038** — Rate limiting on the generation endpoints per user.
       Files: `src/shared/infrastructure/ratelimit.ts`
       Notes: Prevent abuse & control cost.
-- [ ] **TASK-039** — PostHog integration (funnel: signup→validate→structure→prd→export; 2nd-project event).
-      Files: `src/shared/infrastructure/analytics.ts`
-- [ ] **TASK-040** — Sentry integration (client+server) + Resend (verification/notification email).
-      Files: `sentry.*.config.ts`, `src/shared/infrastructure/email.ts`
-- [ ] **TASK-041** — Apply the design tokens from `docs/design.md` (cobalt #1B44F0, Clash Display/Inter/JetBrains Mono, neo-brutalism-lite) to shared/ui.
-      Files: `src/styles/tokens.css`, `src/shared/ui/*`
-      Notes: Prerequisite: run the Design System skill first if `docs/design.md` doesn't exist.
-- [ ] **TASK-042** — Accessibility audit (contrast over cobalt, keyboard focus, states) + empty/loading/error on all screens.
+- [x] **TASK-039** — PostHog integration (funnel: signup→validate→structure→prd→export; 2nd-project event).
+      Files: `src/shared/lib/analytics.ts` (moved from infrastructure so presentation can emit within layer rules)
+- [x] **TASK-040** — Sentry integration (client+server) + Resend (verification/notification email).
+      Files: `sentry.*.config.ts`, `src/instrumentation*.ts`, `src/shared/infrastructure/email.ts`
+- [x] **TASK-041** — Apply the design tokens from `docs/design.md` (cobalt, Space Grotesk/Inter/JetBrains Mono) to shared/ui.
+      Files: `src/styles/globals.css` (Tailwind v4 @theme), `src/shared/ui/*`
+      Notes: Applied during the Light Minimal redesign; tokens live in globals.css @theme.
+- [x] **TASK-042** — Accessibility audit (contrast, keyboard focus, states) + empty/loading/error on all screens.
       Files: all presentation
-- [ ] **TASK-043** — Measure real cost per pipeline; calibrate the free quota; write notes in the README.
+      Notes: glow-ring focus on all controls, prefers-reduced-motion, aria on tabs/pickers/SVG, AA contrast on light theme.
+- [x] **TASK-043** — Measure real cost per pipeline; calibrate the free quota; write notes in the README.
       Files: `README.md`, `docs/cost-notes.md`
       Notes: This closes the free-quota Open Question in PRD §14.
 

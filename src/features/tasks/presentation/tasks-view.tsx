@@ -129,7 +129,7 @@ function TasksChecklist({
         <button
           onClick={onRegenerate}
           disabled={regenerating}
-          className="rounded-sm border-2 border-border px-3 py-1.5 font-mono text-xs uppercase tracking-[0.08em] transition-colors hover:border-primary disabled:opacity-60"
+          className="glow-ring rounded-sm border-2 border-border px-3 py-1.5 font-mono text-xs uppercase tracking-[0.08em] transition-colors hover:border-primary disabled:opacity-60"
         >
           {regenerating ? "…" : "Regenerate"}
         </button>

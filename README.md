@@ -50,8 +50,19 @@ pnpm dev                     # http://localhost:3000
 
 Product source of truth lives in [docs/](docs/): [product-vision.md](docs/product-vision.md) ·
 [prd.md](docs/prd.md) · [product-roadmap.md](docs/product-roadmap.md) (task checkboxes) ·
-[design.md](docs/design.md) (design tokens). Coding agents: read [CLAUDE.md](CLAUDE.md) first.
+[design.md](docs/design.md) (design tokens) · [cost-notes.md](docs/cost-notes.md) (AI cost & quota).
+Coding agents: read [CLAUDE.md](CLAUDE.md) first.
+
+## Cost & free quota
+
+A full pipeline (validate → tree → PRD → tasks) on the economy tier (Gemini
+Flash) measures **≈ 11k tokens ≈ $0.01–0.03**. The free quota of **3 active
+projects** is set by product friction, not cost — details and the calibration
+in [docs/cost-notes.md](docs/cost-notes.md). Every generation logs token counts
+to the `generations` table, so this can be refreshed from production data.
 
 ## Status
 
-🚧 Phase 0 (foundation & scaffolding) — see the [roadmap](docs/product-roadmap.md).
+Phases 0–4 complete (auth → projects → validation → tree → PRD → tasks → export),
+verified live. Phase 5 (polish, quota, observability) in progress — see the
+[roadmap](docs/product-roadmap.md).

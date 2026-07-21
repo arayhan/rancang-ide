@@ -36,7 +36,7 @@ export function ProjectStages({ slots }: ProjectStagesProps) {
               role="tab"
               aria-selected={selected}
               onClick={() => setActive(stage.key)}
-              className={`-mb-0.5 border-b-2 px-5 py-3 font-mono text-xs uppercase tracking-[0.08em] transition-colors ${
+              className={`glow-ring -mb-0.5 rounded-t-sm border-b-2 px-5 py-3 font-mono text-xs uppercase tracking-[0.08em] transition-colors ${
                 selected
                   ? "border-primary text-foreground"
                   : "border-transparent text-muted hover:text-foreground"
