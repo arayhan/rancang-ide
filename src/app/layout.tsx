@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Inter, JetBrains_Mono, Space_Grotesk } from "next/font/google";
 import "@/styles/globals.css";
 
+import { AnalyticsProvider } from "@/shared/ui/analytics-provider";
+
 // Display: Space Grotesk — a technical geometric face (the engineered-futurism
 // voice, in place of self-hosted Clash Display). Body: Inter. Mono: JetBrains Mono.
 const display = Space_Grotesk({
@@ -37,7 +39,10 @@ export default function RootLayout({
       lang="en"
       className={`${display.variable} ${sans.variable} ${mono.variable} h-full antialiased`}
     >
-      <body className="flex min-h-full flex-col">{children}</body>
+      <body className="flex min-h-full flex-col">
+        <AnalyticsProvider />
+        {children}
+      </body>
     </html>
   );
 }

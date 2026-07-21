@@ -9,6 +9,7 @@ import {
   type Scorecard,
   type ValidationResult,
 } from "@/features/validation/domain/schema";
+import { capture } from "@/shared/lib/analytics";
 import { Button } from "@/shared/ui/button";
 import { ModelPicker, useModelTier } from "@/shared/ui/model-picker";
 import { ModelTag } from "@/shared/ui/model-tag";
@@ -55,7 +56,10 @@ export function ValidationView({
   const report: PartialReport | undefined = object ?? initialResult ?? undefined;
   const started = isLoading || object !== undefined || initialResult !== null;
 
-  const run = () => submit({ project_id: projectId, model: tier });
+  const run = () => {
+    capture("validation_started", { projectId, tier });
+    submit({ project_id: projectId, model: tier });
+  };
 
   if (!started) {
     return (

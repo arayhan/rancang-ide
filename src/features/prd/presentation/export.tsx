@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 
+import { capture } from "@/shared/lib/analytics";
 import {
   buildClaudeCodePrompt,
   buildProjectMarkdown,
@@ -33,6 +34,7 @@ export function ExportButtons({ title, prdMarkdown, tasks }: ExportButtonsProps)
     a.download = `${toFileSlug(title)}.md`;
     a.click();
     URL.revokeObjectURL(url);
+    capture("blueprint_exported", { format: "md" });
   };
 
   // PDF via the browser's print-to-PDF, scoped to the hidden .print-doc region.
