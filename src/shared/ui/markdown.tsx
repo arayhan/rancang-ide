@@ -12,11 +12,14 @@ const components: Components = {
   li: (props) => <li className="my-1" {...props} />,
   a: (props) => <a className="text-accent underline" {...props} />,
   code: (props) => (
-    <code className="rounded-sm bg-surface px-1 py-0.5 font-mono text-sm" {...props} />
+    <code
+      className="rounded-sm bg-background-2 px-1 py-0.5 font-mono text-sm text-primary"
+      {...props}
+    />
   ),
   pre: (props) => (
     <pre
-      className="my-3 overflow-x-auto rounded-md border-2 border-border bg-surface p-3 font-mono text-sm"
+      className="my-3 overflow-x-auto rounded-md border border-border bg-background-2 p-3 font-mono text-sm"
       {...props}
     />
   ),

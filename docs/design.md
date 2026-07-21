@@ -200,28 +200,30 @@ components:
 
 # Rancang Ide Design System
 
-## Direction update — Pushed-Beyond Edition (2026-07)
+## Direction update — Light Minimal edition (2026-07, supersedes dark)
 
-The founder chose to push the identity past its original restraint toward an
-award-caliber, motion-forward expression, while keeping document areas calm.
-Changes now in force (this doc is the source of truth):
+The founder moved the product to a **light, minimal, whitespace-forward** look
+with the **isometric blueprint** as the main visual interest. Light is now the
+default theme (this doc is the source of truth):
 
-- **Display face:** **Space Grotesk** (self-hosting Clash Display was deferred).
-  Space Grotesk carries the same engineered, geometric-caps voice via
-  `next/font/google`. Inter (body) and JetBrains Mono (labels/code) unchanged.
-- **Deeper canvas:** app background deepened to `#080B16` with an ambient cobalt
-  **aura** glow at the top of hero/auth surfaces (radial, ~26% primary).
-- **Signature motion (expanded):** animated **isometric blueprint SVG** with
-  stroke-dashoffset line-draw + node-pop + a floating idea-cube (landing hero);
-  staggered **reveal-up** on hero/section entrances; the neo-brutalist
-  **hover-lift → press-down** cycle on every clickable card/button; **scan-line**
-  over streaming AI output; blinking **caret** on "Generating"; the **verdict
-  stamp** (scale/rotate settle); blueprint **grid** behind hero/empty states;
-  **corner ticks** as a recurring accent.
-- **Guardrails still hold:** long-form document areas (PRD/report bodies) stay
-  quiet with no looping animation; all motion is `transform`/`opacity` only and
-  fully disabled under `prefers-reduced-motion`; WCAG AA contrast is
-  non-negotiable. Maximalism lives in the chrome and AI moments, not the reading.
+- **Canvas:** white `#FFFFFF` background, deep-space `#0A0E1A` as text; generous
+  whitespace; a **faint** blueprint grid (≈5% ink) and a soft cobalt **aura**
+  wash only behind hero/auth surfaces. Borders are light hairlines `#E7EAF3`.
+- **One accent:** cobalt `#1B44F0` / `#2F52E6` stays the single accent; semantic
+  colors only for verdict/status. No second color.
+- **Tactility, softened:** the hard neo-brutalist offset shadow is replaced by a
+  modern **float-on-hover** (translateY(-3px) + a soft cobalt-tinted shadow) on
+  cards/buttons — keeps the tactile feel without the poster weight.
+- **Type:** **Space Grotesk** display (in place of self-hosted Clash Display),
+  Inter body, JetBrains Mono for labels/code.
+- **Signature motion (kept, calm):** animated **isometric blueprint SVG**
+  (line-draw + node-pop + floating idea-cube), staggered **reveal-up** entrances,
+  **scan-line** over streaming AI output, blinking **caret**, the **verdict
+  stamp**, and **corner ticks** as a recurring accent.
+- **Guardrails:** document areas (PRD/report bodies) stay quiet; motion is
+  `transform`/`opacity` only and disabled under `prefers-reduced-motion`;
+  WCAG AA contrast non-negotiable. Minimalism = whitespace + one accent + the
+  iso illustration doing the heavy lifting.
 
 ## Overview
 

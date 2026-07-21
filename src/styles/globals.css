@@ -1,34 +1,30 @@
 @import "tailwindcss";
 
 /* ============================================================================
-   Rancang Ide — Engineered Futurism (pushed-beyond edition)
-   Design tokens from docs/design.md: cobalt monochrome on deep space,
-   neo-brutalist tactility + blueprint motion.
+   Rancang Ide — Light Minimal edition
+   Clean whitespace, one cobalt accent, isometric blueprint as the visual
+   interest. Neo-brutalist tactility softened to a modern float-on-hover.
    ============================================================================ */
 
 :root {
-  /* Cobalt monochrome, dark ("deep space") — the default theme */
-  --background: #080b16;
-  --background-2: #0a0e1a;
-  --surface: #101624;
-  --surface-raised: #151c2e;
-  --foreground: #e8ecf8;
-  --muted: #8b94ad;
-  --border: #26304a;
-  --border-strong: #3d5ff5;
+  --background: #ffffff;
+  --background-2: #f5f7fe;
+  --surface: #ffffff;
+  --surface-raised: #f6f8ff;
+  --foreground: #0a0e1a;
+  --muted: #5b6580;
+  --border: #e7eaf3;
+  --border-strong: #1b44f0;
   --primary: #1b44f0;
-  --primary-hover: #3d5ff5;
-  --primary-pressed: #1233c4;
-  --accent: #6e8dff;
-  --success: #12b76a;
-  --warning: #f79009;
-  --error: #f04438;
-  --shadow: #04060d;
+  --primary-hover: #1233c4;
+  --accent: #2f52e6;
+  --success: #0e9f6e;
+  --warning: #d9820b;
+  --error: #e0362a;
 
-  /* Motion */
   --motion-fast: 120ms;
-  --motion-base: 200ms;
-  --motion-slow: 320ms;
+  --motion-base: 220ms;
+  --motion-slow: 340ms;
   --ease-snap: cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
@@ -66,63 +62,61 @@ h3,
   font-family: var(--font-display), "Space Grotesk", sans-serif;
 }
 
-/* ── Blueprint grid ────────────────────────────────────────────────────────
-   Fine technical grid — environmental, used behind hero / empty states. */
+/* ── Blueprint grid — faint on white, environmental only ─────────────────── */
 .bp-grid {
   background-image:
-    linear-gradient(to right, color-mix(in srgb, var(--border) 55%, transparent) 1px, transparent 1px),
-    linear-gradient(to bottom, color-mix(in srgb, var(--border) 55%, transparent) 1px, transparent 1px);
-  background-size: 28px 28px;
+    linear-gradient(to right, color-mix(in srgb, var(--foreground) 5%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in srgb, var(--foreground) 5%, transparent) 1px, transparent 1px);
+  background-size: 30px 30px;
 }
 .bp-grid-fade {
-  -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 40%, #000 30%, transparent 78%);
-  mask-image: radial-gradient(ellipse 80% 70% at 50% 40%, #000 30%, transparent 78%);
+  -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 35%, #000 20%, transparent 75%);
+  mask-image: radial-gradient(ellipse 80% 70% at 50% 35%, #000 20%, transparent 75%);
 }
 
-/* Ambient cobalt glow blobs for atmospheric depth */
+/* Soft cobalt wash at the top of hero/auth surfaces */
 .aura::before {
   content: "";
   position: absolute;
-  inset: -20% -10% auto -10%;
-  height: 60%;
+  inset: -10% -10% auto -10%;
+  height: 55%;
   background: radial-gradient(
     50% 60% at 50% 0%,
-    color-mix(in srgb, var(--primary) 26%, transparent),
+    color-mix(in srgb, var(--primary) 10%, transparent),
     transparent 70%
   );
   pointer-events: none;
   z-index: 0;
 }
 
-/* ── Neo-brutalist tactility — lift on hover, press down on active ───────── */
+/* ── Tactility — a light float on hover, not a hard brutalist shadow ─────── */
 .lift {
   transition:
-    transform var(--motion-fast) var(--ease-snap),
-    box-shadow var(--motion-fast) var(--ease-snap),
+    transform var(--motion-base) var(--ease-snap),
+    box-shadow var(--motion-base) var(--ease-snap),
     border-color var(--motion-base) var(--ease-snap);
-  box-shadow: 4px 4px 0 0 var(--shadow);
+  box-shadow: 0 1px 2px 0 color-mix(in srgb, var(--foreground) 5%, transparent);
 }
 .lift:hover {
-  transform: translate(-2px, -2px);
-  box-shadow: 6px 6px 0 0 var(--shadow);
-  border-color: var(--border-strong);
+  transform: translateY(-3px);
+  box-shadow: 0 16px 32px -14px color-mix(in srgb, var(--primary) 40%, transparent);
+  border-color: color-mix(in srgb, var(--primary) 35%, var(--border));
 }
 .lift:active {
-  transform: translate(2px, 2px);
-  box-shadow: 0 0 0 0 var(--shadow);
+  transform: translateY(0);
+  box-shadow: 0 1px 2px 0 color-mix(in srgb, var(--foreground) 6%, transparent);
 }
 
-/* Cobalt glow — only for AI moments */
 .glow {
-  box-shadow: 0 0 24px 0 color-mix(in srgb, var(--primary) 30%, transparent);
+  box-shadow: 0 18px 50px -20px color-mix(in srgb, var(--primary) 32%, transparent);
 }
 .glow-ring:focus-visible {
   outline: none;
   border-color: var(--primary);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 35%, transparent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 18%, transparent);
 }
 
-/* Corner ticks — blueprint accent on important cards */
+/* Corner ticks — blueprint accent */
 .ticks {
   position: relative;
 }
@@ -130,12 +124,12 @@ h3,
 .ticks::after {
   content: "";
   position: absolute;
-  width: 10px;
-  height: 10px;
+  width: 9px;
+  height: 9px;
   border-color: var(--accent);
   border-style: solid;
   border-width: 0;
-  opacity: 0.7;
+  opacity: 0.65;
 }
 .ticks::before {
   top: -1px;
@@ -231,14 +225,6 @@ h3,
   animation: float-y 6s ease-in-out infinite;
 }
 
-@keyframes grid-pan {
-  from { background-position: 0 0; }
-  to { background-position: 28px 28px; }
-}
-.bp-grid-animated {
-  animation: grid-pan 8s linear infinite;
-}
-
 /* ── Print (Download PDF) — reveal only the blueprint, on paper ──────────── */
 .print-doc {
   display: none;
@@ -268,14 +254,6 @@ h3,
   .print-doc a {
     color: #1233c4;
   }
-  .print-doc h1,
-  .print-doc h2,
-  .print-doc h3,
-  .print-doc p,
-  .print-doc li,
-  .print-doc strong {
-    color: #0a0e1a !important;
-  }
   .print-doc pre,
   .print-doc code {
     background: #f3f4f6 !important;
@@ -294,8 +272,7 @@ h3,
     transition-duration: 0.001ms !important;
   }
   .scanning::after,
-  .float,
-  .bp-grid-animated {
+  .float {
     animation: none !important;
   }
 }
