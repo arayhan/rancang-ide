@@ -15,3 +15,15 @@ export function isOverProjectQuota(
 ): boolean {
   return plan === "free" && activeProjectCount > limit;
 }
+
+/**
+ * Whether the user has hit the limit and can't create another project.
+ * (At 3, a free user is blocked from the 4th.)
+ */
+export function isAtProjectLimit(
+  plan: Plan,
+  activeProjectCount: number,
+  limit: number = FREE_PROJECT_LIMIT,
+): boolean {
+  return plan === "free" && activeProjectCount >= limit;
+}

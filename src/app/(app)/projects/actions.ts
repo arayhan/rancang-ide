@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { ZodError } from "zod";
 
+import { getUserPlan } from "@/features/auth/infrastructure/profile";
 import { getSessionUserId } from "@/features/auth/infrastructure/session";
 import type { Project } from "@/features/projects/domain/project";
 import { deriveTitleFromIdea } from "@/features/projects/domain/title";
@@ -13,6 +14,7 @@ import {
   deleteProject,
 } from "@/features/projects/application/project-use-cases";
 import { DrizzleProjectRepository } from "@/features/projects/infrastructure/drizzle-project-repository";
+import { isAtProjectLimit } from "@/shared/domain/quota";
 
 const repo = new DrizzleProjectRepository();
 
@@ -23,6 +25,15 @@ export async function createProjectAction(
 ): Promise<CreateProjectState> {
   const userId = await getSessionUserId();
   if (!userId) redirect("/login");
+
+  // Enforce the free project limit (defense-in-depth; the UI shows a paywall).
+  const [plan, count] = await Promise.all([
+    getUserPlan(userId),
+    repo.countByUser(userId),
+  ]);
+  if (isAtProjectLimit(plan, count)) {
+    return { error: "You've reached the free limit of 3 projects. Upgrade to add more." };
+  }
 
   const ideaInput = String(formData.get("ideaInput") ?? "").trim();
   const titleInput = String(formData.get("title") ?? "").trim();

@@ -1,10 +1,13 @@
 import { redirect } from "next/navigation";
 
+import { getUserPlan } from "@/features/auth/infrastructure/profile";
 import { getSessionUserId } from "@/features/auth/infrastructure/session";
 import { listProjects } from "@/features/projects/application/project-use-cases";
 import { DrizzleProjectRepository } from "@/features/projects/infrastructure/drizzle-project-repository";
 import { NewProjectForm } from "@/features/projects/presentation/new-project-form";
+import { Paywall } from "@/features/projects/presentation/paywall";
 import { ProjectCard } from "@/features/projects/presentation/project-card";
+import { isAtProjectLimit } from "@/shared/domain/quota";
 import { Card } from "@/shared/ui/card";
 
 import { createProjectAction, deleteProjectAction } from "./actions";
@@ -15,7 +18,11 @@ export default async function ProjectsPage() {
   const userId = await getSessionUserId();
   if (!userId) redirect("/login");
 
-  const projects = await listProjects(repo, userId);
+  const [projects, plan] = await Promise.all([
+    listProjects(repo, userId),
+    getUserPlan(userId),
+  ]);
+  const atLimit = isAtProjectLimit(plan, projects.length);
 
   return (
     <main className="relative">
@@ -36,9 +43,13 @@ export default async function ProjectsPage() {
               We validate it first — then build the tree, PRD, and tasks.
             </p>
           </div>
-          <Card ticks className="glow">
-            <NewProjectForm createProjectAction={createProjectAction} />
-          </Card>
+          {atLimit ? (
+            <Paywall />
+          ) : (
+            <Card ticks className="glow">
+              <NewProjectForm createProjectAction={createProjectAction} />
+            </Card>
+          )}
         </section>
 
         <section className="reveal" style={{ animationDelay: "120ms" }}>
