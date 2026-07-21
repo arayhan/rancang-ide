@@ -6,6 +6,7 @@ import { getProject } from "@/features/projects/application/project-use-cases";
 import { DrizzleProjectRepository } from "@/features/projects/infrastructure/drizzle-project-repository";
 import { streamPrd } from "@/features/prd/infrastructure/prd-ai";
 import { savePrd } from "@/features/prd/infrastructure/prd-repository";
+import { parseLanguage } from "@/shared/domain/language";
 import { parseModelTier } from "@/shared/domain/model";
 import { isOverProjectQuota } from "@/shared/domain/quota";
 import { modelIdFor } from "@/shared/infrastructure/ai";
@@ -32,6 +33,7 @@ export async function POST(request: NextRequest) {
   const body = (await request.json().catch(() => null)) as {
     project_id?: string;
     model?: string;
+    language?: string;
   } | null;
   const projectId = body?.project_id;
   if (!projectId) {
@@ -58,10 +60,11 @@ export async function POST(request: NextRequest) {
   }
 
   const tier = parseModelTier(body?.model);
+  const language = parseLanguage(body?.language);
   const model = modelIdFor(tier);
 
   const result = streamPrd(
-    { idea: project.ideaInput, treeJson: JSON.stringify(treeDoc.content), tier },
+    { idea: project.ideaInput, treeJson: JSON.stringify(treeDoc.content), tier, language },
     async ({ object, usage, error }) => {
       await logGeneration({
         userId,

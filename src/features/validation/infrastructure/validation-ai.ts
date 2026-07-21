@@ -1,5 +1,6 @@
 import { streamObject, type LanguageModelUsage } from "ai";
 
+import { languageInstruction, type Language } from "@/shared/domain/language";
 import type { ModelTier } from "@/shared/domain/model";
 import { getModel } from "@/shared/infrastructure/ai";
 
@@ -10,6 +11,7 @@ export type StreamValidationParams = {
   idea: string;
   context: Record<string, unknown> | null;
   tier: ModelTier;
+  language: Language;
 };
 
 /** What the caller needs from a finished stream: the object (or undefined if
@@ -32,7 +34,7 @@ export function streamValidation(
   return streamObject({
     model: getModel(params.tier),
     schema: validationResultSchema,
-    system: VALIDATION_SYSTEM_PROMPT,
+    system: `${VALIDATION_SYSTEM_PROMPT}\n\n${languageInstruction(params.language)}`,
     prompt: buildValidationPrompt(params.idea, params.context),
     onFinish,
   });

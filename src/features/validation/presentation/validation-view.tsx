@@ -13,6 +13,7 @@ import { validationToMarkdown } from "@/features/validation/domain/report-markdo
 import { capture } from "@/shared/lib/analytics";
 import { downloadText } from "@/shared/lib/download";
 import { Button } from "@/shared/ui/button";
+import { LanguagePicker, useLanguage } from "@/shared/ui/language-picker";
 import { ModelPicker, useModelTier } from "@/shared/ui/model-picker";
 import { ModelTag } from "@/shared/ui/model-tag";
 
@@ -48,6 +49,7 @@ export function ValidationView({
 }: ValidationViewProps) {
   const router = useRouter();
   const [tier, setTier] = useModelTier();
+  const [language, setLanguage] = useLanguage();
   const { object, submit, isLoading, error, stop } = useObject({
     api: "/api/validate",
     schema: validationResultSchema,
@@ -59,8 +61,8 @@ export function ValidationView({
   const started = isLoading || object !== undefined || initialResult !== null;
 
   const run = () => {
-    capture("validation_started", { projectId, tier });
-    submit({ project_id: projectId, model: tier });
+    capture("validation_started", { projectId, tier, language });
+    submit({ project_id: projectId, model: tier, language });
   };
 
   if (!started) {
@@ -70,7 +72,10 @@ export function ValidationView({
           Get an honest verdict on this idea — core assumption, fatal flaws,
           competition, and a scorecard. Takes about a minute.
         </p>
-        <ModelPicker tier={tier} onChange={setTier} />
+        <div className="flex flex-wrap items-center justify-center gap-2">
+          <ModelPicker tier={tier} onChange={setTier} />
+          <LanguagePicker language={language} onChange={setLanguage} />
+        </div>
         <Button onClick={run}>Run validation</Button>
       </div>
     );

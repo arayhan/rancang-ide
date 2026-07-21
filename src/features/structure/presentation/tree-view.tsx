@@ -9,6 +9,7 @@ import {
   type TreePhase,
 } from "@/features/structure/domain/schema";
 import { Button } from "@/shared/ui/button";
+import { LanguagePicker, useLanguage } from "@/shared/ui/language-picker";
 import { ModelPicker, useModelTier } from "@/shared/ui/model-picker";
 import { ModelTag } from "@/shared/ui/model-tag";
 
@@ -24,6 +25,7 @@ type TreeViewProps = {
 export function TreeView({ projectId, document, modelUsed }: TreeViewProps) {
   const router = useRouter();
   const [tier, setTier] = useModelTier();
+  const [language, setLanguage] = useLanguage();
   const { object, submit, isLoading, error } = useObject({
     api: "/api/structure",
     schema: generatedTreeSchema,
@@ -54,8 +56,13 @@ export function TreeView({ projectId, document, modelUsed }: TreeViewProps) {
             Something went wrong. Check your quota or connection.
           </p>
         ) : null}
-        <ModelPicker tier={tier} onChange={setTier} />
-        <Button onClick={() => submit({ project_id: projectId, model: tier })}>
+        <div className="flex flex-wrap items-center justify-center gap-2">
+          <ModelPicker tier={tier} onChange={setTier} />
+          <LanguagePicker language={language} onChange={setLanguage} />
+        </div>
+        <Button
+          onClick={() => submit({ project_id: projectId, model: tier, language })}
+        >
           Generate feature tree
         </Button>
       </div>

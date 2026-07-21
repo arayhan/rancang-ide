@@ -8,6 +8,7 @@ import { getPrd } from "@/features/prd/infrastructure/prd-repository";
 import { assignTaskIds } from "@/features/tasks/domain/tasks";
 import { streamTasks } from "@/features/tasks/infrastructure/tasks-ai";
 import { saveTasks } from "@/features/tasks/infrastructure/tasks-repository";
+import { parseLanguage } from "@/shared/domain/language";
 import { parseModelTier } from "@/shared/domain/model";
 import { isOverProjectQuota } from "@/shared/domain/quota";
 import { modelIdFor } from "@/shared/infrastructure/ai";
@@ -33,6 +34,7 @@ export async function POST(request: NextRequest) {
   const body = (await request.json().catch(() => null)) as {
     project_id?: string;
     model?: string;
+    language?: string;
   } | null;
   const projectId = body?.project_id;
   if (!projectId) {
@@ -59,10 +61,11 @@ export async function POST(request: NextRequest) {
   }
 
   const tier = parseModelTier(body?.model);
+  const language = parseLanguage(body?.language);
   const model = modelIdFor(tier);
 
   const result = streamTasks(
-    { prdMarkdown: prd.prd.markdown, tier },
+    { prdMarkdown: prd.prd.markdown, tier, language },
     async ({ object, usage, error }) => {
       await logGeneration({
         userId,

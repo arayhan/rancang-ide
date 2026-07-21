@@ -7,6 +7,7 @@ import { useEffect, useRef, useState } from "react";
 import { prdDocumentSchema, type PrdDocument } from "@/features/prd/domain/schema";
 import { downloadText } from "@/shared/lib/download";
 import { Button } from "@/shared/ui/button";
+import { LanguagePicker, useLanguage } from "@/shared/ui/language-picker";
 import { Markdown } from "@/shared/ui/markdown";
 import { ModelPicker, useModelTier } from "@/shared/ui/model-picker";
 import { ModelTag } from "@/shared/ui/model-tag";
@@ -21,6 +22,7 @@ type PrdViewProps = {
 export function PrdView({ projectId, document, hasTree, modelUsed }: PrdViewProps) {
   const router = useRouter();
   const [tier, setTier] = useModelTier();
+  const [language, setLanguage] = useLanguage();
   const { object, submit, isLoading, error } = useObject({
     api: "/api/prd",
     schema: prdDocumentSchema,
@@ -33,7 +35,7 @@ export function PrdView({ projectId, document, hasTree, modelUsed }: PrdViewProp
         documentId={document.id}
         prd={document.prd}
         modelUsed={modelUsed}
-        onRegenerate={() => submit({ project_id: projectId, model: tier })}
+        onRegenerate={() => submit({ project_id: projectId, model: tier, language })}
         regenerating={isLoading}
       />
     );
@@ -53,9 +55,16 @@ export function PrdView({ projectId, document, hasTree, modelUsed }: PrdViewProp
             Something went wrong. Check your quota or connection.
           </p>
         ) : null}
-        <ModelPicker tier={tier} onChange={setTier} disabled={!hasTree} />
+        <div className="flex flex-wrap items-center justify-center gap-2">
+          <ModelPicker tier={tier} onChange={setTier} disabled={!hasTree} />
+          <LanguagePicker
+            language={language}
+            onChange={setLanguage}
+            disabled={!hasTree}
+          />
+        </div>
         <Button
-          onClick={() => submit({ project_id: projectId, model: tier })}
+          onClick={() => submit({ project_id: projectId, model: tier, language })}
           disabled={!hasTree}
         >
           Generate PRD

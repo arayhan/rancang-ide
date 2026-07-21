@@ -6,6 +6,7 @@ import { getProject } from "@/features/projects/application/project-use-cases";
 import { DrizzleProjectRepository } from "@/features/projects/infrastructure/drizzle-project-repository";
 import { streamValidation } from "@/features/validation/infrastructure/validation-ai";
 import { saveValidation } from "@/features/validation/infrastructure/validation-repository";
+import { parseLanguage } from "@/shared/domain/language";
 import { parseModelTier } from "@/shared/domain/model";
 import { isOverProjectQuota } from "@/shared/domain/quota";
 import { modelIdFor } from "@/shared/infrastructure/ai";
@@ -31,6 +32,7 @@ export async function POST(request: NextRequest) {
   const body = (await request.json().catch(() => null)) as {
     project_id?: string;
     model?: string;
+    language?: string;
   } | null;
   const projectId = body?.project_id;
   if (!projectId) {
@@ -52,10 +54,11 @@ export async function POST(request: NextRequest) {
   }
 
   const tier = parseModelTier(body?.model);
+  const language = parseLanguage(body?.language);
   const model = modelIdFor(tier);
 
   const result = streamValidation(
-    { idea: project.ideaInput, context: project.context, tier },
+    { idea: project.ideaInput, context: project.context, tier, language },
     async ({ object, usage, error }) => {
       // Always log the attempt for cost tracking.
       await logGeneration({

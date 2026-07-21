@@ -12,6 +12,7 @@ import { toggleTask } from "@/features/tasks/domain/tasks";
 import { downloadText } from "@/shared/lib/download";
 import { buildTasksMarkdown } from "@/shared/lib/markdown";
 import { Button } from "@/shared/ui/button";
+import { LanguagePicker, useLanguage } from "@/shared/ui/language-picker";
 import { ModelPicker, useModelTier } from "@/shared/ui/model-picker";
 import { ModelTag } from "@/shared/ui/model-tag";
 
@@ -24,6 +25,7 @@ type TasksViewProps = {
 
 export function TasksView({ projectId, document, hasPrd, modelUsed }: TasksViewProps) {
   const [tier, setTier] = useModelTier();
+  const [language, setLanguage] = useLanguage();
   const router = useRouter();
   const { object, submit, isLoading, error } = useObject({
     api: "/api/tasks",
@@ -37,7 +39,7 @@ export function TasksView({ projectId, document, hasPrd, modelUsed }: TasksViewP
         documentId={document.id}
         initialTasks={document.tasks}
         modelUsed={modelUsed}
-        onRegenerate={() => submit({ project_id: projectId, model: tier })}
+        onRegenerate={() => submit({ project_id: projectId, model: tier, language })}
         regenerating={isLoading}
       />
     );
@@ -57,9 +59,16 @@ export function TasksView({ projectId, document, hasPrd, modelUsed }: TasksViewP
             Something went wrong. Check your quota or connection.
           </p>
         ) : null}
-        <ModelPicker tier={tier} onChange={setTier} disabled={!hasPrd} />
+        <div className="flex flex-wrap items-center justify-center gap-2">
+          <ModelPicker tier={tier} onChange={setTier} disabled={!hasPrd} />
+          <LanguagePicker
+            language={language}
+            onChange={setLanguage}
+            disabled={!hasPrd}
+          />
+        </div>
         <Button
-          onClick={() => submit({ project_id: projectId, model: tier })}
+          onClick={() => submit({ project_id: projectId, model: tier, language })}
           disabled={!hasPrd}
         >
           Generate tasks

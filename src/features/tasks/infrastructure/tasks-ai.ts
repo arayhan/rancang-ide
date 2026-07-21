@@ -1,5 +1,6 @@
 import { streamObject, type LanguageModelUsage } from "ai";
 
+import { languageInstruction, type Language } from "@/shared/domain/language";
 import type { ModelTier } from "@/shared/domain/model";
 import { getModel } from "@/shared/infrastructure/ai";
 
@@ -9,6 +10,7 @@ import { generatedTasksSchema, type GeneratedTasks } from "../domain/schema";
 export type StreamTasksParams = {
   prdMarkdown: string;
   tier: ModelTier;
+  language: Language;
 };
 
 export type TasksFinishEvent = {
@@ -25,7 +27,7 @@ export function streamTasks(
   return streamObject({
     model: getModel(params.tier),
     schema: generatedTasksSchema,
-    system: TASKS_SYSTEM_PROMPT,
+    system: `${TASKS_SYSTEM_PROMPT}\n\n${languageInstruction(params.language)}`,
     prompt: buildTasksPrompt(params.prdMarkdown),
     onFinish,
   });

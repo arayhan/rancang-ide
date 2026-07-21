@@ -1,5 +1,6 @@
 import { streamObject, type LanguageModelUsage } from "ai";
 
+import { languageInstruction, type Language } from "@/shared/domain/language";
 import type { ModelTier } from "@/shared/domain/model";
 import { getModel } from "@/shared/infrastructure/ai";
 
@@ -11,6 +12,7 @@ export type StreamStructureParams = {
   context: Record<string, unknown> | null;
   validationSummary?: string;
   tier: ModelTier;
+  language: Language;
 };
 
 export type StructureFinishEvent = {
@@ -27,7 +29,7 @@ export function streamStructure(
   return streamObject({
     model: getModel(params.tier),
     schema: generatedTreeSchema,
-    system: STRUCTURE_SYSTEM_PROMPT,
+    system: `${STRUCTURE_SYSTEM_PROMPT}\n\n${languageInstruction(params.language)}`,
     prompt: buildStructurePrompt(params.idea, params.context, params.validationSummary),
     onFinish,
   });

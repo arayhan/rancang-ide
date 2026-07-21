@@ -1,5 +1,6 @@
 import { streamObject, type LanguageModelUsage } from "ai";
 
+import { languageInstruction, type Language } from "@/shared/domain/language";
 import type { ModelTier } from "@/shared/domain/model";
 import { getModel } from "@/shared/infrastructure/ai";
 
@@ -10,6 +11,7 @@ export type StreamPrdParams = {
   idea: string;
   treeJson: string;
   tier: ModelTier;
+  language: Language;
 };
 
 export type PrdFinishEvent = {
@@ -26,7 +28,7 @@ export function streamPrd(
   return streamObject({
     model: getModel(params.tier),
     schema: prdDocumentSchema,
-    system: PRD_SYSTEM_PROMPT,
+    system: `${PRD_SYSTEM_PROMPT}\n\n${languageInstruction(params.language)}`,
     prompt: buildPrdPrompt(params.idea, params.treeJson),
     onFinish,
   });
