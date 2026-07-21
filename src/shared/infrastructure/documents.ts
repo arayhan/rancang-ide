@@ -5,7 +5,7 @@ import { getDb } from "./db";
 
 export type DocumentType = "tree" | "prd" | "tasks";
 
-export type StoredDocument = { id: string; content: unknown };
+export type StoredDocument = { id: string; content: unknown; modelUsed: string | null };
 
 export type UpsertDocumentInput = {
   projectId: string;
@@ -44,7 +44,11 @@ export async function getDocument(
   type: DocumentType,
 ): Promise<StoredDocument | null> {
   const [row] = await getDb()
-    .select({ id: documents.id, content: documents.content })
+    .select({
+      id: documents.id,
+      content: documents.content,
+      modelUsed: documents.modelUsed,
+    })
     .from(documents)
     .where(and(eq(documents.projectId, projectId), eq(documents.type, type)))
     .limit(1);

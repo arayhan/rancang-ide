@@ -11,10 +11,12 @@ export async function savePrd(
   await upsertDocument({ projectId, type: "prd", content: prd, modelUsed });
 }
 
-/** Load the stored PRD (with its document id) for a project, or null. */
+/** Load the stored PRD (with its document id + model) for a project, or null. */
 export async function getPrd(
   projectId: string,
-): Promise<{ id: string; prd: PrdDocument } | null> {
+): Promise<{ id: string; prd: PrdDocument; modelUsed: string | null } | null> {
   const doc = await getDocument(projectId, "prd");
-  return doc ? { id: doc.id, prd: doc.content as PrdDocument } : null;
+  return doc
+    ? { id: doc.id, prd: doc.content as PrdDocument, modelUsed: doc.modelUsed }
+    : null;
 }

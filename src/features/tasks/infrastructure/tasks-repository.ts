@@ -11,10 +11,12 @@ export async function saveTasks(
   await upsertDocument({ projectId, type: "tasks", content: tasks, modelUsed });
 }
 
-/** Load the stored tasks (with document id) for a project, or null. */
+/** Load the stored tasks (with document id + model) for a project, or null. */
 export async function getTasks(
   projectId: string,
-): Promise<{ id: string; tasks: TasksDocument } | null> {
+): Promise<{ id: string; tasks: TasksDocument; modelUsed: string | null } | null> {
   const doc = await getDocument(projectId, "tasks");
-  return doc ? { id: doc.id, tasks: doc.content as TasksDocument } : null;
+  return doc
+    ? { id: doc.id, tasks: doc.content as TasksDocument, modelUsed: doc.modelUsed }
+    : null;
 }

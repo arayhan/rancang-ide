@@ -10,6 +10,7 @@ import {
 } from "@/features/structure/domain/schema";
 import type { ModelTier } from "@/shared/domain/model";
 import { Button } from "@/shared/ui/button";
+import { ModelTag } from "@/shared/ui/model-tag";
 
 import { PhaseBadge } from "./phase-badge";
 import { TreeEditor } from "./tree-editor";
@@ -17,10 +18,16 @@ import { TreeEditor } from "./tree-editor";
 type TreeViewProps = {
   projectId: string;
   document: { id: string; tree: FeatureTree } | null;
+  modelUsed?: string | null;
   tier?: ModelTier;
 };
 
-export function TreeView({ projectId, document, tier = "economy" }: TreeViewProps) {
+export function TreeView({
+  projectId,
+  document,
+  modelUsed,
+  tier = "economy",
+}: TreeViewProps) {
   const router = useRouter();
   const { object, submit, isLoading, error } = useObject({
     api: "/api/structure",
@@ -30,7 +37,14 @@ export function TreeView({ projectId, document, tier = "economy" }: TreeViewProp
   });
 
   if (document) {
-    return <TreeEditor documentId={document.id} initialTree={document.tree} />;
+    return (
+      <div className="flex flex-col gap-3">
+        <div className="flex justify-end">
+          <ModelTag model={modelUsed} />
+        </div>
+        <TreeEditor documentId={document.id} initialTree={document.tree} />
+      </div>
+    );
   }
 
   if (!isLoading && object === undefined) {

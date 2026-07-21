@@ -239,6 +239,51 @@ h3,
   animation: grid-pan 8s linear infinite;
 }
 
+/* ── Print (Download PDF) — reveal only the blueprint, on paper ──────────── */
+.print-doc {
+  display: none;
+}
+@media print {
+  body {
+    background: #fff !important;
+  }
+  body * {
+    visibility: hidden !important;
+  }
+  .print-doc,
+  .print-doc * {
+    visibility: visible !important;
+  }
+  .print-doc {
+    display: block !important;
+    position: absolute;
+    inset: 0 auto auto 0;
+    width: 100%;
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 40px;
+    color: #0a0e1a;
+    background: #fff;
+  }
+  .print-doc a {
+    color: #1233c4;
+  }
+  .print-doc h1,
+  .print-doc h2,
+  .print-doc h3,
+  .print-doc p,
+  .print-doc li,
+  .print-doc strong {
+    color: #0a0e1a !important;
+  }
+  .print-doc pre,
+  .print-doc code {
+    background: #f3f4f6 !important;
+    color: #0a0e1a !important;
+    border-color: #d1d5db !important;
+  }
+}
+
 /* ── Accessibility: honor reduced motion ────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
   *,

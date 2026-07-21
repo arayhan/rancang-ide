@@ -8,15 +8,23 @@ import { prdDocumentSchema, type PrdDocument } from "@/features/prd/domain/schem
 import type { ModelTier } from "@/shared/domain/model";
 import { Button } from "@/shared/ui/button";
 import { Markdown } from "@/shared/ui/markdown";
+import { ModelTag } from "@/shared/ui/model-tag";
 
 type PrdViewProps = {
   projectId: string;
   document: { id: string; prd: PrdDocument } | null;
   hasTree: boolean;
+  modelUsed?: string | null;
   tier?: ModelTier;
 };
 
-export function PrdView({ projectId, document, hasTree, tier = "economy" }: PrdViewProps) {
+export function PrdView({
+  projectId,
+  document,
+  hasTree,
+  modelUsed,
+  tier = "economy",
+}: PrdViewProps) {
   const router = useRouter();
   const { object, submit, isLoading, error } = useObject({
     api: "/api/prd",
@@ -25,7 +33,15 @@ export function PrdView({ projectId, document, hasTree, tier = "economy" }: PrdV
   });
 
   if (document) {
-    return <PrdDocumentView documentId={document.id} prd={document.prd} onRegenerate={() => submit({ project_id: projectId, model: tier })} regenerating={isLoading} />;
+    return (
+      <PrdDocumentView
+        documentId={document.id}
+        prd={document.prd}
+        modelUsed={modelUsed}
+        onRegenerate={() => submit({ project_id: projectId, model: tier })}
+        regenerating={isLoading}
+      />
+    );
   }
 
   if (!isLoading && object === undefined) {
@@ -67,11 +83,13 @@ export function PrdView({ projectId, document, hasTree, tier = "economy" }: PrdV
 function PrdDocumentView({
   documentId,
   prd,
+  modelUsed,
   onRegenerate,
   regenerating,
 }: {
   documentId: string;
   prd: PrdDocument;
+  modelUsed?: string | null;
   onRegenerate: () => void;
   regenerating: boolean;
 }) {
@@ -100,9 +118,12 @@ function PrdDocumentView({
   return (
     <div className="flex flex-col gap-4">
       <div className="flex items-center justify-between gap-2">
-        <span className="font-mono text-xs uppercase tracking-[0.08em] text-muted">
-          {editing && saved ? "Saved ✓" : ""}
-        </span>
+        <div className="flex items-center gap-3">
+          <ModelTag model={modelUsed} />
+          <span className="font-mono text-xs uppercase tracking-[0.08em] text-muted">
+            {editing && saved ? "Saved ✓" : ""}
+          </span>
+        </div>
         <div className="flex gap-2">
           <button
             onClick={() => setEditing((v) => !v)}

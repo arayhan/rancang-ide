@@ -2,6 +2,7 @@
 
 import { useObject } from "@ai-sdk/react";
 import type { DeepPartial } from "ai";
+import { useRouter } from "next/navigation";
 
 import {
   validationResultSchema,
@@ -10,6 +11,7 @@ import {
 } from "@/features/validation/domain/schema";
 import type { ModelTier } from "@/shared/domain/model";
 import { Button } from "@/shared/ui/button";
+import { ModelTag } from "@/shared/ui/model-tag";
 
 import { VerdictBadge } from "./verdict-badge";
 
@@ -18,6 +20,7 @@ type PartialReport = DeepPartial<ValidationResult>;
 type ValidationViewProps = {
   projectId: string;
   initialResult: ValidationResult | null;
+  modelUsed?: string | null;
   tier?: ModelTier;
 };
 
@@ -39,11 +42,15 @@ const SEVERITY_CLASS: Record<string, string> = {
 export function ValidationView({
   projectId,
   initialResult,
+  modelUsed,
   tier = "economy",
 }: ValidationViewProps) {
+  const router = useRouter();
   const { object, submit, isLoading, error, stop } = useObject({
     api: "/api/validate",
     schema: validationResultSchema,
+    // Reload the persisted report + model label once generation finishes.
+    onFinish: () => router.refresh(),
   });
 
   const report: PartialReport | undefined = object ?? initialResult ?? undefined;
@@ -72,7 +79,9 @@ export function ValidationView({
             <span className="caret font-mono text-xs uppercase tracking-[0.08em] text-accent">
               Generating
             </span>
-          ) : null}
+          ) : (
+            <ModelTag model={modelUsed} />
+          )}
         </div>
         {isLoading ? (
           <button

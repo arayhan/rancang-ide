@@ -46,7 +46,7 @@ export async function POST(request: NextRequest) {
   // Ground the tree in the latest validation, if one exists.
   const validation = await getLatestValidation(projectId);
   const validationSummary = validation
-    ? `Verdict: ${validation.verdict}. ${validation.verdict_summary} Core assumption: ${validation.core_assumption}`
+    ? `Verdict: ${validation.report.verdict}. ${validation.report.verdict_summary} Core assumption: ${validation.report.core_assumption}`
     : undefined;
 
   const tier = parseModelTier(body?.model);

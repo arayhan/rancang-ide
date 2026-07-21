@@ -48,7 +48,18 @@ export function ProjectStages({ slots }: ProjectStagesProps) {
         })}
       </nav>
       <div role="tabpanel" className="py-8">
-        {activeSlot ?? (
+        {/* Every filled slot stays mounted (just hidden) so in-progress or
+            streamed content survives tab switches. */}
+        {STAGES.map((stage) => {
+          const slot = slots?.[stage.key];
+          if (!slot) return null;
+          return (
+            <div key={stage.key} hidden={stage.key !== active}>
+              {slot}
+            </div>
+          );
+        })}
+        {!activeSlot ? (
           <div className="flex flex-col items-center gap-2 py-16 text-center">
             <p className="font-medium">{current.label}</p>
             <p className="max-w-sm text-sm text-muted">{current.hint}</p>
@@ -56,7 +67,7 @@ export function ProjectStages({ slots }: ProjectStagesProps) {
               Coming soon
             </p>
           </div>
-        )}
+        ) : null}
       </div>
     </div>
   );

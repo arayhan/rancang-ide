@@ -7,6 +7,7 @@ import { DrizzleProjectRepository } from "@/features/projects/infrastructure/dri
 import { getPrd } from "@/features/prd/infrastructure/prd-repository";
 import { ExportButtons } from "@/features/prd/presentation/export";
 import { PrdView } from "@/features/prd/presentation/prd-view";
+import { PrintableBlueprint } from "@/features/prd/presentation/printable-blueprint";
 import { ProjectStages } from "@/features/projects/presentation/project-stages";
 import type { FeatureTree } from "@/features/structure/domain/schema";
 import { TreeView } from "@/features/structure/presentation/tree-view";
@@ -31,43 +32,52 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
   const latestValidation = await getLatestValidation(project.id);
   const treeDoc = await getDocument(project.id, "tree");
   const treeDocument = treeDoc
-    ? { id: treeDoc.id, tree: treeDoc.content as FeatureTree }
+    ? { id: treeDoc.id, tree: treeDoc.content as FeatureTree, modelUsed: treeDoc.modelUsed }
     : null;
   const prdDocument = await getPrd(project.id);
   const tasksDocument = await getTasks(project.id);
 
   return (
-    <main className="mx-auto flex max-w-3xl flex-col gap-6 p-6">
+    <main className="mx-auto flex max-w-3xl flex-col gap-6 px-6 py-8">
       <Link
         href="/projects"
-        className="font-mono text-xs uppercase tracking-[0.08em] text-muted transition-colors hover:text-foreground"
+        className="font-mono text-xs uppercase tracking-[0.12em] text-muted transition-colors hover:text-foreground"
       >
         ← All projects
       </Link>
-      <header className="flex items-start justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-semibold">{project.title}</h1>
+      <header className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+        <div className="min-w-0">
+          <h1 className="font-display text-2xl font-semibold">{project.title}</h1>
           <p className="mt-2 text-muted">{project.ideaInput}</p>
         </div>
-        {prdDocument ? (
-          <ExportButtons
-            title={prdDocument.prd.title || project.title}
-            prdMarkdown={prdDocument.prd.markdown}
-            tasks={tasksDocument?.tasks.tasks}
-          />
-        ) : null}
+        <ExportButtons
+          title={prdDocument?.prd.title || project.title}
+          prdMarkdown={prdDocument?.prd.markdown ?? null}
+          tasks={tasksDocument?.tasks.tasks}
+        />
       </header>
       <ProjectStages
         slots={{
           validation: (
-            <ValidationView projectId={project.id} initialResult={latestValidation} />
+            <ValidationView
+              projectId={project.id}
+              initialResult={latestValidation?.report ?? null}
+              modelUsed={latestValidation?.modelUsed}
+            />
           ),
-          structure: <TreeView projectId={project.id} document={treeDocument} />,
+          structure: (
+            <TreeView
+              projectId={project.id}
+              document={treeDocument}
+              modelUsed={treeDocument?.modelUsed}
+            />
+          ),
           prd: (
             <PrdView
               projectId={project.id}
               document={prdDocument}
               hasTree={treeDocument !== null}
+              modelUsed={prdDocument?.modelUsed}
             />
           ),
           tasks: (
@@ -75,10 +85,18 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
               projectId={project.id}
               document={tasksDocument}
               hasPrd={prdDocument !== null}
+              modelUsed={tasksDocument?.modelUsed}
             />
           ),
         }}
       />
+      {prdDocument ? (
+        <PrintableBlueprint
+          title={prdDocument.prd.title || project.title}
+          prdMarkdown={prdDocument.prd.markdown}
+          tasks={tasksDocument?.tasks.tasks}
+        />
+      ) : null}
     </main>
   );
 }

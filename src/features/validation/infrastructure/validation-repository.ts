@@ -22,15 +22,17 @@ export async function saveValidation(input: SaveValidationInput): Promise<void> 
   });
 }
 
-/** The most recent validation report for a project, or null. */
+export type StoredValidation = { report: ValidationResult; modelUsed: string };
+
+/** The most recent validation report for a project (with its model), or null. */
 export async function getLatestValidation(
   projectId: string,
-): Promise<ValidationResult | null> {
+): Promise<StoredValidation | null> {
   const [row] = await getDb()
-    .select({ report: validations.report })
+    .select({ report: validations.report, modelUsed: validations.modelUsed })
     .from(validations)
     .where(eq(validations.projectId, projectId))
     .orderBy(desc(validations.createdAt))
     .limit(1);
-  return row ? (row.report as ValidationResult) : null;
+  return row ? { report: row.report as ValidationResult, modelUsed: row.modelUsed } : null;
 }

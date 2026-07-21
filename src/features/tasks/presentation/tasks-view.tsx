@@ -11,11 +11,13 @@ import {
 import { toggleTask } from "@/features/tasks/domain/tasks";
 import type { ModelTier } from "@/shared/domain/model";
 import { Button } from "@/shared/ui/button";
+import { ModelTag } from "@/shared/ui/model-tag";
 
 type TasksViewProps = {
   projectId: string;
   document: { id: string; tasks: TasksDocument } | null;
   hasPrd: boolean;
+  modelUsed?: string | null;
   tier?: ModelTier;
 };
 
@@ -23,6 +25,7 @@ export function TasksView({
   projectId,
   document,
   hasPrd,
+  modelUsed,
   tier = "economy",
 }: TasksViewProps) {
   const router = useRouter();
@@ -37,6 +40,7 @@ export function TasksView({
       <TasksChecklist
         documentId={document.id}
         initialTasks={document.tasks}
+        modelUsed={modelUsed}
         onRegenerate={() => submit({ project_id: projectId, model: tier })}
         regenerating={isLoading}
       />
@@ -89,10 +93,12 @@ function TasksChecklist({
   documentId,
   initialTasks,
   onRegenerate,
+  modelUsed,
   regenerating,
 }: {
   documentId: string;
   initialTasks: TasksDocument;
+  modelUsed?: string | null;
   onRegenerate: () => void;
   regenerating: boolean;
 }) {
@@ -119,9 +125,12 @@ function TasksChecklist({
   return (
     <div className="flex flex-col gap-4">
       <div className="flex items-center justify-between">
-        <span className="font-mono text-xs uppercase tracking-[0.08em] text-muted">
-          {doneCount}/{tasks.tasks.length} done
-        </span>
+        <div className="flex items-center gap-3">
+          <span className="font-mono text-xs uppercase tracking-[0.08em] text-muted">
+            {doneCount}/{tasks.tasks.length} done
+          </span>
+          <ModelTag model={modelUsed} />
+        </div>
         <button
           onClick={onRegenerate}
           disabled={regenerating}
