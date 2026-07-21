@@ -8,8 +8,8 @@ import {
   type FeatureTree,
   type TreePhase,
 } from "@/features/structure/domain/schema";
-import type { ModelTier } from "@/shared/domain/model";
 import { Button } from "@/shared/ui/button";
+import { ModelPicker, useModelTier } from "@/shared/ui/model-picker";
 import { ModelTag } from "@/shared/ui/model-tag";
 
 import { PhaseBadge } from "./phase-badge";
@@ -19,16 +19,11 @@ type TreeViewProps = {
   projectId: string;
   document: { id: string; tree: FeatureTree } | null;
   modelUsed?: string | null;
-  tier?: ModelTier;
 };
 
-export function TreeView({
-  projectId,
-  document,
-  modelUsed,
-  tier = "economy",
-}: TreeViewProps) {
+export function TreeView({ projectId, document, modelUsed }: TreeViewProps) {
   const router = useRouter();
+  const [tier, setTier] = useModelTier();
   const { object, submit, isLoading, error } = useObject({
     api: "/api/structure",
     schema: generatedTreeSchema,
@@ -59,6 +54,7 @@ export function TreeView({
             Something went wrong. Check your quota or connection.
           </p>
         ) : null}
+        <ModelPicker tier={tier} onChange={setTier} />
         <Button onClick={() => submit({ project_id: projectId, model: tier })}>
           Generate feature tree
         </Button>

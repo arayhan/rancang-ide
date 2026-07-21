@@ -9,8 +9,8 @@ import {
   type TasksDocument,
 } from "@/features/tasks/domain/schema";
 import { toggleTask } from "@/features/tasks/domain/tasks";
-import type { ModelTier } from "@/shared/domain/model";
 import { Button } from "@/shared/ui/button";
+import { ModelPicker, useModelTier } from "@/shared/ui/model-picker";
 import { ModelTag } from "@/shared/ui/model-tag";
 
 type TasksViewProps = {
@@ -18,16 +18,10 @@ type TasksViewProps = {
   document: { id: string; tasks: TasksDocument } | null;
   hasPrd: boolean;
   modelUsed?: string | null;
-  tier?: ModelTier;
 };
 
-export function TasksView({
-  projectId,
-  document,
-  hasPrd,
-  modelUsed,
-  tier = "economy",
-}: TasksViewProps) {
+export function TasksView({ projectId, document, hasPrd, modelUsed }: TasksViewProps) {
+  const [tier, setTier] = useModelTier();
   const router = useRouter();
   const { object, submit, isLoading, error } = useObject({
     api: "/api/tasks",
@@ -61,6 +55,7 @@ export function TasksView({
             Something went wrong. Check your quota or connection.
           </p>
         ) : null}
+        <ModelPicker tier={tier} onChange={setTier} disabled={!hasPrd} />
         <Button
           onClick={() => submit({ project_id: projectId, model: tier })}
           disabled={!hasPrd}

@@ -9,8 +9,8 @@ import {
   type Scorecard,
   type ValidationResult,
 } from "@/features/validation/domain/schema";
-import type { ModelTier } from "@/shared/domain/model";
 import { Button } from "@/shared/ui/button";
+import { ModelPicker, useModelTier } from "@/shared/ui/model-picker";
 import { ModelTag } from "@/shared/ui/model-tag";
 
 import { VerdictBadge } from "./verdict-badge";
@@ -21,7 +21,6 @@ type ValidationViewProps = {
   projectId: string;
   initialResult: ValidationResult | null;
   modelUsed?: string | null;
-  tier?: ModelTier;
 };
 
 const SCORE_AREAS: { key: keyof Scorecard; label: string }[] = [
@@ -43,9 +42,9 @@ export function ValidationView({
   projectId,
   initialResult,
   modelUsed,
-  tier = "economy",
 }: ValidationViewProps) {
   const router = useRouter();
+  const [tier, setTier] = useModelTier();
   const { object, submit, isLoading, error, stop } = useObject({
     api: "/api/validate",
     schema: validationResultSchema,
@@ -65,6 +64,7 @@ export function ValidationView({
           Get an honest verdict on this idea — core assumption, fatal flaws,
           competition, and a scorecard. Takes about a minute.
         </p>
+        <ModelPicker tier={tier} onChange={setTier} />
         <Button onClick={run}>Run validation</Button>
       </div>
     );

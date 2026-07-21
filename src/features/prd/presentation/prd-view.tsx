@@ -5,9 +5,9 @@ import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
 import { prdDocumentSchema, type PrdDocument } from "@/features/prd/domain/schema";
-import type { ModelTier } from "@/shared/domain/model";
 import { Button } from "@/shared/ui/button";
 import { Markdown } from "@/shared/ui/markdown";
+import { ModelPicker, useModelTier } from "@/shared/ui/model-picker";
 import { ModelTag } from "@/shared/ui/model-tag";
 
 type PrdViewProps = {
@@ -15,17 +15,11 @@ type PrdViewProps = {
   document: { id: string; prd: PrdDocument } | null;
   hasTree: boolean;
   modelUsed?: string | null;
-  tier?: ModelTier;
 };
 
-export function PrdView({
-  projectId,
-  document,
-  hasTree,
-  modelUsed,
-  tier = "economy",
-}: PrdViewProps) {
+export function PrdView({ projectId, document, hasTree, modelUsed }: PrdViewProps) {
   const router = useRouter();
+  const [tier, setTier] = useModelTier();
   const { object, submit, isLoading, error } = useObject({
     api: "/api/prd",
     schema: prdDocumentSchema,
@@ -58,6 +52,7 @@ export function PrdView({
             Something went wrong. Check your quota or connection.
           </p>
         ) : null}
+        <ModelPicker tier={tier} onChange={setTier} disabled={!hasTree} />
         <Button
           onClick={() => submit({ project_id: projectId, model: tier })}
           disabled={!hasTree}
