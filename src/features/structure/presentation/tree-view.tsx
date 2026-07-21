@@ -11,10 +11,9 @@ import {
 import { Button } from "@/shared/ui/button";
 import { LanguagePicker, useLanguage } from "@/shared/ui/language-picker";
 import { ModelPicker, useModelTier } from "@/shared/ui/model-picker";
-import { ModelTag } from "@/shared/ui/model-tag";
 
 import { PhaseBadge } from "./phase-badge";
-import { TreeEditor } from "./tree-editor";
+import { TreeWorkspace } from "./tree-workspace";
 
 type TreeViewProps = {
   projectId: string;
@@ -35,12 +34,12 @@ export function TreeView({ projectId, document, modelUsed }: TreeViewProps) {
 
   if (document) {
     return (
-      <div className="flex flex-col gap-3">
-        <div className="flex justify-end">
-          <ModelTag model={modelUsed} />
-        </div>
-        <TreeEditor documentId={document.id} initialTree={document.tree} />
-      </div>
+      <TreeWorkspace
+        key={document.id}
+        documentId={document.id}
+        initialTree={document.tree}
+        modelUsed={modelUsed}
+      />
     );
   }
 
