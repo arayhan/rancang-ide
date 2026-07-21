@@ -11,6 +11,7 @@ import { isOverProjectQuota } from "@/shared/domain/quota";
 import { modelIdFor } from "@/shared/infrastructure/ai";
 import { getDocument } from "@/shared/infrastructure/documents";
 import { logGeneration } from "@/shared/infrastructure/generations";
+import { rateLimit } from "@/shared/infrastructure/ratelimit";
 
 const projectRepo = new DrizzleProjectRepository();
 
@@ -18,6 +19,14 @@ export async function POST(request: NextRequest) {
   const userId = await getSessionUserId();
   if (!userId) {
     return NextResponse.json({ error: "unauthorized" }, { status: 401 });
+  }
+
+  const limit = rateLimit(`gen:${userId}`);
+  if (!limit.allowed) {
+    return NextResponse.json(
+      { error: "rate_limited" },
+      { status: 429, headers: { "Retry-After": String(limit.retryAfterSeconds) } },
+    );
   }
 
   const body = (await request.json().catch(() => null)) as {
