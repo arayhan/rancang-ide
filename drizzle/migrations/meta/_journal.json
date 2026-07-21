@@ -22,6 +22,20 @@
       "when": 1784568480424,
       "tag": "0002_add_documents",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1784635533002,
+      "tag": "0003_add_doc_types",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1784635665684,
+      "tag": "0004_add_doc_gen_stages",
+      "breakpoints": true
     }
   ]
 }

@@ -3,7 +3,13 @@ import { and, eq, sql } from "drizzle-orm";
 import { documents, projects } from "../../../drizzle/schema";
 import { getDb } from "./db";
 
-export type DocumentType = "tree" | "prd" | "tasks";
+export type DocumentType =
+  | "tree"
+  | "prd"
+  | "tasks"
+  | "brd"
+  | "database_design"
+  | "system_design";
 
 export type StoredDocument = { id: string; content: unknown; modelUsed: string | null };
 

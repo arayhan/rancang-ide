@@ -1,7 +1,14 @@
 import { generations } from "../../../drizzle/schema";
 import { getDb } from "./db";
 
-export type GenerationStage = "validation" | "structure" | "prd" | "tasks";
+export type GenerationStage =
+  | "validation"
+  | "structure"
+  | "prd"
+  | "tasks"
+  | "brd"
+  | "database_design"
+  | "system_design";
 
 export type LogGenerationInput = {
   userId: string;

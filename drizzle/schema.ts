@@ -98,6 +98,9 @@ export const generationStageEnum = pgEnum("generation_stage", [
   "structure",
   "prd",
   "tasks",
+  "brd",
+  "database_design",
+  "system_design",
 ]);
 
 /**
@@ -166,7 +169,14 @@ export const generations = pgTable(
   ],
 );
 
-export const documentTypeEnum = pgEnum("document_type", ["tree", "prd", "tasks"]);
+export const documentTypeEnum = pgEnum("document_type", [
+  "tree",
+  "prd",
+  "tasks",
+  "brd",
+  "database_design",
+  "system_design",
+]);
 
 /**
  * documents — generated artifacts (feature tree, PRD, tasks). One current row

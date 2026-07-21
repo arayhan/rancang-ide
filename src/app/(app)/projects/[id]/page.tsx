@@ -2,6 +2,9 @@ import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 
 import { getSessionUserId } from "@/features/auth/infrastructure/session";
+import { DOC_CONFIGS } from "@/features/docs/domain/doc-config";
+import { getDoc } from "@/features/docs/infrastructure/doc-repository";
+import { MarkdownDocView } from "@/features/docs/presentation/markdown-doc-view";
 import { getProject } from "@/features/projects/application/project-use-cases";
 import { DrizzleProjectRepository } from "@/features/projects/infrastructure/drizzle-project-repository";
 import { getPrd } from "@/features/prd/infrastructure/prd-repository";
@@ -36,6 +39,12 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
     : null;
   const prdDocument = await getPrd(project.id);
   const tasksDocument = await getTasks(project.id);
+  const [brdDoc, dbDoc, sysDoc] = await Promise.all([
+    getDoc(project.id, "brd"),
+    getDoc(project.id, "database_design"),
+    getDoc(project.id, "system_design"),
+  ]);
+  const hasPrd = prdDocument !== null;
 
   return (
     <main className="mx-auto flex max-w-3xl flex-col gap-6 px-6 py-8">
@@ -86,6 +95,38 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
               document={tasksDocument}
               hasPrd={prdDocument !== null}
               modelUsed={tasksDocument?.modelUsed}
+            />
+          ),
+          brd: (
+            <MarkdownDocView
+              projectId={project.id}
+              type="brd"
+              fileSlug="brd"
+              blurb={DOC_CONFIGS.brd.blurb}
+              available
+              document={brdDoc}
+            />
+          ),
+          database_design: (
+            <MarkdownDocView
+              projectId={project.id}
+              type="database_design"
+              fileSlug="database-design"
+              blurb={DOC_CONFIGS.database_design.blurb}
+              prerequisiteHint="Generate the PRD first."
+              available={hasPrd}
+              document={dbDoc}
+            />
+          ),
+          system_design: (
+            <MarkdownDocView
+              projectId={project.id}
+              type="system_design"
+              fileSlug="system-design"
+              blurb={DOC_CONFIGS.system_design.blurb}
+              prerequisiteHint="Generate the PRD first."
+              available={hasPrd}
+              document={sysDoc}
             />
           ),
         }}

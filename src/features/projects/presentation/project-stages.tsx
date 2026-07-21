@@ -7,6 +7,9 @@ const STAGES = [
   { key: "structure", label: "Structure", hint: "An editable feature tree." },
   { key: "prd", label: "PRD", hint: "A ready-to-use product spec." },
   { key: "tasks", label: "Tasks", hint: "A checkbox work order for your agent." },
+  { key: "brd", label: "BRD", hint: "Business requirements document." },
+  { key: "database_design", label: "Database", hint: "Schema & relationships." },
+  { key: "system_design", label: "System", hint: "Architecture & components." },
 ] as const;
 
 type StageKey = (typeof STAGES)[number]["key"];
@@ -27,7 +30,11 @@ export function ProjectStages({ slots }: ProjectStagesProps) {
 
   return (
     <div>
-      <nav role="tablist" aria-label="Project stages" className="flex gap-1 border-b-2 border-border">
+      <nav
+        role="tablist"
+        aria-label="Project stages"
+        className="flex flex-wrap gap-1 border-b-2 border-border"
+      >
         {STAGES.map((stage) => {
           const selected = stage.key === active;
           return (
