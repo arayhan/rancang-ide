@@ -50,7 +50,8 @@ pnpm dev                     # http://localhost:3000
 
 Product source of truth lives in [docs/](docs/): [product-vision.md](docs/product-vision.md) ·
 [prd.md](docs/prd.md) · [product-roadmap.md](docs/product-roadmap.md) (task checkboxes) ·
-[design.md](docs/design.md) (design tokens) · [cost-notes.md](docs/cost-notes.md) (AI cost & quota).
+[design.md](docs/design.md) (design tokens) · [cost-notes.md](docs/cost-notes.md) (AI cost & quota) ·
+[deploy.md](docs/deploy.md) (deploy + env + Supabase auth runbook).
 Coding agents: read [CLAUDE.md](CLAUDE.md) first.
 
 ## Cost & free quota
