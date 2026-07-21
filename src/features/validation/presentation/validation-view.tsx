@@ -9,7 +9,9 @@ import {
   type Scorecard,
   type ValidationResult,
 } from "@/features/validation/domain/schema";
+import { validationToMarkdown } from "@/features/validation/domain/report-markdown";
 import { capture } from "@/shared/lib/analytics";
+import { downloadText } from "@/shared/lib/download";
 import { Button } from "@/shared/ui/button";
 import { ModelPicker, useModelTier } from "@/shared/ui/model-picker";
 import { ModelTag } from "@/shared/ui/model-tag";
@@ -87,21 +89,33 @@ export function ValidationView({
             <ModelTag model={modelUsed} />
           )}
         </div>
-        {isLoading ? (
-          <button
-            onClick={stop}
-            className="glow-ring rounded-sm border-2 border-border px-3 py-1.5 font-mono text-xs uppercase tracking-[0.08em] text-muted transition-colors hover:border-primary"
-          >
-            Stop
-          </button>
-        ) : (
-          <button
-            onClick={run}
-            className="glow-ring rounded-sm border-2 border-border px-3 py-1.5 font-mono text-xs uppercase tracking-[0.08em] text-muted transition-colors hover:border-primary"
-          >
-            Regenerate
-          </button>
-        )}
+        <div className="flex gap-2">
+          {!isLoading && initialResult ? (
+            <button
+              onClick={() =>
+                downloadText("validation.md", validationToMarkdown(initialResult))
+              }
+              className="glow-ring rounded-sm border-2 border-border px-3 py-1.5 font-mono text-xs uppercase tracking-[0.08em] text-muted transition-colors hover:border-primary"
+            >
+              ↓ .md
+            </button>
+          ) : null}
+          {isLoading ? (
+            <button
+              onClick={stop}
+              className="glow-ring rounded-sm border-2 border-border px-3 py-1.5 font-mono text-xs uppercase tracking-[0.08em] text-muted transition-colors hover:border-primary"
+            >
+              Stop
+            </button>
+          ) : (
+            <button
+              onClick={run}
+              className="glow-ring rounded-sm border-2 border-border px-3 py-1.5 font-mono text-xs uppercase tracking-[0.08em] text-muted transition-colors hover:border-primary"
+            >
+              Regenerate
+            </button>
+          )}
+        </div>
       </div>
 
       {error ? (

@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
 import { prdDocumentSchema, type PrdDocument } from "@/features/prd/domain/schema";
+import { downloadText } from "@/shared/lib/download";
 import { Button } from "@/shared/ui/button";
 import { Markdown } from "@/shared/ui/markdown";
 import { ModelPicker, useModelTier } from "@/shared/ui/model-picker";
@@ -120,6 +121,12 @@ function PrdDocumentView({
           </span>
         </div>
         <div className="flex gap-2">
+          <button
+            onClick={() => downloadText("prd.md", markdown)}
+            className="glow-ring rounded-sm border-2 border-border px-3 py-1.5 font-mono text-xs uppercase tracking-[0.08em] text-muted transition-colors hover:border-primary"
+          >
+            ↓ .md
+          </button>
           <button
             onClick={() => setEditing((v) => !v)}
             className="glow-ring rounded-sm border-2 border-border px-3 py-1.5 font-mono text-xs uppercase tracking-[0.08em] transition-colors hover:border-primary"

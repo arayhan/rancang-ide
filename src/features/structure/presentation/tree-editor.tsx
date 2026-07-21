@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 
 import type { FeatureTree, TreePhase } from "@/features/structure/domain/schema";
+import { treeToMarkdown } from "@/features/structure/domain/tree-markdown";
 import {
   addFeature,
   addModule,
@@ -13,6 +14,7 @@ import {
   updateFeature,
   updateModule,
 } from "@/features/structure/domain/tree";
+import { downloadText } from "@/shared/lib/download";
 
 const PHASE_OPTIONS: TreePhase[] = ["mvp", "v2", "later"];
 const newId = () => crypto.randomUUID();
@@ -77,12 +79,20 @@ export function TreeEditor({
               ? "Saved ✓"
               : " "}
         </span>
-        <button
-          onClick={() => setTree((t) => addModule(t, emptyModule(newId)))}
-          className="glow-ring rounded-sm border-2 border-border px-3 py-1.5 font-mono text-xs uppercase tracking-[0.08em] transition-colors hover:border-primary"
-        >
-          + Module
-        </button>
+        <div className="flex gap-2">
+          <button
+            onClick={() => downloadText("feature-tree.md", treeToMarkdown(tree))}
+            className="glow-ring rounded-sm border-2 border-border px-3 py-1.5 font-mono text-xs uppercase tracking-[0.08em] text-muted transition-colors hover:border-primary"
+          >
+            ↓ .md
+          </button>
+          <button
+            onClick={() => setTree((t) => addModule(t, emptyModule(newId)))}
+            className="glow-ring rounded-sm border-2 border-border px-3 py-1.5 font-mono text-xs uppercase tracking-[0.08em] transition-colors hover:border-primary"
+          >
+            + Module
+          </button>
+        </div>
       </div>
 
       <ul className="flex flex-col gap-3">

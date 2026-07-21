@@ -9,6 +9,8 @@ import {
   type TasksDocument,
 } from "@/features/tasks/domain/schema";
 import { toggleTask } from "@/features/tasks/domain/tasks";
+import { downloadText } from "@/shared/lib/download";
+import { buildTasksMarkdown } from "@/shared/lib/markdown";
 import { Button } from "@/shared/ui/button";
 import { ModelPicker, useModelTier } from "@/shared/ui/model-picker";
 import { ModelTag } from "@/shared/ui/model-tag";
@@ -126,13 +128,21 @@ function TasksChecklist({
           </span>
           <ModelTag model={modelUsed} />
         </div>
-        <button
-          onClick={onRegenerate}
-          disabled={regenerating}
-          className="glow-ring rounded-sm border-2 border-border px-3 py-1.5 font-mono text-xs uppercase tracking-[0.08em] transition-colors hover:border-primary disabled:opacity-60"
-        >
-          {regenerating ? "…" : "Regenerate"}
-        </button>
+        <div className="flex gap-2">
+          <button
+            onClick={() => downloadText("tasks.md", buildTasksMarkdown(tasks.tasks))}
+            className="glow-ring rounded-sm border-2 border-border px-3 py-1.5 font-mono text-xs uppercase tracking-[0.08em] text-muted transition-colors hover:border-primary"
+          >
+            ↓ .md
+          </button>
+          <button
+            onClick={onRegenerate}
+            disabled={regenerating}
+            className="glow-ring rounded-sm border-2 border-border px-3 py-1.5 font-mono text-xs uppercase tracking-[0.08em] transition-colors hover:border-primary disabled:opacity-60"
+          >
+            {regenerating ? "…" : "Regenerate"}
+          </button>
+        </div>
       </div>
 
       <ul className="flex flex-col gap-1">
