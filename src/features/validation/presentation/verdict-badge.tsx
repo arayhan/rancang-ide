@@ -10,7 +10,8 @@ export function VerdictBadge({ verdict }: { verdict: Verdict }) {
   const { label, className } = VERDICTS[verdict];
   return (
     <span
-      className={`inline-block rounded-sm px-3 py-1 font-mono text-xs font-medium uppercase tracking-[0.08em] ${className}`}
+      key={verdict}
+      className={`stamp inline-block rounded-sm px-3 py-1 font-mono text-xs font-semibold uppercase tracking-[0.1em] shadow-[3px_3px_0_0_var(--shadow)] ${className}`}
     >
       {label}
     </span>

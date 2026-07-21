@@ -69,8 +69,8 @@ export function ValidationView({
         <div className="flex items-center gap-3">
           {report?.verdict ? <VerdictBadge verdict={report.verdict} /> : null}
           {isLoading ? (
-            <span className="animate-pulse font-mono text-xs uppercase tracking-[0.08em] text-accent">
-              Generating…
+            <span className="caret font-mono text-xs uppercase tracking-[0.08em] text-accent">
+              Generating
             </span>
           ) : null}
         </div>
@@ -106,7 +106,9 @@ export function ValidationView({
         </div>
       ) : null}
 
-      {report ? <Report report={report} /> : <Skeleton />}
+      <div className={isLoading ? "scanning rounded-md" : ""}>
+        {report ? <Report report={report} /> : <Skeleton />}
+      </div>
     </div>
   );
 }

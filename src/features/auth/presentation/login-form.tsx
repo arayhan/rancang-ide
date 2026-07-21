@@ -3,6 +3,7 @@
 import { useActionState } from "react";
 
 import type { MagicLinkState } from "@/features/auth/domain/types";
+import { Button } from "@/shared/ui/button";
 
 type LoginFormProps = {
   signInWithMagicLink: (
@@ -19,16 +20,22 @@ export function LoginForm({ signInWithMagicLink, signInWithGoogle }: LoginFormPr
   );
 
   return (
-    <div className="flex w-full max-w-sm flex-col gap-6">
+    <div className="flex w-full flex-col gap-5">
       {state.sent ? (
-        <p className="rounded-md border border-border bg-[--surface] p-4 text-sm">
-          Check your email — we sent you a magic link to sign in.
-        </p>
+        <div className="ticks glow rounded-md border-2 border-border-strong bg-surface-raised p-4">
+          <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-accent">
+            Link sent
+          </p>
+          <p className="mt-2 text-sm text-muted">
+            Check your email for the magic link. It may take a minute — peek in spam if
+            it&apos;s shy.
+          </p>
+        </div>
       ) : (
         <form action={formAction} className="flex flex-col gap-3">
           <label
             htmlFor="email"
-            className="font-mono text-xs uppercase tracking-[0.08em] text-muted"
+            className="font-mono text-[11px] uppercase tracking-[0.12em] text-muted"
           >
             Email
           </label>
@@ -39,36 +46,29 @@ export function LoginForm({ signInWithMagicLink, signInWithGoogle }: LoginFormPr
             required
             autoComplete="email"
             placeholder="you@example.com"
-            className="h-12 rounded-sm border-2 border-border bg-transparent px-4 text-foreground outline-none focus:border-primary"
+            className="glow-ring h-12 rounded-sm border-2 border-border bg-background-2 px-4 text-foreground transition-colors"
           />
           {state.error ? (
-            <p className="text-sm text-[--error]" role="alert">
+            <p className="text-sm text-error" role="alert">
               {state.error}
             </p>
           ) : null}
-          <button
-            type="submit"
-            disabled={pending}
-            className="h-11 rounded-sm bg-primary px-6 font-medium text-white transition-colors hover:bg-[--accent] disabled:opacity-60"
-          >
+          <Button type="submit" disabled={pending} className="h-12 w-full">
             {pending ? "Sending…" : "Send magic link"}
-          </button>
+          </Button>
         </form>
       )}
 
-      <div className="flex items-center gap-3 text-xs text-muted">
+      <div className="flex items-center gap-3 font-mono text-[11px] uppercase tracking-[0.14em] text-muted">
         <span className="h-px flex-1 bg-border" />
-        OR
+        or
         <span className="h-px flex-1 bg-border" />
       </div>
 
       <form action={signInWithGoogle}>
-        <button
-          type="submit"
-          className="h-11 w-full rounded-sm border-2 border-border px-6 font-medium transition-colors hover:border-primary"
-        >
+        <Button type="submit" variant="secondary" className="h-12 w-full">
           Continue with Google
-        </button>
+        </Button>
       </form>
     </div>
   );

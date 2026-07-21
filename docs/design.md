@@ -30,25 +30,25 @@ colors:
 
 typography:
   display:
-    fontFamily: "Clash Display"
+    fontFamily: "Space Grotesk"
     fontSize: 56px
     fontWeight: 600
     lineHeight: 1.05
     letterSpacing: "-0.02em"
     fontFeature: "uppercase"
   h1:
-    fontFamily: "Clash Display"
+    fontFamily: "Space Grotesk"
     fontSize: 40px
     fontWeight: 600
     lineHeight: 1.1
     letterSpacing: "-0.01em"
   h2:
-    fontFamily: "Clash Display"
+    fontFamily: "Space Grotesk"
     fontSize: 28px
     fontWeight: 600
     lineHeight: 1.2
   h3:
-    fontFamily: "Clash Display"
+    fontFamily: "Space Grotesk"
     fontSize: 20px
     fontWeight: 500
     lineHeight: 1.3
@@ -199,6 +199,29 @@ components:
 ---
 
 # Rancang Ide Design System
+
+## Direction update — Pushed-Beyond Edition (2026-07)
+
+The founder chose to push the identity past its original restraint toward an
+award-caliber, motion-forward expression, while keeping document areas calm.
+Changes now in force (this doc is the source of truth):
+
+- **Display face:** **Space Grotesk** (self-hosting Clash Display was deferred).
+  Space Grotesk carries the same engineered, geometric-caps voice via
+  `next/font/google`. Inter (body) and JetBrains Mono (labels/code) unchanged.
+- **Deeper canvas:** app background deepened to `#080B16` with an ambient cobalt
+  **aura** glow at the top of hero/auth surfaces (radial, ~26% primary).
+- **Signature motion (expanded):** animated **isometric blueprint SVG** with
+  stroke-dashoffset line-draw + node-pop + a floating idea-cube (landing hero);
+  staggered **reveal-up** on hero/section entrances; the neo-brutalist
+  **hover-lift → press-down** cycle on every clickable card/button; **scan-line**
+  over streaming AI output; blinking **caret** on "Generating"; the **verdict
+  stamp** (scale/rotate settle); blueprint **grid** behind hero/empty states;
+  **corner ticks** as a recurring accent.
+- **Guardrails still hold:** long-form document areas (PRD/report bodies) stay
+  quiet with no looping animation; all motion is `transform`/`opacity` only and
+  fully disabled under `prefers-reduced-motion`; WCAG AA contrast is
+  non-negotiable. Maximalism lives in the chrome and AI moments, not the reading.
 
 ## Overview
 
