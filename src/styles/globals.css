@@ -55,6 +55,14 @@ body {
   font-family: var(--font-sans), "Inter", sans-serif;
 }
 
+/* Hidden scrollbar for horizontal pill rails / snap carousels. */
+.hide-scrollbar {
+  scrollbar-width: none;
+}
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
 h1,
 h2,
 h3,

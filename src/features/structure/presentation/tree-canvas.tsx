@@ -167,7 +167,7 @@ export function TreeCanvas({
   }, []);
 
   return (
-    <div className="h-[540px] w-full rounded-md border-2 border-border bg-background-2">
+    <div className="h-[calc(100vh-14rem)] min-h-[420px] w-full rounded-md border-2 border-border bg-background-2">
       <ReactFlow
         nodes={nodes}
         edges={edges}

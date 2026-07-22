@@ -14,7 +14,7 @@ import {
   signInWithMagicLink,
   signOut,
 } from "./auth-actions";
-import { createProjectAction, deleteProjectAction } from "./(app)/projects/actions";
+import { createProjectAction, deleteProjectAction } from "./projects/actions";
 
 const repo = new DrizzleProjectRepository();
 

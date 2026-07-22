@@ -1,5 +1,3 @@
-import { getTranslations } from "next-intl/server";
-import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 
 import { getSessionUserId } from "@/features/auth/infrastructure/session";
@@ -12,7 +10,7 @@ import { getPrd } from "@/features/prd/infrastructure/prd-repository";
 import { ExportButtons } from "@/features/prd/presentation/export";
 import { PrdView } from "@/features/prd/presentation/prd-view";
 import { PrintableBlueprint } from "@/features/prd/presentation/printable-blueprint";
-import { ProjectStepper } from "@/features/projects/presentation/project-stepper";
+import { StepperShell } from "@/features/projects/presentation/project-stepper";
 import type { FeatureTree } from "@/features/structure/domain/schema";
 import { TreeView } from "@/features/structure/presentation/tree-view";
 import { getTasks } from "@/features/tasks/infrastructure/tasks-repository";
@@ -27,6 +25,20 @@ import { DownloadAllButton } from "./download-all-button";
 const repo = new DrizzleProjectRepository();
 
 type ProjectDetailPageProps = { params: Promise<{ id: string }> };
+
+/** Reading-width wrapper for text-heavy stages (validation, PRD, docs, tasks). */
+function ReadWidth({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="mx-auto w-full max-w-3xl px-4 py-6 md:px-6 md:py-10">
+      {children}
+    </div>
+  );
+}
+
+/** Structure fills the viewport — canvas gets the whole width. */
+function CanvasWidth({ children }: { children: React.ReactNode }) {
+  return <div className="h-full w-full p-4 md:p-6">{children}</div>;
+}
 
 export default async function ProjectDetailPage({ params }: ProjectDetailPageProps) {
   const userId = await getSessionUserId();
@@ -49,7 +61,6 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
     getDoc(project.id, "system_design"),
   ]);
   const hasPrd = prdDocument !== null;
-  const ts = await getTranslations("stages");
 
   const bundle = buildBlueprintBundle({
     projectTitle: project.title,
@@ -74,93 +85,98 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
   };
 
   return (
-    <main className="mx-auto flex w-full max-w-5xl flex-col gap-6 px-6 py-8">
-      <Link
-        href="/"
-        className="glow-ring self-start rounded-sm px-1 font-mono text-xs uppercase tracking-[0.12em] text-muted transition-colors hover:text-foreground"
-      >
-        {ts("allProjects")}
-      </Link>
-      <header className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-        <div className="min-w-0">
-          <h1 className="font-display text-2xl font-semibold md:text-3xl">
-            {project.title}
-          </h1>
-          <p className="mt-2 text-muted">{project.ideaInput}</p>
-        </div>
-        <div className="flex flex-wrap items-start gap-3">
-          <DownloadAllButton fileSlug={project.title} content={bundle} />
-          <ExportButtons
-            title={prdDocument?.prd.title || project.title}
-            prdMarkdown={prdDocument?.prd.markdown ?? null}
-            tasks={tasksDocument?.tasks.tasks}
-          />
-        </div>
-      </header>
-      <ProjectStepper
+    <>
+      <StepperShell
+        brandHref="/"
+        brand="Rancang Ide"
+        projectTitle={project.title}
         completed={completed}
+        actions={
+          <>
+            <DownloadAllButton fileSlug={project.title} content={bundle} />
+            <ExportButtons
+              title={prdDocument?.prd.title || project.title}
+              prdMarkdown={prdDocument?.prd.markdown ?? null}
+              tasks={tasksDocument?.tasks.tasks}
+            />
+          </>
+        }
         slots={{
           validation: (
-            <ValidationView
-              projectId={project.id}
-              initialResult={latestValidation?.report ?? null}
-              modelUsed={latestValidation?.modelUsed}
-            />
+            <ReadWidth>
+              <ValidationView
+                projectId={project.id}
+                initialResult={latestValidation?.report ?? null}
+                modelUsed={latestValidation?.modelUsed}
+              />
+            </ReadWidth>
           ),
           structure: (
-            <TreeView
-              projectId={project.id}
-              document={treeDocument}
-              modelUsed={treeDocument?.modelUsed}
-            />
+            <CanvasWidth>
+              <TreeView
+                projectId={project.id}
+                document={treeDocument}
+                modelUsed={treeDocument?.modelUsed}
+              />
+            </CanvasWidth>
           ),
           prd: (
-            <PrdView
-              projectId={project.id}
-              document={prdDocument}
-              hasTree={treeDocument !== null}
-              modelUsed={prdDocument?.modelUsed}
-            />
+            <ReadWidth>
+              <PrdView
+                projectId={project.id}
+                document={prdDocument}
+                hasTree={treeDocument !== null}
+                modelUsed={prdDocument?.modelUsed}
+              />
+            </ReadWidth>
           ),
           brd: (
-            <MarkdownDocView
-              projectId={project.id}
-              type="brd"
-              fileSlug="brd"
-              blurb={DOC_CONFIGS.brd.blurb}
-              available
-              document={brdDoc}
-            />
+            <ReadWidth>
+              <MarkdownDocView
+                projectId={project.id}
+                type="brd"
+                fileSlug="brd"
+                blurb={DOC_CONFIGS.brd.blurb}
+                available
+                document={brdDoc}
+              />
+            </ReadWidth>
           ),
           database_design: (
-            <MarkdownDocView
-              projectId={project.id}
-              type="database_design"
-              fileSlug="database-design"
-              blurb={DOC_CONFIGS.database_design.blurb}
-              prerequisiteHint="Generate the PRD first."
-              available={hasPrd}
-              document={dbDoc}
-            />
+            <ReadWidth>
+              <MarkdownDocView
+                projectId={project.id}
+                type="database_design"
+                fileSlug="database-design"
+                blurb={DOC_CONFIGS.database_design.blurb}
+                prerequisiteHint="Generate the PRD first."
+                available={hasPrd}
+                document={dbDoc}
+              />
+            </ReadWidth>
           ),
           system_design: (
-            <MarkdownDocView
-              projectId={project.id}
-              type="system_design"
-              fileSlug="system-design"
-              blurb={DOC_CONFIGS.system_design.blurb}
-              prerequisiteHint="Generate the PRD first."
-              available={hasPrd}
-              document={sysDoc}
-            />
+            <ReadWidth>
+              <MarkdownDocView
+                projectId={project.id}
+                type="system_design"
+                fileSlug="system-design"
+                blurb={DOC_CONFIGS.system_design.blurb}
+                prerequisiteHint="Generate the PRD first."
+                available={hasPrd}
+                document={sysDoc}
+              />
+            </ReadWidth>
           ),
           tasks: (
-            <TasksView
-              projectId={project.id}
-              document={tasksDocument}
-              hasPrd={prdDocument !== null}
-              modelUsed={tasksDocument?.modelUsed}
-            />
+            <ReadWidth>
+              <TasksView
+                projectId={project.id}
+                document={tasksDocument}
+                hasPrd={prdDocument !== null}
+                modelUsed={tasksDocument?.modelUsed}
+              />
+            </ReadWidth>
           ),
         }}
       />
@@ -171,6 +187,6 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
           tasks={tasksDocument?.tasks.tasks}
         />
       ) : null}
-    </main>
+    </>
   );
 }
