@@ -1,27 +1,28 @@
 {
   "common": { "brand": "Rancang Ide" },
   "nav": { "signIn": "Masuk", "signOut": "Keluar" },
-  "landing": {
-    "eyebrow": "Validasi dulu · bukan langsung bikin",
-    "titleA": "Validasi dulu,",
-    "titleB": "baru bangun.",
-    "subtitle": "Rancang Ide mengubah ide dua kalimat menjadi verdikt jujur, feature tree, PRD, dan daftar task — siap untuk AI coding agent kamu.",
-    "dares": "Berani bilang jangan bikin ini.",
-    "startFree": "Mulai gratis",
-    "howItWorks": "Cara kerjanya",
-    "freeNote": "3 proyek gratis · tanpa kartu kredit",
-    "pipeline": "Alur prosesnya",
-    "footer": "Rancang Ide — berhenti membangun yang tak dibutuhkan siapa pun.",
-    "stages": {
-      "idea": { "label": "Ide", "note": "Dua kalimat" },
-      "validation": { "label": "Validasi", "note": "Verdikt jujur" },
-      "tree": { "label": "Feature tree", "note": "Bisa diedit" },
-      "prd": { "label": "PRD", "note": "Spek siap pakai" },
-      "tasks": { "label": "Task", "note": "Untuk AI agent-mu" }
-    }
+  "chat": {
+    "eyebrow": "Validasi dulu, bukan langsung bikin",
+    "greeting": "Kamu mau bikin apa?",
+    "subtitle": "Ketik ide kamu. Kami validasi, lalu pecah jadi feature tree, PRD, BRD, database dan system design, plus daftar task — siap untuk AI coding agent kamu.",
+    "placeholder": "misal: Teman diskusi jujur yang mencegah indie hacker bikin produk yang tidak dibutuhkan.",
+    "detailsHint": "Tambah target user, constraint, atau catatan (opsional)",
+    "targetUser": "Target user",
+    "targetUserPlaceholder": "misal: Solo dev Indonesia yang ngoprek malam-malam",
+    "constraints": "Constraint",
+    "constraintsPlaceholder": "misal: Solo, 8 minggu, harus bisa jalan di free tier",
+    "notes": "Lainnya",
+    "notesPlaceholder": "misal: Kompetitor yang kamu tahu, percobaan sebelumnya",
+    "submit": "Bikin blueprint saya",
+    "submitting": "Membuat proyek…",
+    "yourProjects": "Proyek kamu",
+    "empty": "Belum ada proyek — ketik ide di atas.",
+    "loginNudge": "Masuk untuk menyimpan"
   },
   "login": {
     "title": "Masuk untuk lanjut",
+    "almostThere": "Hampir sampai — masuk dulu ya",
+    "modalSubtitle": "Ide kamu aman. Pilih cara masuk, lalu kita lanjutkan.",
     "subtitle": "Validasi dulu, baru bangun. Masuk untuk mulai mengubah ide jadi blueprint.",
     "email": "Email",
     "emailPlaceholder": "kamu@contoh.com",
@@ -42,12 +43,18 @@
   },
   "stages": {
     "allProjects": "← Semua proyek",
+    "downloadAll": "Unduh semua",
+    "stepOf": "Langkah {current} dari {total}",
+    "next": "Lanjut",
+    "back": "Kembali",
+    "locked": "Butuh {requires}",
+    "done": "Selesai",
     "validation": "Validasi",
     "structure": "Struktur",
     "prd": "PRD",
-    "tasks": "Task",
     "brd": "BRD",
     "database_design": "Database",
-    "system_design": "Sistem"
+    "system_design": "Sistem",
+    "tasks": "Task"
   }
 }

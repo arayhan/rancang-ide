@@ -1,27 +1,28 @@
 {
   "common": { "brand": "Rancang Ide" },
   "nav": { "signIn": "Sign in", "signOut": "Sign out" },
-  "landing": {
-    "eyebrow": "Validation-first · not generation-first",
-    "titleA": "Validate first,",
-    "titleB": "then build.",
-    "subtitle": "Rancang Ide turns a two-sentence idea into an honest verdict, a feature tree, a PRD, and a task list — ready for your AI coding agent.",
-    "dares": "It dares to say don't build this.",
-    "startFree": "Start free",
-    "howItWorks": "How it works",
-    "freeNote": "3 projects free · no credit card",
-    "pipeline": "The pipeline",
-    "footer": "Rancang Ide — stop building what nobody needs.",
-    "stages": {
-      "idea": { "label": "Idea", "note": "Two sentences" },
-      "validation": { "label": "Validation", "note": "Honest verdict" },
-      "tree": { "label": "Feature tree", "note": "Editable scope" },
-      "prd": { "label": "PRD", "note": "Ready spec" },
-      "tasks": { "label": "Tasks", "note": "For your agent" }
-    }
+  "chat": {
+    "eyebrow": "Validation-first, not generation-first",
+    "greeting": "What are you building?",
+    "subtitle": "Type an idea. We validate it, then break it down into a feature tree, PRD, BRD, database and system design, and a task list — ready for your AI coding agent.",
+    "placeholder": "e.g. A honest sparring partner that stops indie hackers from building products nobody wants.",
+    "detailsHint": "Add target user, constraints, or notes (optional)",
+    "targetUser": "Target user",
+    "targetUserPlaceholder": "e.g. Indonesian solo devs shipping side projects at night",
+    "constraints": "Constraints",
+    "constraintsPlaceholder": "e.g. Solo, 8 weeks, must run on free tiers",
+    "notes": "Anything else",
+    "notesPlaceholder": "e.g. Competitors you know of, prior attempts",
+    "submit": "Build my blueprint",
+    "submitting": "Creating your project…",
+    "yourProjects": "Your projects",
+    "empty": "You have no projects yet — type an idea above.",
+    "loginNudge": "Sign in to save it"
   },
   "login": {
     "title": "Sign in to continue",
+    "almostThere": "Almost there — sign in first",
+    "modalSubtitle": "Your idea is safe. Pick a way to sign in and we'll pick right back up.",
     "subtitle": "Validate first, then build. Sign in to start turning ideas into blueprints.",
     "email": "Email",
     "emailPlaceholder": "you@example.com",
@@ -42,12 +43,18 @@
   },
   "stages": {
     "allProjects": "← All projects",
+    "downloadAll": "Download all",
+    "stepOf": "Step {current} of {total}",
+    "next": "Next",
+    "back": "Back",
+    "locked": "Requires {requires}",
+    "done": "Done",
     "validation": "Validation",
     "structure": "Structure",
     "prd": "PRD",
-    "tasks": "Tasks",
     "brd": "BRD",
     "database_design": "Database",
-    "system_design": "System"
+    "system_design": "System",
+    "tasks": "Tasks"
   }
 }

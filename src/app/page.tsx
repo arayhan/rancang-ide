@@ -1,125 +1,133 @@
 import { getTranslations } from "next-intl/server";
 import Link from "next/link";
 
-import { Button } from "@/shared/ui/button";
-import { IsometricBlueprint } from "@/shared/ui/isometric-blueprint";
+import { getSessionUserId } from "@/features/auth/infrastructure/session";
+import { ChatEntry } from "./chat-entry";
+import { listProjects } from "@/features/projects/application/project-use-cases";
+import { DrizzleProjectRepository } from "@/features/projects/infrastructure/drizzle-project-repository";
+import { ProjectCard } from "@/features/projects/presentation/project-card";
 import { LocaleSwitcher } from "@/shared/ui/locale-switcher";
 
-const STAGES = ["idea", "validation", "tree", "prd", "tasks"] as const;
+import {
+  signInWithGithub,
+  signInWithGoogle,
+  signInWithMagicLink,
+  signOut,
+} from "./auth-actions";
+import { createProjectAction, deleteProjectAction } from "./(app)/projects/actions";
 
+const repo = new DrizzleProjectRepository();
+
+/**
+ * The chat-first entry point. Replaces the marketing landing: typing an idea
+ * is the primary CTA. If not signed in, submitting opens the login modal
+ * (idea is preserved through the OAuth redirect via localStorage).
+ */
 export default async function Home() {
-  const t = await getTranslations("landing");
-  const tn = await getTranslations("nav");
+  const [t, tn, td] = await Promise.all([
+    getTranslations("chat"),
+    getTranslations("nav"),
+    getTranslations("dashboard"),
+  ]);
+  const userId = await getSessionUserId();
+  const authed = userId !== null;
+  const projects = authed ? await listProjects(repo, userId!) : [];
+
   return (
-    <div className="relative flex min-h-screen flex-col overflow-hidden">
-      {/* nav */}
+    <div className="relative flex min-h-screen flex-col">
+      <div
+        className="bp-grid bp-grid-fade pointer-events-none absolute inset-x-0 top-0 z-0 h-[420px] opacity-60"
+        aria-hidden
+      />
       <header className="relative z-10 flex items-center justify-between px-6 py-5 md:px-10">
-        <span className="font-mono text-xs font-medium uppercase tracking-[0.18em] text-foreground">
+        <Link
+          href="/"
+          className="font-mono text-xs font-medium uppercase tracking-[0.18em] text-foreground transition-colors hover:text-accent"
+        >
           Rancang<span className="text-accent"> Ide</span>
-        </span>
-        <div className="flex items-center gap-4">
+        </Link>
+        <div className="flex items-center gap-3">
           <LocaleSwitcher />
-          <Link
-            href="/login"
-            className="font-mono text-xs uppercase tracking-[0.12em] text-muted transition-colors hover:text-foreground"
-          >
-            {tn("signIn")}
-          </Link>
+          {authed ? (
+            <form action={signOut}>
+              <button
+                type="submit"
+                className="glow-ring rounded-sm border-2 border-transparent px-3 py-1.5 font-mono text-[11px] uppercase tracking-[0.12em] text-muted transition-colors hover:border-border hover:text-foreground"
+              >
+                {tn("signOut")}
+              </button>
+            </form>
+          ) : (
+            <Link
+              href="/login"
+              className="font-mono text-xs uppercase tracking-[0.12em] text-muted transition-colors hover:text-foreground"
+            >
+              {tn("signIn")}
+            </Link>
+          )}
         </div>
       </header>
 
-      {/* hero */}
-      <main className="aura relative flex-1">
-        <div className="bp-grid bp-grid-fade absolute inset-0 z-0 opacity-70" aria-hidden />
-        <section className="relative z-10 mx-auto grid max-w-6xl grid-cols-1 items-center gap-10 px-6 py-12 md:grid-cols-2 md:gap-6 md:px-10 md:py-20">
-          <div className="flex flex-col items-start gap-6">
-            <span
-              className="reveal ticks inline-flex items-center gap-2 rounded-sm border border-border bg-surface/60 px-3 py-1.5 font-mono text-[11px] uppercase tracking-[0.16em] text-accent"
-              style={{ animationDelay: "40ms" }}
-            >
-              {t("eyebrow")}
-            </span>
-            <h1
-              className="reveal font-display text-5xl font-semibold uppercase leading-[0.95] tracking-tight sm:text-6xl md:text-7xl"
-              style={{ animationDelay: "120ms" }}
-            >
-              {t("titleA")}
-              <br />
-              <span className="text-accent">{t("titleB")}</span>
-            </h1>
-            <p
-              className="reveal max-w-md text-lg leading-relaxed text-muted"
-              style={{ animationDelay: "220ms" }}
-            >
-              {t("subtitle")}{" "}
-              <span className="text-foreground">{t("dares")}</span>
-            </p>
-            <div
-              className="reveal flex flex-wrap items-center gap-3"
-              style={{ animationDelay: "320ms" }}
-            >
-              <Link href="/login">
-                <Button className="h-12 px-7">{t("startFree")}</Button>
-              </Link>
-              <Link href="#pipeline">
-                <Button variant="secondary" className="h-12 px-7">
-                  {t("howItWorks")}
-                </Button>
-              </Link>
-            </div>
-            <p
-              className="reveal font-mono text-[11px] uppercase tracking-[0.12em] text-muted"
-              style={{ animationDelay: "420ms" }}
-            >
-              {t("freeNote")}
-            </p>
-          </div>
-
-          <div className="reveal relative" style={{ animationDelay: "260ms" }}>
-            <IsometricBlueprint className="h-auto w-full drop-shadow-[0_0_40px_rgba(27,68,240,0.15)]" />
-          </div>
-        </section>
-
-        {/* pipeline */}
-        <section
-          id="pipeline"
-          className="relative z-10 mx-auto max-w-6xl px-6 pb-24 md:px-10"
-        >
-          <p className="mb-6 font-mono text-xs uppercase tracking-[0.16em] text-muted">
-            {t("pipeline")}
+      <main className="aura relative z-10 mx-auto flex w-full max-w-3xl flex-col gap-14 px-6 pb-16 pt-8 md:px-10 md:pt-14">
+        <section className="reveal flex flex-col gap-6">
+          <span
+            className="font-mono text-[11px] uppercase tracking-[0.16em] text-accent"
+            style={{ animationDelay: "40ms" }}
+          >
+            {t("eyebrow")}
+          </span>
+          <h1
+            className="reveal font-display text-4xl font-semibold leading-[1.05] tracking-tight sm:text-5xl md:text-6xl"
+            style={{ animationDelay: "120ms" }}
+          >
+            {t("greeting")}
+          </h1>
+          <p
+            className="reveal max-w-xl text-muted"
+            style={{ animationDelay: "200ms" }}
+          >
+            {t("subtitle")}
           </p>
-          <ol className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
-            {STAGES.map((key, i) => (
-              <li
-                key={key}
-                className="ticks group relative rounded-md border-2 border-border bg-surface p-4 transition-colors hover:border-border-strong"
-              >
-                <span className="font-mono text-xs text-accent">
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-                <p className="mt-3 font-display text-lg font-medium">
-                  {t(`stages.${key}.label`)}
-                </p>
-                <p className="mt-1 font-mono text-[11px] uppercase tracking-[0.1em] text-muted">
-                  {t(`stages.${key}.note`)}
-                </p>
-                {i < STAGES.length - 1 ? (
-                  <span
-                    className="absolute -right-2 top-1/2 hidden h-px w-4 bg-border-strong lg:block"
-                    aria-hidden
-                  />
-                ) : null}
-              </li>
-            ))}
-          </ol>
+          <div className="reveal" style={{ animationDelay: "280ms" }}>
+            <ChatEntry
+              authed={authed}
+              createProjectAction={createProjectAction}
+              signInWithMagicLink={signInWithMagicLink}
+              signInWithGoogle={signInWithGoogle}
+              signInWithGithub={signInWithGithub}
+            />
+          </div>
         </section>
-      </main>
 
-      <footer className="relative z-10 border-t-2 border-border px-6 py-6 md:px-10">
-        <p className="font-mono text-[11px] uppercase tracking-[0.12em] text-muted">
-          {t("footer")}
-        </p>
-      </footer>
+        {authed ? (
+          <section className="reveal" style={{ animationDelay: "360ms" }}>
+            <div className="mb-4 flex items-baseline justify-between">
+              <h2 className="font-display text-lg font-semibold">
+                {t("yourProjects")}
+              </h2>
+              <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-muted">
+                {td("total", { count: projects.length })}
+              </span>
+            </div>
+            {projects.length === 0 ? (
+              <div className="ticks rounded-md border-2 border-dashed border-border bg-surface/40 px-6 py-10 text-center">
+                <p className="text-sm text-muted">{t("empty")}</p>
+              </div>
+            ) : (
+              <ul className="flex flex-col gap-3">
+                {projects.map((project) => (
+                  <li key={project.id}>
+                    <ProjectCard
+                      project={project}
+                      deleteProjectAction={deleteProjectAction}
+                    />
+                  </li>
+                ))}
+              </ul>
+            )}
+          </section>
+        ) : null}
+      </main>
     </div>
   );
 }

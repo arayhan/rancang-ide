@@ -12,7 +12,7 @@ import { getPrd } from "@/features/prd/infrastructure/prd-repository";
 import { ExportButtons } from "@/features/prd/presentation/export";
 import { PrdView } from "@/features/prd/presentation/prd-view";
 import { PrintableBlueprint } from "@/features/prd/presentation/printable-blueprint";
-import { ProjectStages } from "@/features/projects/presentation/project-stages";
+import { ProjectStepper } from "@/features/projects/presentation/project-stepper";
 import type { FeatureTree } from "@/features/structure/domain/schema";
 import { TreeView } from "@/features/structure/presentation/tree-view";
 import { getTasks } from "@/features/tasks/infrastructure/tasks-repository";
@@ -20,6 +20,9 @@ import { TasksView } from "@/features/tasks/presentation/tasks-view";
 import { getLatestValidation } from "@/features/validation/infrastructure/validation-repository";
 import { ValidationView } from "@/features/validation/presentation/validation-view";
 import { getDocument } from "@/shared/infrastructure/documents";
+
+import { buildBlueprintBundle } from "./blueprint-bundle";
+import { DownloadAllButton } from "./download-all-button";
 
 const repo = new DrizzleProjectRepository();
 
@@ -48,26 +51,54 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
   const hasPrd = prdDocument !== null;
   const ts = await getTranslations("stages");
 
+  const bundle = buildBlueprintBundle({
+    projectTitle: project.title,
+    ideaInput: project.ideaInput,
+    validation: latestValidation?.report ?? null,
+    tree: treeDocument?.tree ?? null,
+    prd: prdDocument?.prd ?? null,
+    brd: brdDoc?.doc ?? null,
+    databaseDesign: dbDoc?.doc ?? null,
+    systemDesign: sysDoc?.doc ?? null,
+    tasks: tasksDocument?.tasks ?? null,
+  });
+
+  const completed = {
+    validation: latestValidation !== null,
+    structure: treeDocument !== null,
+    prd: prdDocument !== null,
+    brd: brdDoc !== null,
+    database_design: dbDoc !== null,
+    system_design: sysDoc !== null,
+    tasks: tasksDocument !== null,
+  };
+
   return (
-    <main className="mx-auto flex max-w-3xl flex-col gap-6 px-6 py-8">
+    <main className="mx-auto flex w-full max-w-5xl flex-col gap-6 px-6 py-8">
       <Link
-        href="/projects"
-        className="font-mono text-xs uppercase tracking-[0.12em] text-muted transition-colors hover:text-foreground"
+        href="/"
+        className="glow-ring self-start rounded-sm px-1 font-mono text-xs uppercase tracking-[0.12em] text-muted transition-colors hover:text-foreground"
       >
         {ts("allProjects")}
       </Link>
       <header className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <div className="min-w-0">
-          <h1 className="font-display text-2xl font-semibold">{project.title}</h1>
+          <h1 className="font-display text-2xl font-semibold md:text-3xl">
+            {project.title}
+          </h1>
           <p className="mt-2 text-muted">{project.ideaInput}</p>
         </div>
-        <ExportButtons
-          title={prdDocument?.prd.title || project.title}
-          prdMarkdown={prdDocument?.prd.markdown ?? null}
-          tasks={tasksDocument?.tasks.tasks}
-        />
+        <div className="flex flex-wrap items-start gap-3">
+          <DownloadAllButton fileSlug={project.title} content={bundle} />
+          <ExportButtons
+            title={prdDocument?.prd.title || project.title}
+            prdMarkdown={prdDocument?.prd.markdown ?? null}
+            tasks={tasksDocument?.tasks.tasks}
+          />
+        </div>
       </header>
-      <ProjectStages
+      <ProjectStepper
+        completed={completed}
         slots={{
           validation: (
             <ValidationView
@@ -89,14 +120,6 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
               document={prdDocument}
               hasTree={treeDocument !== null}
               modelUsed={prdDocument?.modelUsed}
-            />
-          ),
-          tasks: (
-            <TasksView
-              projectId={project.id}
-              document={tasksDocument}
-              hasPrd={prdDocument !== null}
-              modelUsed={tasksDocument?.modelUsed}
             />
           ),
           brd: (
@@ -129,6 +152,14 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
               prerequisiteHint="Generate the PRD first."
               available={hasPrd}
               document={sysDoc}
+            />
+          ),
+          tasks: (
+            <TasksView
+              projectId={project.id}
+              document={tasksDocument}
+              hasPrd={prdDocument !== null}
+              modelUsed={tasksDocument?.modelUsed}
             />
           ),
         }}

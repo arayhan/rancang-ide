@@ -51,6 +51,19 @@ export async function signInWithGoogle(): Promise<void> {
   if (data.url) redirect(data.url);
 }
 
+/** Start the GitHub OAuth flow. Needs the GitHub provider enabled in Supabase. */
+export async function signInWithGithub(): Promise<void> {
+  const supabase = await createSupabaseServerClient();
+  const origin = await getRedirectOrigin();
+  const { data, error } = await supabase.auth.signInWithOAuth({
+    provider: "github",
+    options: { redirectTo: `${origin}/callback` },
+  });
+
+  if (error) redirect(`/login?error=${encodeURIComponent(error.message)}`);
+  if (data.url) redirect(data.url);
+}
+
 /** Sign out and return to the login page. */
 export async function signOut(): Promise<void> {
   const supabase = await createSupabaseServerClient();

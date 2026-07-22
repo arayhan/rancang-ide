@@ -45,18 +45,29 @@ user `postgres.<ref>`) and URL-encode special characters in the password.
 ## ⚠️ Supabase Auth redirect URLs (required for login)
 
 Supabase only completes a magic-link / OAuth sign-in if the redirect target is on
-its allow-list. **After any new deploy domain, add it in the Supabase dashboard →
-Authentication → URL Configuration:**
+its allow-list. This is a dashboard-only step — it is **not** covered by the env
+vars above, and without it sign-in from the deployed site bounces back to `/login`.
+
+**Direct link (fastest):**
+<https://supabase.com/dashboard/project/fyeirysvrintohuybnld/auth/url-configuration>
+
+Set:
 
 - **Site URL:** `https://rancang-ide.vercel.app`
-- **Redirect URLs:** `https://rancang-ide.vercel.app/**`
-- Keep local dev too: `http://localhost:3000/**` (or `:3100/**` if that port is in use)
+- **Redirect URLs — add both** (keep existing ones):
+  - `https://rancang-ide.vercel.app/**`
+  - `http://localhost:3100/**` (local dev; use `:3000/**` if that's your dev port)
 
-Without this, sign-in from the deployed site bounces back to `/login`. This is a
-dashboard-only step — it is not covered by the env vars above.
+The `/**` wildcards let the OAuth / magic-link `/callback` land on either origin.
 
-Also, for **Google** OAuth, enable the Google provider in Supabase → Authentication
-→ Providers and set the client ID/secret (magic link needs no provider setup).
+### OAuth providers
+
+- **Google** (already used): enable in
+  <https://supabase.com/dashboard/project/fyeirysvrintohuybnld/auth/providers>
+  and set the client ID/secret. Magic-link email needs no provider setup.
+- **GitHub** (added as a login option in the modal): enable the GitHub provider
+  in the same **Providers** page and set its client ID/secret. Until this is
+  configured, the "GitHub" button will error.
 
 ## Deploy
 
