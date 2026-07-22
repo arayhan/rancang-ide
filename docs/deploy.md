@@ -23,6 +23,7 @@ and **Preview**. The app reads:
 | `GOOGLE_GENERATIVE_AI_API_KEY` | ✅ | Gemini key (economy tier) |
 | `NEXT_PUBLIC_SITE_URL` | ⚪ | auth-redirect fallback; prod = the production URL |
 | `ANTHROPIC_API_KEY` | ⚪ | required for the "Deep" model tier |
+| `OPENROUTER_API_KEY` | ⚪ | required to *call* OpenRouter models from the picker (listing them is keyless; free models still need a key) |
 | `NEXT_PUBLIC_POSTHOG_KEY` / `NEXT_PUBLIC_POSTHOG_HOST` | ⚪ | analytics; no-op if unset |
 | `SENTRY_DSN` / `NEXT_PUBLIC_SENTRY_DSN` | ⚪ | error tracking; no-op if unset |
 | `RESEND_API_KEY` | ⚪ | transactional email; no-op if unset |
