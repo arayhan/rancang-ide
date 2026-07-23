@@ -39,10 +39,10 @@ type StepperShellProps = {
 };
 
 /**
- * The project detail shell: sticky top bar with brand + title (left),
- * floating pill stepper (center), actions + Continue (right); full-width
- * panel below with the active step's content. Panels stay mounted so streamed
- * content survives step changes.
+ * The project detail shell: a sticky navbar (brand + title left, actions +
+ * Continue right) over a dedicated full-width stepper shelf, then a full-width
+ * panel with the active step's content. Panels stay mounted so streamed content
+ * survives step changes.
  */
 export function StepperShell({
   brandHref,
@@ -81,7 +81,7 @@ export function StepperShell({
 
   return (
     <div className="flex min-h-screen flex-col">
-      {/* Sticky floating top bar */}
+      {/* Navbar: brand + title (left), actions + Continue (right) */}
       <header className="sticky top-0 z-30 border-b border-border bg-background/85 backdrop-blur-md">
         <div className="mx-auto flex h-16 max-w-[1600px] items-center gap-4 px-4 md:px-6">
           {/* Left: brand + title */}
@@ -95,25 +95,15 @@ export function StepperShell({
             </span>
             <span className="hidden text-border md:inline">·</span>
             <span
-              className="hidden max-w-[16rem] truncate normal-case tracking-normal text-muted md:inline"
+              className="hidden max-w-[20rem] truncate normal-case tracking-normal text-muted md:inline"
               title={projectTitle}
             >
               {projectTitle}
             </span>
           </Link>
 
-          {/* Center: floating pill stepper */}
-          <div className="mx-auto flex min-w-0">
-            <FloatingStepper
-              active={active}
-              statusFor={statusFor}
-              onGo={goTo}
-              t={(key: StageKey) => t(key)}
-            />
-          </div>
-
           {/* Right: actions + primary CTA */}
-          <div className="flex items-center gap-2">
+          <div className="ml-auto flex items-center gap-2">
             {actions}
             <button
               type="button"
@@ -127,6 +117,18 @@ export function StepperShell({
           </div>
         </div>
       </header>
+
+      {/* Stepper shelf — its own full-width row directly under the navbar */}
+      <div className="sticky top-16 z-20 border-b border-border bg-background/70 backdrop-blur-md">
+        <div className="mx-auto flex max-w-[1600px] items-center px-4 py-2.5 md:px-6">
+          <FloatingStepper
+            active={active}
+            statusFor={statusFor}
+            onGo={goTo}
+            t={(key: StageKey) => t(key)}
+          />
+        </div>
+      </div>
 
       {/* Panel — full width, individual slots can constrain their own reading width */}
       <div ref={panelRef} className="flex-1 overflow-y-auto">
