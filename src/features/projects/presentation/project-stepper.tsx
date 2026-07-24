@@ -118,9 +118,12 @@ export function StepperShell({
         </div>
       </header>
 
-      {/* Stepper shelf — its own full-width row directly under the navbar */}
+      {/* Stepper shelf — its own full-width row directly under the navbar.
+          The pill centers on wide screens; on narrow ones it fills the row and
+          scrolls horizontally instead (overflow-x on the list zeroes its
+          min-width, so centering never clips the first stage). */}
       <div className="sticky top-16 z-20 border-b border-border bg-background/70 backdrop-blur-md">
-        <div className="mx-auto flex max-w-[1600px] items-center px-4 py-2.5 md:px-6">
+        <div className="mx-auto flex max-w-[1600px] items-center justify-center px-4 py-2.5 md:px-6">
           <FloatingStepper
             active={active}
             statusFor={statusFor}
